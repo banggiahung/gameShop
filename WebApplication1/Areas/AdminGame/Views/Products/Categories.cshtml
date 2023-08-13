@@ -1,0 +1,336 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .active {
+        border-bottom: 2px solid #fff; 
+    }
+
+    .chooseDt span {
+        font-weight: 600;
+    }
+
+        .chooseDt span:hover {
+            background: #fff;
+            color: #000;
+            cursor: pointer;
+        }
+
+    .chooseDtDemo span:hover {
+        cursor: pointer;
+        font-weight: 800;
+    }
+
+    .disabled {
+        cursor: default;
+        pointer-events: none;
+        user-select: none;
+    }
+
+        .disabled:hover {
+            cursor: default;
+            pointer-events: none;
+        }
+</style>
+<div id="Admin_category">
+
+    <h3>Danh mục game</h3>
+    <div class="d-flex mb-2 chooseDt">
+        <div style="margin-right:1em">
+            <span :class="{ active: isTabActive('main') }" v-on:click.prevent="setActiveTab('main')">Danh mục chính</span>
+        </div>
+        <div>
+            <span :class="{ active: isTabActive('sub') }" v-on:click.prevent="setActiveTab('sub')">Danh mục phụ</span>
+
+        </div>
+    </div>
+    <div id="main" v-show="isTabActive('main')">
+        <div class="p-3">
+            <button type="button" class="btn btn-success p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" v-on:click="resetData">
+                Thêm mới danh mục
+            </button>
+        </div>
+        <table class="table table-bordered" id="cate_table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên danh mục</th>
+                    <th>Ảnh danh mục</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in dataItems" :key="index">
+                    <td>{{index + 1}}</td>
+                    <td style="width:30%">{{item.nameCate}}</td>
+                    <td>
+                        <img :src="item.mainImgCate" style="width:20%" />
+                    </td>
+
+                    <td style="width:30%">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Edit" v-on:click="getItemsById(item.id)">Sửa</button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Delete" v-on:click="getItemsByIdDelete(item.id)">Xóa</button>
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Details" v-on:click="getItemsById(item.id)">Chi tiết</button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="sub" v-show="isTabActive('sub')">
+        <div class="p-3">
+            <button type="button" class="btn btn-success p-2" data-bs-toggle="modal" data-bs-target="#exampleModalSub" v-on:click="resetDataSub">
+                Thêm mới danh mục phụ
+            </button>
+        </div>
+        <table class="table table-bordered" id="cateSub_table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên danh mục phụ</th>
+                    <th>Thuộc danh mục chính</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(itemSub,index) in dataItemsSub" :key="index">
+                    <td>{{index + 1}}</td>
+                    <td>{{itemSub.nameSub}}</td>
+                    <td>
+                        {{itemSub.categoryName}}
+                    </td>
+
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditSub" v-on:click="getItemsSubById(itemSub.id)">Sửa</button>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteSub" v-on:click="getItemsSubByIdDelete(itemSub.id)">Xóa</button>
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#DetailsSub" v-on:click="getItemsSubById(itemSub.id)">Chi tiết</button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-xl modal-fullscreen ">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm mới danh mục</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Tên danh mục </label>
+                                <input class="form-control" type="text" placeholder="Tên sản phẩm" aria-label="default input example" v-model="CategoryName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileSm" class="form-label"> Chọn ảnh </label>
+                                <input type="file" ref="PrPath" v-on:change="onFileChange" accept="image/*">
+
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-label"> Ảnh xem trước </div>
+                                <img :src="previewImage" alt="" style="width:50%" />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" v-on:click="addCategory">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*sub*@
+    <div class="modal fade" id="DetailsSub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-xl modal-fullscreen ">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chi tiết danh mục phụ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" v-on:click="resetDataSub">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Tên danh mục phụ </label>
+                                <input class="form-control" type="text" placeholder="Tên danh mục phụ" aria-label="default input example" v-model="SubName" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileSm" class="form-label"> Thuộc danh mục chính </label>
+                                <select v-model="CategoryID" class="form-control" disabled>
+                                    <option v-for="tp in dataItems" v-bind:key="tp.id" v-bind:value="tp.id">{{ tp.nameCate }}</option>
+                                </select>
+
+                            </div>
+                            
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="resetDataSub">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*sub*@
+    <div class="modal fade" id="EditSub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-xl modal-fullscreen ">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sửa danh mục phụ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" v-on:click="resetDataSub">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Tên danh mục phụ </label>
+                                <input class="form-control" type="text" placeholder="Tên danh mục phụ" aria-label="default input example" v-model="SubName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileSm" class="form-label"> Thuộc danh mục chính </label>
+                                <select v-model="CategoryID" class="form-control">
+                                    <option v-for="tp in dataItems" v-bind:key="tp.id" v-bind:value="tp.id">{{ tp.nameCate }}</option>
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="resetDataSub">Đóng</button>
+                    <button type="button" class="btn btn-primary" v-on:click="editSub">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*sub*@
+    <div class="modal fade" id="exampleModalSub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-xl modal-fullscreen ">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm mới danh mục phụ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" v-on:click="resetDataSub">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Tên danh mục phụ </label>
+                                <input class="form-control" type="text" placeholder="Tên danh mục phụ" aria-label="default input example" v-model="SubName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileSm" class="form-label"> Thuộc danh mục chính </label>
+                                <select v-model="CategoryID" class="form-control">
+                                    <option v-for="tp in dataItems" v-bind:key="tp.id" v-bind:value="tp.id">{{ tp.nameCate }}</option>
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="resetDataSub">Đóng</button>
+                    <button type="button" class="btn btn-primary" v-on:click="addSub">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*details*@
+    <div class="modal fade" id="Details" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-xl modal-fullscreen ">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chi tiết danh mục</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" v-on:click="resetData">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Tên danh mục </label>
+                                <input class="form-control" type="text" placeholder="Tên sản phẩm" aria-label="default input example" v-model="CategoryName" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-label"> Ảnh đang có </div>
+                                <img :src="imageCategory" alt="" style="width:50%" />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="resetData">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*edit*@
+    <div class="modal fade" id="Edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-xl modal-fullscreen ">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sửa danh mục</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" v-on:click="resetData">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="form-label">Tên danh mục </label>
+                                <input class="form-control" type="text" placeholder="Tên sản phẩm" aria-label="default input example" v-model="CategoryName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileSm" class="form-label"> Chọn ảnh </label>
+                                <input type="file" ref="PrPath1" v-on:change="onFileChange" accept="image/*">
+
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-label"> Ảnh xem trước </div>
+                                <img :src="previewImage" alt="" style="width:50%" />
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-label"> Ảnh đang có </div>
+                                <img :src="imageCategory" alt="" style="width:50%" />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="resetData">Đóng</button>
+                    <button type="button" class="btn btn-primary" v-on:click="editCategory">Sửa sản phẩm</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/categame.js"></script>

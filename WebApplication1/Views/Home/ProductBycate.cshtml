@@ -1,0 +1,152 @@
+﻿
+
+<div id="all_product_with_cate" data-category-id="@ViewBag.IdCate">
+    <input type="hidden" value="@ViewBag.IdCate" />
+    <div class="category-main">
+        <div id="hnc-game-filters">
+            <div class="row row-sm" style="align-items: center;">
+                <div class="col-12 col-md-12 col-lg-11 col-xl-11">
+                    <h3 class="text-center">Danh mục: @ViewBag.NameCate</h3>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row game-news">
+        <div class="col-3" v-for="(product, index) in paginatedDataItems" :key="index">
+            <div class="nk-blog-post">
+                <a :href="`/Home/DetailsProduct/${product.id}`"
+                   class="nk-post-img">
+                    <img width="380" height="218"
+                         :src="product.mainImg"
+                         class="game-image wp-post-image entered lazyloaded"
+                         :alt="product.name" decoding="async"
+                         :title="product.name"
+                         data-ll-status="loaded"><noscript>
+                        <img width="380" height="218"
+                             :src="product.mainImg"
+                             class="game-image wp-post-image"
+                             :alt="product.name" decoding="async"
+                             :title="product.name">
+                    </noscript>
+                    <span class="nk-post-comments-count">{{ getRandomNumber() }}</span>
+                    <span class="nk-post-categories">
+                        <span class="bg-main-5" style="background-color: #81d742 !important;">
+                            <i class="fa-solid fa-bells mr-4"></i>GAME MỚI
+                        </span>
+                    </span>
+                </a>
+                <div class="nk-gap"></div>
+                <h2 class="nk-post-title h4 text-light">
+                    <a class="fix-line"
+                       :href="`/Home/DetailsProduct/${product.id}`">
+                        {{product.name}}
+                    </a>
+                </h2>
+                <div class="hnc-theloai text-light">
+                    <i class="fa-solid fa-tags mr-5 text-light"></i>
+                    <a :href="`/Home/DetailsProduct/${product.id}`" rel="category tag" class="text-main-1">{{product.categoryName}}</a>
+                </div>
+                <div class="game-info">
+                    <div class="view-btn">
+                        <a :href="`/Home/DetailsProduct/${product.id}`"
+                           class="text-white">Tải Game</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <ul class="pagination justify-content-center">
+            <li v-for="page in visiblePages" :key="page" :class="[{ active: page === currentPage }, 'page-item']">
+                <a class="page-link" style="cursor:pointer" v-on:click="changePage(page)">{{ page }}</a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<script>
+    all_product_with_cate = new Vue({
+        el: '#all_product_with_cate',
+        data: {
+            dataItems: [],
+            CateItems: [],
+            dataItemsBackup:[],
+            CategoryID: 0,
+            itemsPerPage: 20,
+            maxPages: 5,
+            currentPage: 1
+        },
+        computed: {
+            filteredDataItems: function () {
+                if (this.CategoryID === 0) {
+                    return this.dataItems;
+                } else {
+                    return this.dataItems.filter(item => item.cateId === this.CategoryID);
+                }
+            },
+            totalItems() {
+                return this.filteredDataItems.length;
+            },
+            totalPages() {
+                return Math.ceil(this.totalItems / this.itemsPerPage);
+            },
+            visiblePages() {
+                const startPage = Math.max(1, this.currentPage - Math.floor(this.maxPages / 2));
+                const endPage = Math.min(this.totalPages, startPage + this.maxPages - 1);
+
+                let pages = [];
+                for (let i = startPage; i <= endPage; i++) {
+                    pages.push(i);
+                }
+
+                return pages;
+            },
+            paginatedDataItems() {
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = Math.min(startIndex + this.itemsPerPage - 1, this.totalItems - 1);
+                return this.filteredDataItems.slice(startIndex, endIndex + 1);
+            }
+        },
+        mounted() {
+            this.CategoryID = parseInt(this.$el.getAttribute('data-category-id'));
+            axios.get(`/Home/GetAllProductByCate/${this.CategoryID}`)
+                .then((response) => {
+                    this.dataItems = response.data;
+                    return Promise.resolve();
+                });
+            axios.get("/Home/GetAllCategory")
+                .then((response) => {
+                    this.CateItems = response.data;
+                    return Promise.resolve();
+                })
+            axios.get("/Home/GetAllProduct")
+                .then((response) => {
+                    this.dataItemsBackup = response.data;
+                    console.log(this.dataItemsBackup);
+                    return Promise.resolve();
+                })
+        },
+        methods: {
+            handleCategoryChange() {
+                if (this.CategoryID === 0) {
+                    this.init(); 
+                }
+            },
+           init(){
+                axios.get("/Home/GetAllProduct")
+                    .then((response) => {
+                        this.dataItems = response.data;
+                        return Promise.resolve();
+                    })
+           },
+            getRandomNumber() {
+                return Math.round(Math.random() * 100);
+            },
+            changePage(page) {
+                this.currentPage = page;
+            }
+        }
+    });
+</script>

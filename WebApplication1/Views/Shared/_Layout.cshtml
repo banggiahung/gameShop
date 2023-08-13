@@ -1,0 +1,457 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ddat14 - taigamemienphi</title>
+    <link rel="icon" type="image/x-icon" href="/img/logo-dat2.png">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/regular.min.css" referrerpolicy="no-referrer" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+</head>
+<style>
+    :root {
+        --background-image: url('@ViewData["BackgroundImageUrl"]');
+    }
+
+    body {
+        background-image: var(--background-image);
+        overflow: hidden;
+    }
+
+    .scroll-wrapper {
+        overflow: auto; /* Cho phép lăn chuột khi nội dung vượt quá kích thước của wrapper */
+        max-height: 100vh; /* Giới hạn chiều cao của wrapper */
+        position: relative; /* Đặt vị trí tương đối để tạo một khung bao quanh wrapper */
+    }
+
+        .scroll-wrapper::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scroll-wrapper::-webkit-scrollbar-track {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .scroll-wrapper::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+            .scroll-wrapper::-webkit-scrollbar-thumb:hover {
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+</style>
+<body>
+    <div class="scroll-wrapper">
+        <div class="container" id="main">
+            <!-- header -->
+            <div class="row nav_head" id="search_vue">
+                <div class="col-4">
+                    <p class="gt text-light">Chào mừng các bạn đến với website</p>
+                </div>
+                <div class="col-4">
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Search.." v-model="searchKeywordPage" v-on:focus="showResults" v-on:blur="hideResults">
+
+                        <button class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="ajaxsearchprores1_1"
+                     :class="[
+        'asp_w asp_r asp_r_1 asp_r_1_1 vertical ajaxsearchpro wpdreams_asp_sc wpdreams_asp_sc-1',
+        'asp_an_fadeInDrop',
+        showSearchResults ? 'block_search' : 'none_search'
+      ]"
+                     data-id="1" data-instance="1">
+
+                    <div class="results" v-bind:style="searchResultsStyle" v-if="showSearchResults">
+                        <div class="resdrg">
+                            <div class="item asp_r_pagepost asp_r_pagepost_105041 asp_r_post asp_last_item asp_an_fadeInDown" v-for="itemProduct in filteredDataItemsLayout">
+                                <div class="asp_content">
+                                    <a class="asp_res_image_url" :href="`/Home/DetailsProduct/${itemProduct.id}`">
+                                        <div class="asp_image"
+                                             v-bind:style="{ 'background-image': 'url(' + itemProduct.mainImg + ')' }">
+                                            <div class="void"></div>
+                                        </div>
+                                    </a>
+                                    <h3>
+                                        <a class="asp_res_url" :href="`/Home/DetailsProduct/${itemProduct.id}`">
+                                            {{itemProduct.name}} <span class="overlap"></span>
+                                        </a>
+                                    </h3>
+                                    <div class="etc">
+                                    </div>
+                                    <div class="asp_res_text">
+                                        {{itemProduct.desShort}}...
+                                    </div>
+
+                                </div>
+                                <div v-if="filteredDataItemsLayout.length === 0" class="no-results">
+                                    <h1 class="text-light">
+                                        Không có kết quả phù hợp
+                                    </h1>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-4 d-flex justify-content-center">
+                    <div class="hnc-notify-user">
+                        <a class="ringing-bell" href="javascript:void(0)" v-on:click="toggleDropdown" id="dropdownNotifyLink">
+                            <i class="fa-regular fa-bell"></i><span class="notify-count">{{ notiData.length }}</span>
+                        </a>
+                        <div :class="['dropdown-notify', { 'd-block': dropdownOpen }]" id="dropdown">
+                            <div class="notify-item" v-for="(notiD,index) in notiData" :key="index">
+                                <div class="notify-number"><span>{{index + 1}}</span></div>
+                                <div class="notify-inner">
+                                    <div class="notify-description">
+                                        <p>
+                                            {{notiD.noti}}
+                                        </p>
+                                    </div>
+                                    <div class="notify-date">{{formatDate(new Date(notiD.createDate))}}</div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end header -->
+            <!-- sub head -->
+            <div class="row sub_head" id="categoryList">
+                <div class="col-12 d-flex justify-content-center">
+                    <a href="/" class="nk-nav-logo">
+                        <img src="~/img/img_7034.png" />
+                    </a>
+                </div>
+                <div class="col-12 menu d-flex justify-content-center">
+                    <div class="sub_menu">
+                        <ul class="hnc-nav-menu">
+                            <li v-for="list in CateItemsLayout" :class="{ 'menu-item-has-children position-relative': list.subMenus && list.subMenus.length > 0 }">
+                                <a :href=`/Home/ProductByCate/${list.id}`>
+                                    {{list.nameCate}}
+                                </a>
+                                <ul v-if="list.subMenus && list.subMenus.length > 0" class="sub-menu">
+                                    <li class="li-tips">
+                                        <span class="label-menu" style="background: #ff0000">{{list.nameCate}}</span>
+                                    </li>
+                                    <li v-for="subMenu in list.subMenus" :key="subMenu.idSub">
+                                        <a :href=`/Home/ProductByCate/${subMenu.idCate}`>
+                                            {{ subMenu.nameSub }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="/Home/ProductShop">
+                                    Tất cả game
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            @RenderBody()
+            <footer class="nk-footer mt-5">
+                <div class="container">
+                    <div class="bg-footer">
+                        <div class="row vertical-gap">
+                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <div class="widget_text nk-widget ">
+                                    <div class="nk-widget">
+                                        <div class="textwidget">
+                                            <p>
+                                                <strong> <a href="/">ddat14game.com</a></strong> là Website chia sẻ Game,
+                                                phần mềm, thủ thuật,... 
+                                                miễn phí với tốc độ cao với nhiều thể loại như Việt Hóa, Online, Mod, ... kèm hướng dẫn cài đặt chi tiết và an toàn&nbsp; <strong>
+                                                    ”
+                                                    Chia sẻ miễn phí tất cả “
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+
+                            </div>
+                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 d-flex justify-content-center">
+                                <div class="textwidget custom-html-widget d-flex justify-content-center">
+                                    <img width="420" height="77"
+                                         src="/img/Logo-Dat.png"
+                                         class="w-50 entered lazyloaded" alt="Logo Footer DMH"
+                                         data-lazy-src="/img/Logo-Dat.png"
+                                         data-ll-status="loaded"><noscript>
+                                        <img width="420" height="77"
+                                             src="/img/Logo-Dat.png"
+                                             class="w-100" alt="Logo Footer DMH">
+                                    </noscript>
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 d-flex justify-content-center">
+
+                                <div class="widget_text nk-widget">
+                                    <h4 class="nk-widget-title">CHÍNH SÁCH &amp; ĐIỀU KHOẢN</h4>
+                                    <div class="textwidget custom-html-widget">
+                                        <li>
+                                            <a href="javascript:void(0)" rel="nofollow" onclick="alertKOC">
+                                                <b>
+                                                </b>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" rel="nofollow" onclick="alertKOC">
+                                                <b>
+                                                    Chính sách
+                                                    bảo mật
+                                                </b>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" rel="nofollow" onclick="alertKOC">
+                                                <b>
+                                                    Điều khoản
+                                                    sử dụng
+                                                </b>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="alertKOC">
+                                                <b>
+                                                    Câu hỏi thường
+                                                    gặp
+                                                </b>
+                                            </a>
+                                        </li>
+                                        <li><a href="#" rel="nofollow" onclick="alertKOC"><b>Liên hệ</b></a></li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hnc-copyright">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="hnc-copyright-main" id="copyright"></div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <ul class="nk-social-links">
+                                    <li>
+                                        <a class="nk-social-instagram mr-7" href="#"><i class="fa-brands fa-instagram "></i></a>
+                                    </li>
+                                    <li>
+                                        <a class="nk-social-facebook mr-7" href="#">
+                                            <i class="fa-brands fa-facebook-f "></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nk-social-google-plus mr-7" href="#"><i class="fa-brands fa-google "></i></a>
+                                    </li>
+                                    <li><a class="nk-social-youtube mr-7" href="#"><i class="fa-brands fa-youtube "></i></a></li>
+                                    <li>
+                                        <a class="nk-social-pinterest mr-7" href="#">
+                                            <i class="fa-brands fa-pinterest-p "></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nk-social-linkedin mr-7" href="#"><i class="fa-brands fa-linkedin-in "></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script>
+        function alertKOC() {
+            let timerInterval
+            Swal.fire({
+                title: 'Thông báo tính năng!',
+                html: 'Chúng tôi đang cập nhật trong thời gian tới',
+                timer: 9000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                showCancelButton: true,
+
+                didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                }
+            })
+        }
+
+        const viewMoreButton = document.getElementById('viewmore-collapse');
+        const collapseContent = document.querySelector('.collapse-content-inner');
+        const maxCollapsedHeight = 110;
+        let isCollapsed = true;
+
+
+        if (collapseContent.clientHeight > maxCollapsedHeight) {
+            viewMoreButton.style.display = 'block';
+
+
+            if (isCollapsed) {
+                collapseContent.style.height = maxCollapsedHeight + 'px';
+            }
+
+            viewMoreButton.addEventListener('click', function () {
+                if (isCollapsed) {
+
+                    collapseContent.style.height = collapseContent.scrollHeight + 'px';
+                    viewMoreButton.innerHTML = 'Thu gọn<i class="fas fa-chevron-up ml-8"></i>';
+                } else {
+
+                    collapseContent.style.height = maxCollapsedHeight + 'px';
+                    viewMoreButton.innerHTML = 'Xem thêm<i class="fas fa-chevron-down ml-8"></i>';
+                }
+                isCollapsed = !isCollapsed;
+            });
+        }
+
+
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        const currentUrl = window.location.href;
+        function getMainDomainFromUrl(url) {
+            const parsedUrl = new URL(url);
+            const host = parsedUrl.host;
+
+            if (host.startsWith("www.")) {
+                return host.substring(4);
+            }
+
+            return host;
+        }
+        const mainDomain = getMainDomainFromUrl(currentUrl);
+
+        const linkElement = document.querySelector('a[rel="nofollow"]');
+        if (linkElement) {
+            linkElement.href = currentUrl;
+            linkElement.innerHTML = `<b>Giới thiệu về ${mainDomain}</b>`;
+        }
+
+        const currentYear = new Date().getFullYear();
+        const copyrightText = document.getElementById('copyright');
+
+        if (copyrightText) {
+            copyrightText.textContent = `Copyright ©${currentYear} ${mainDomain}`;
+        }
+    </script>
+    <script>
+        var _0x3c27 = ["\x23\x63\x61\x74\x65\x67\x6F\x72\x79\x4C\x69\x73\x74", "\x43\x61\x74\x65\x49\x74\x65\x6D\x73\x4C\x61\x79\x6F\x75\x74", "\x64\x61\x74\x61", "\x72\x65\x73\x6F\x6C\x76\x65", "\x74\x68\x65\x6E", "\x2F\x48\x6F\x6D\x65\x2F\x47\x65\x74\x41\x6C\x6C\x43\x61\x74\x65\x67\x6F\x72\x79", "\x67\x65\x74"]; categoryList = new Vue({ el: _0x3c27[0], data: { CateItemsLayout: [] }, mounted: function () { axios[_0x3c27[6]](_0x3c27[5])[_0x3c27[4]]((_0x3a5fx1) => { this[_0x3c27[1]] = _0x3a5fx1[_0x3c27[2]]; return Promise[_0x3c27[3]]() }) } })
+    </script>
+    <script>
+        search_vue = new Vue({
+            el: '#search_vue',
+            data: {
+                dataItemsLayout: [],
+                showSearchResults: false,
+                searchKeywordPage: "",
+                dropdownOpen: false,
+                notiData: []
+
+            },
+            computed: {
+                filteredDataItemsLayout() {
+                    const searchResults = this.dataItemsLayout.filter((product) =>
+                        product.name.toLowerCase().includes(this.searchKeywordPage.toLowerCase())
+                    );
+
+                    if (this.searchKeywordPage === '' || searchResults.length > 0) {
+                        return searchResults;
+                    } else {
+                        return [{ msg: 'Không tìm thấy kết quả phù hợp' }];
+                    }
+                },
+
+                searchResultsStyle() {
+                    const style = {};
+                    const minHeight = 376;
+
+                    if (this.dataItemsLayout.length < 5) {
+                        style['height'] = 'auto';
+                        style['overflow-y'] = 'auto';
+                    } else if (this.searchKeywordPage === '') {
+                        style['height'] = minHeight + 'px';
+                        style['overflow-y'] = 'auto';
+                    } else {
+                        style['height'] = 'auto';
+                        style['overflow-y'] = 'auto';
+                    }
+                    return style;
+                }
+            },
+            beforeDestroy() {
+                window.removeEventListener('click', this.handleWindowClick);
+            },
+            mounted() {
+                axios.get("/Products/GetAllProduct")
+                    .then((response) => {
+                        this.dataItemsLayout = response.data;
+                        return Promise.resolve();
+                    });
+                axios.get("/Products/GetAllNoti")
+                    .then((response) => {
+                        this.notiData = response.data;
+                        return Promise.resolve();
+                    });
+                window.addEventListener('click', this.handleWindowClick);
+            },
+            methods: {
+                formatDate(date) {
+                    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                    return date.toLocaleDateString('vi-VN', options);
+                },
+                handleWindowClick(event) {
+
+                    if (!this.$el.contains(event.target)) {
+                        this.dropdownOpen = false;
+                    }
+                },
+                toggleDropdown() {
+                    this.dropdownOpen = !this.dropdownOpen;
+                },
+                handleSearch() {
+                    this.dataItemsLayout;
+                },
+                showResults() {
+                    this.showSearchResults = true;
+                },
+                hideResults() {
+                    this.showSearchResults = false;
+                }
+
+            }
+        });
+    </script>
+</body>
+</html>

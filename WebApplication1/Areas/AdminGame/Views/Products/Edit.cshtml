@@ -1,0 +1,125 @@
+﻿@model WebApplication1.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+
+</style>
+<hr />
+<div class="row" id="Admin_vue">
+    <h3>Chi tiết sản phẩm</h3>
+    <div class="col-md-12">
+        <input type="hidden" id="valueId" value="@Model.Id" />
+        <div class="mb-3">
+            <label class="form-label">Tên game</label>
+            <input class="form-control" type="text" placeholder="Tên game" aria-label="default input example" value="@Model.Name" id="name">
+        </div>
+        <div class="mb-3">
+            <label class="control-label">Danh mục game</label>
+            <select v-model="CategoryID" class="form-control">
+                <option v-for="tp in CateItems" v-bind:key="tp.id" v-bind:value="tp.id">{{ tp.nameCate }}</option>
+            </select>
+
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Link Google Driver</label>
+            <input class="form-control" type="text" placeholder="Link tải game" aria-label="default input example" value="@Model.LinkDown" id="downLink">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Link Dropbox</label>
+            <input class="form-control" type="text" placeholder="Link Dropbox" aria-label="default input example" value="@Model.LinkDownDrop" id="LinkDownDrop">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Link Mediafire</label>
+            <input class="form-control" type="text" placeholder="Link Mediafire" aria-label="default input example" value="@Model.LinkDownMedia" id="LinkDownMedia">
+        </div>
+        <div class="mb-3 ">
+            <div class="mb-3 d-flex align-items-center">
+                <div style="width:100%">
+                    <label class="form-label">Kích thước RAM</label>
+                </div>
+                <input class="form-control" type="text" placeholder="Kích thước RAM" value="@Model.RAM" id="ram">
+                <select v-model="selectedRAM" class="form-control">
+                    <option v-for="ramOption in RAM" :key="ramOption" :value="ramOption">{{ ramOption }}</option>
+                </select>
+            </div>
+            <div class="mb-3 d-flex align-items-center">
+                <div style="width:100%">
+                    <label class="form-label">Dung lượng</label>
+                </div>
+                <input class="form-control flex-grow-1 me-2" type="text" placeholder="Dung lượng" value="@Model.GB" id="GB">
+                <select v-model="selectedGB" class="form-control">
+                    <option v-for="ramOption in RAM" :key="ramOption" :value="ramOption">{{ ramOption }}</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ngôn ngữ</label>
+                <input class="form-control" type="text" placeholder="Ngôn ngữ" value="@Model.Language" id="Language">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Số part</label>
+                <input class="form-control" type="text" placeholder="Ngôn ngữ" value="@Model.Part" id="Part">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Hệ điều hành</label>
+                <select v-model="CPU" class="form-control">
+                    <option value="Windows">Windows</option>
+                    <option value="Macbook">Macbook</option>
+                    <option value="Phone">Phone</option>
+                    <option value="Tất cả hệ điều hành">Tất cả hệ điều hành</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mô tả ngắn game</label>
+            <textarea class="form-control" id="desShort" rows="4" placeholder="Mô tả ngắn game">@Model.DesShort</textarea>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-3">
+                    <div class="d-flex flex-column">
+                        <div>
+                            <label for="formFileSm" class="form-label"> Ảnh đang có </label>
+                            <input type="file" ref="PrPath" v-on:change="onFileChange" accept="image/*">
+                        </div>
+                        <div>
+                            <img src="@Model.MainImg" style="width:50%" />
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-6">
+
+                <div class="mb-3">
+                    <div class="form-label"> Ảnh mới </div>
+                    <img :src="previewImage" alt="" style="width:50%" />
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mô tả chi tiết game</label>
+            <textarea id="editor" v-model="ckName">@Model.DetailsGame</textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Lưu game" v-on:click="editProducts" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <a href="/Products/Create" class="text text-success" style="cursor:pointer">Trở về trang game</a>
+</div>
+<script src="~/js/vue_product.js"></script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

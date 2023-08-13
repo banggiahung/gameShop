@@ -1,0 +1,82 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div id="all_product">
+    <div class="category-main">
+        <div id="hnc-game-filters">
+            <div class="row row-sm" style="align-items: center;">
+                <div class="col-12 col-md-12 col-lg-11 col-xl-11">
+                    <form class="row">
+
+                        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 filter-row mb-8">
+                            <label class="control-label">Chọn danh mục</label>
+                            <select v-model="CategoryID" class="form-control">
+                                <option v-for="tp in CateItems" v-bind:key="tp.id" v-bind:value="tp.id">{{ tp.nameCate }}</option>
+                            </select>
+                        </div>
+                        
+                    </form>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row game-news">
+        <div class="col-3" v-for="(product, index) in paginatedDataItems" :key="index">
+            <div class="nk-blog-post">
+                <a :href="`/Home/DetailsProduct/${product.id}`"
+                   class="nk-post-img">
+                    <img width="380" height="218"
+                         :src="product.mainImg"
+                         class="game-image wp-post-image entered lazyloaded"
+                         :alt="product.name" decoding="async"
+                         :title="product.name"
+                        
+                         data-ll-status="loaded"><noscript>
+                        <img width="380" height="218"
+                             :src="product.mainImg"
+                             class="game-image wp-post-image"
+                             :alt="product.name" decoding="async"
+                             :title="product.name">
+                    </noscript>
+                    <span class="nk-post-comments-count">{{ getRandomNumber() }}</span>
+                    <span class="nk-post-categories">
+                        <span class="bg-main-5" style="background-color: #81d742 !important;">
+                            <i class="fa-solid fa-bells mr-4"></i>GAME MỚI
+                        </span>
+                    </span>
+                </a>
+                <div class="nk-gap"></div>
+                <h2 class="nk-post-title h4 text-light">
+                    <a class="fix-line"
+                       :href="`/Home/DetailsProduct/${product.id}`">
+                        {{product.name}}
+                    </a>
+                </h2>
+                <div class="hnc-theloai text-light">
+                    <i class="fa-solid fa-tags mr-5 text-light"></i>
+                    <a :href="`/Home/DetailsProduct/${product.id}`" rel="category tag" class="text-main-1">{{product.categoryName}}</a>
+                </div>
+                <div class="game-info">
+                    <div class="view-btn">
+                        <a :href="`/Home/DetailsProduct/${product.id}`"
+                           class="text-white">Tải Game</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <ul class="pagination justify-content-center">
+            <li v-for="page in visiblePages" :key="page" :class="[{ active: page === currentPage }, 'page-item']">
+                <a class="page-link" style="cursor:pointer" v-on:click="changePage(page)">{{ page }}</a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<script src="~/js/frontend/allproduct.js"></script>

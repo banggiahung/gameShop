@@ -1,0 +1,8 @@
+/WebApplication1/.vs
+/.vs/
+/WebApplication1/bin/
+/WebApplication1/obj/
+/WebApplication1/Properties/
+/.idea/
+/WebApplication1/appsettings.json
+/WebApplication1/appsettings.Development.json

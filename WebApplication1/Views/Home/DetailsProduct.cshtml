@@ -1,0 +1,344 @@
+﻿@model WebApplication1.Models.Product
+
+<style>
+    .hnc-single-content img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+<div id="details_product">
+    <div class="row main-product">
+        <div class="col-lg-12 col-sm-12">
+            <div class="nk-box-1 bg-dark-2">
+                <h2 class="nk-decorated-h-3 heading-ellipsis text-light">
+                    <img src="/img/Logo-Dat.png" style="width:50px" />
+                    <span>
+                        ẢNH GAME @Model.Name!!!
+                    </span>
+                </h2>
+                <div class="hnc-single-image">
+                    <span class="hnc-post-badge" style="background-color: #81d742 ;">
+                        <i class="fa-solid fa-bells mr-10"></i> GAME MỚI
+                    </span>
+                    <div class="nk-gallery-game">
+                        <div id="hnc-image-slider">
+
+                            <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel"
+                                 data-interval="6000">
+                                <ol class="carousel-indicators">
+                                    <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <img width="1280" height="734"
+                                             src="@Model.MainImg"
+                                             alt="" class="nk-image-slider-img w-100 entered lazyloaded"
+                                             data-ll-status="loaded"><noscript>
+                                            <img width="1280" height="734"
+                                                 src="@Model.MainImg"
+                                                 alt="" class="nk-image-slider-img w-100">
+                                        </noscript>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-4">
+            <div class="nk-widget nk-widget-highlighted">
+                <h4 class="nk-widget-title text-light">
+                    <span>
+                        <span class="text-main-1">Mua game</span> bản
+                        quyền
+                    </span>
+                </h4>
+                <div class="nk-widget-content">
+                    <p style="color:white;">
+                        Nếu thấy game @Model.Name!!!
+                        hay thì nhớ mua bản quyền game
+                        ủng
+                        hộ nhà phát triển các bạn nhé
+                    </p>
+                </div>
+            </div>
+        </div>*@
+    </div>
+    <div class="row detail-product">
+        <div class="col-lg-12 col-sm-12">
+            <h2 class="nk-decorated-h-3 heading-ellipsis text-light">
+                <img src="/img/Logo-Dat.png" style="width:50px"/>
+                <span>Chi tiết game @Model.Name!!!</span>
+            </h2>
+            <div class="detals mt-3">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="col-detal-1 product-details card">
+                            <ul class="variations-tableInfo">
+                                <li>
+                                    <span class="table-label">
+                                        <img class="icon mr-10 entered lazyloaded"
+                                             src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/title.png"
+                                             width="20" height="20"
+                                             data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/title.png"
+                                             data-ll-status="loaded"><noscript>
+                                            <img class="icon mr-10"
+                                                 src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/title.png"
+                                                 width="20" height="20" />
+                                        </noscript><b>Tên:</b> @Model.Name!!!
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="table-label">
+                                        <img class="icon mr-10 entered lazyloaded"
+                                             src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/date.png"
+                                             width="20" height="20"
+                                             data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/date.png"
+                                             data-ll-status="loaded"><noscript>
+                                            <img class="icon mr-10"
+                                                 src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/date.png"
+                                                 width="20" height="20" />
+                                        </noscript><b>Ngày update:</b>
+                                        @String.Format("{0:d}",  @Model.CreateDate)
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="table-label">
+                                        <img class="icon mr-10 entered lazyloaded"
+                                             src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/genres.png"
+                                             width="20" height="20"
+                                             data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/genres.png"
+                                             data-ll-status="loaded"><noscript>
+                                            <img class="icon mr-10"
+                                                 src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/genres.png"
+                                                 width="20" height="20" />
+                                        </noscript><b>Thể loại: </b><a href="/Home/ProductShop" rel="category tag">@ViewBag.CategoryName</a>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="table-label">
+                                        <img class="icon mr-10 entered lazyloaded"
+                                             src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/zip.png"
+                                             width="20" height="20"
+                                             data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/zip.png"
+                                             data-ll-status="loaded"><noscript>
+                                            <img class="icon mr-10"
+                                                 src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/zip.png"
+                                                 width="20" height="20" />
+                                        </noscript><b>Dung lượng: </b>@Model.GB
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="table-label">
+                                        <img class="icon mr-10 entered lazyloaded"
+                                             src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/note.png"
+                                             width="20" height="20"
+                                             data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/note.png"
+                                             data-ll-status="loaded"><noscript>
+                                            <img class="icon mr-10"
+                                                 src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/note.png"
+                                                 width="20" height="20" />
+                                        </noscript><b>Số Part: </b>@Model.Part
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="col-detal-2 product-details card">
+                            <ul class="variations-tableInfo">
+                                <li>
+                                    <span class="table-label">
+                                        <i class="fa-solid fa-check-circle "></i><b>
+                                            Kích thước
+                                            RAM:
+                                        </b>@Model.RAM
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="table-label">
+                                        <i class="fa-solid fa-check-circle "></i><b>
+                                            Số người
+                                            chơi:
+                                        </b>Chơi đơn
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="table-label">
+                                        <i class="fa-solid fa-check-circle "></i><b>
+                                            Ngôn ngữ:
+                                        </b>@Model.Language
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="table-label">
+                                        <i class="fa-solid fa-check-circle "></i><b>
+                                            Hệ điều
+                                            hành:
+                                        </b>@Model.CPU
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="table-label">
+                                        <i class="fa-solid fa-check-circle "></i><b>
+                                            Chơi bằng:
+                                        </b>Bàn phím / Chuột
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="table-label">
+                                        <i class="fa-solid fa-check-circle "></i><b>
+                                            Seri game:
+                                        </b><a :href=`/Home/DetailsProduct/${@Model.Id}`
+                                               class="text-seri">
+                                            @Model.Name
+                                        </a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row details-more mt-3 text-light">
+        <div class="col-lg-12 col-sm-12 hnc-single-content">
+            <div class="nk-blockquote-icon"><span>"</span></div>
+            <h2 class="text-light">
+                <img src="/img/Logo-Dat.png" style="width:50px" />
+
+                Giới thiệu game @Model.Name!!!</h2>
+            @Html.Raw(Model.DetailsGame)
+
+        </div>
+
+    </div>
+
+    <div class="row download-game">
+        <div class="col-lg-12 col-sm-12">
+            <div id="download ">
+                <div class="nk-box-1 bg-dark-2">
+                    <h2 class="nk-decorated-h-3 text-light">
+                        <img src="/img/Logo-Dat.png" style="width:50px" />
+                        <span>
+                            Link tải
+                            game @Model.Name!!!
+                        </span>
+                    </h2>
+                    <div class="nk-download">
+                        <div class="nk-download-content">
+                            <p style="text-align: center;">
+                                <strong>
+                                    <span style="color: #ffff00;">
+                                        Vui lòng Đọc Hướng
+                                        dẫn trong Bài viết
+                                    </span>
+                                </strong>
+                            </p>
+                        </div>
+                        <div class="nk-tabs tab-download">
+                            <ul class="nav nav-tabs-fill nav-tabs" id="" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active text-light text-center"
+                                         href="@Model.LinkDown"
+                                       target="_blank"
+                                       >Link Tải</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content text-light">
+                                <div id="download-link-vip" class="tab-pane fade show active" role="tabpanel">
+                                    <div class="nk-gap-2"></div>
+                                    <div class="inner-button">
+                                        <div class="row-button">
+                                            <div class="col-button title-button">
+                                                @Model.Name!!!
+                                            </div>
+                                            <div class="col-button date-button">
+                                                @String.Format("{0:d}",  @Model.CreateDate)
+                                            </div>
+                                            <div class="col-button list-button">
+                                                <div class="link-inner linkvip" data="null">
+                                                    <a href="@Model.LinkDown"
+                                                       target="_blank"
+                                                       class="nk-btn nk-btn-rounded nk-btn-outline"
+                                                       style="color: #66c054;border-color: #66c054"><i class="fa-brands fa-google-drive" style="color: #66c054;"></i> Google Driver</a>
+                                                       <img width="32" height="32" class="link-vip entered lazyloaded"
+                                                          src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                           data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                            data-ll-status="loaded"><noscript>
+                                                        <img width="32"
+                                                             height="32" class="link-vip"
+                                                             src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png" />
+                                                    </noscript>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="inner-button">
+                                        <div class="row-button">
+                                            <div class="col-button title-button">
+                                                @Model.Name!!!
+                                            </div>
+                                            <div class="col-button date-button">
+                                                @String.Format("{0:d}",  @Model.CreateDate)
+                                            </div>
+                                            <div class="col-button list-button">
+                                                <div class="link-inner linkvip" data="null">
+                                                    <a href="@Model.LinkDownMedia"
+                                                       target="_blank"
+                                                       class="nk-btn nk-btn-rounded nk-btn-outline"
+                                                       style="color: #045df6;border-color: #045df6"><img src="/img/mediafire-express.svg" style="width:20%; height:28px" /> MediaFire</a>
+                                                    <img width="32" height="32" class="link-vip entered lazyloaded"
+                                                         src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                         data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                         data-ll-status="loaded"><noscript>
+                                                        <img width="32"
+                                                             height="32" class="link-vip"
+                                                             src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png" />
+                                                    </noscript>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="inner-button">
+                                        <div class="row-button">
+                                            <div class="col-button title-button">
+                                                @Model.Name!!!
+                                            </div>
+                                            <div class="col-button date-button">
+                                                @String.Format("{0:d}",  @Model.CreateDate)
+                                            </div>
+                                            <div class="col-button list-button">
+                                                <div class="link-inner linkvip" data="null">
+                                                    <a href="@Model.LinkDownDrop"
+                                                       target="_blank"
+                                                       class="nk-btn nk-btn-rounded nk-btn-outline"
+                                                       style="color: #2cdaf2;border-color: #2cdaf2"><i class="fa-brands fa-dropbox" style="color: #2cdaf2;"></i> Dropbox</a>
+                                                    <img width="32" height="32" class="link-vip entered lazyloaded"
+                                                         src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                         data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                         data-ll-status="loaded"><noscript>
+                                                        <img width="32"
+                                                             height="32" class="link-vip"
+                                                             src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png" />
+                                                    </noscript>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
