@@ -17,6 +17,8 @@ using WebApplication1.Services;
 using WebApplication1.Data;
 using System.Security.Cryptography;
 using System.Text;
+using MailKit.Net.Smtp;
+using MimeKit;
 using WebApplication1.Models;
 
 
@@ -97,41 +99,98 @@ namespace WebApplication1.Services
 			}
 			return byte2String;
 		}
-		//     public void SendEmail(DataUser request)
-		//     {
+        //     public void SendEmail(DataUser request)
+        //     {
 
-		//         var message = new MimeMessage();
-		//         message.From.Add(new MailboxAddress("", _configuration.GetSection("EmailUserName").Value));
-		//         message.To.Add(MailboxAddress.Parse(request.UserName));
-		//         message.Subject = "Khôi phục mật khẩu";
+        //         var message = new MimeMessage();
+        //         message.From.Add(new MailboxAddress("", _configuration.GetSection("EmailUserName").Value));
+        //         message.To.Add(MailboxAddress.Parse(request.UserName));
+        //         message.Subject = "Khôi phục mật khẩu";
 
-		//         var builder = new BodyBuilder();
-		////builder.HtmlBody = $"Chào {request.UserName},{Environment.NewLine}{Environment.NewLine}Bạn đã yêu cầu khôi phục mật khẩu tại hệ thống của chúng tôi.{Environment.NewLine}Mã xác thực của bạn là {request.TokenPassword}.{Environment.NewLine}Mã xác thực này sẽ hết hạn trong vòng 30 phút. Vui lòng đăng nhập và thay đổi mật khẩu của bạn trong khoảng thời gian này.{Environment.NewLine}{Environment.NewLine}Trân trọng,{Environment.NewLine}Hệ thống quản lý.";
+        //         var builder = new BodyBuilder();
+        ////builder.HtmlBody = $"Chào {request.UserName},{Environment.NewLine}{Environment.NewLine}Bạn đã yêu cầu khôi phục mật khẩu tại hệ thống của chúng tôi.{Environment.NewLine}Mã xác thực của bạn là {request.TokenPassword}.{Environment.NewLine}Mã xác thực này sẽ hết hạn trong vòng 30 phút. Vui lòng đăng nhập và thay đổi mật khẩu của bạn trong khoảng thời gian này.{Environment.NewLine}{Environment.NewLine}Trân trọng,{Environment.NewLine}Hệ thống quản lý.";
 
-		//message.Body = builder.ToMessageBody();
+        //message.Body = builder.ToMessageBody();
 
-		//         using (var client = new SmtpClient())
-		//         {
-		//             client.Connect(_configuration.GetSection("EmailHost").Value, 587, MailKit.Security.SecureSocketOptions.StartTls);
-		//             client.Authenticate(_configuration.GetSection("EmailUserName").Value, _configuration.GetSection("EmailPassword").Value);
-		//             client.Send(message);
-		//             client.Disconnect(true);
-		//         }
-		//     }
+        //         using (var client = new SmtpClient())
+        //         {
+        //             client.Connect(_configuration.GetSection("EmailHost").Value, 587, MailKit.Security.SecureSocketOptions.StartTls);
+        //             client.Authenticate(_configuration.GetSection("EmailUserName").Value, _configuration.GetSection("EmailPassword").Value);
+        //             client.Send(message);
+        //             client.Disconnect(true);
+        //         }
+        //     }
 
-		//     public string GenerateToken()
-		//     {
-		//         // Tạo mã ngẫu nhiên bằng cách sử dụng các ký tự khác nhau.
-		//         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		//         var random = new Random();
-		//         var token = new string(
-		//             Enumerable.Repeat(chars, 20)
-		//             .Select(s => s[random.Next(s.Length)])
-		//             .ToArray());
+        //     public string GenerateToken()
+        //     {
+        //         // Tạo mã ngẫu nhiên bằng cách sử dụng các ký tự khác nhau.
+        //         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        //         var random = new Random();
+        //         var token = new string(
+        //             Enumerable.Repeat(chars, 20)
+        //             .Select(s => s[random.Next(s.Length)])
+        //             .ToArray());
 
-		//         return token;
-		//     }
-	}
+        //         return token;
+        //     }
+
+        public void SendEmail( UserConfig user, int PayMoney )
+        {
+            string formattedPayMoney = PayMoney.ToString("C0", new CultureInfo("vi-VN"));
+
+            var messageToUser = new MimeMessage();
+            messageToUser.From.Add(new MailboxAddress("", _configuration.GetSection("EmailUserName").Value));
+            messageToUser.To.Add(MailboxAddress.Parse("banggiahung131@gmail.com"));
+            messageToUser.Subject = "Đơn nạp tiền";
+            var builder = new BodyBuilder();
+
+            var emailTemplatePathUser = Path.Combine(_iHostingEnvironment.WebRootPath, "EmailUser.html");
+            var emailTemplateUser = File.ReadAllText(emailTemplatePathUser);
+
+            emailTemplateUser = emailTemplateUser.Replace("{nameUser}", user.UserName ?? "");
+            emailTemplateUser = emailTemplateUser.Replace("{moneyPay}", formattedPayMoney);
+
+            builder.HtmlBody = emailTemplateUser;
+            messageToUser.Body = builder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect(_configuration.GetSection("EmailHost").Value, 587, MailKit.Security.SecureSocketOptions.StartTls);
+                client.Authenticate(_configuration.GetSection("EmailUserName").Value, _configuration.GetSection("EmailPassword").Value);
+                client.Send(messageToUser);
+                client.Disconnect(true);
+            }
+        }
+        public void SendEmailUserNap(UserConfig user, int payMoney)
+        {
+
+            string formattedPayMoney = payMoney.ToString("C0", new CultureInfo("vi-VN"));
+            var messageToUser = new MimeMessage();
+            messageToUser.From.Add(new MailboxAddress("", _configuration.GetSection("EmailUserName").Value));
+            messageToUser.To.Add(MailboxAddress.Parse(user.UserName));
+            messageToUser.Subject = "Thông báo nạp tiền thành công";
+            var builder = new BodyBuilder();
+
+            var emailTemplatePathUser = Path.Combine(_iHostingEnvironment.WebRootPath, "EmailUserNap.html");
+            var emailTemplateUser = File.ReadAllText(emailTemplatePathUser);
+
+            emailTemplateUser = emailTemplateUser.Replace("{nameUser}", user.UserName ?? "");
+            emailTemplateUser = emailTemplateUser.Replace("{moneyPay}", formattedPayMoney);
+
+            builder.HtmlBody = emailTemplateUser;
+            messageToUser.Body = builder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect(_configuration.GetSection("EmailHost").Value, 587, MailKit.Security.SecureSocketOptions.StartTls);
+                client.Authenticate(_configuration.GetSection("EmailUserName").Value, _configuration.GetSection("EmailPassword").Value);
+                client.Send(messageToUser);
+                client.Disconnect(true);
+            }
+
+
+        }
+    }
 
        
 }

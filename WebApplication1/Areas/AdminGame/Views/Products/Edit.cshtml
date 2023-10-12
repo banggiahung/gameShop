@@ -6,22 +6,33 @@
 }
 
 <style>
-
+    .customLink{
+        margin-top:8px;
+        border: 2px solid #000;
+        margin-bottom:8px;
+    }
 </style>
 <hr />
 <div class="row" id="Admin_vue">
     <h3>Chi tiết sản phẩm</h3>
     <div class="col-md-12">
         <input type="hidden" id="valueId" value="@Model.Id" />
+        <input type="hidden" id="CateJson" value="@Model.CateJson" />
         <div class="mb-3">
             <label class="form-label">Tên game</label>
-            <input class="form-control" type="text" placeholder="Tên game" aria-label="default input example" value="@Model.Name" id="name">
+            <input class="form-control" type="text" placeholder="Tên game" aria-label="default input example" value="@Model.Name" id="name" required>
         </div>
-        <div class="mb-3">
-            <label class="control-label">Danh mục game</label>
-            <select v-model="CategoryID" class="form-control">
-                <option v-for="tp in CateItems" v-bind:key="tp.id" v-bind:value="tp.id">{{ tp.nameCate }}</option>
-            </select>
+
+        <label class="form-label">Chọn danh mục</label>
+
+        <div class="row mb-3">
+            <div v-for="tp in CateItems" :key="tp.id" class="col-md-2 ml-4">
+
+                <input class="form-check-input" type="checkbox" v-model="tp.selected" v-on:change="updateCateJson">
+                <label class="form-check-label" for="defaultCheck1">
+                    {{ tp.nameCate }}
+                </label>
+            </div>
 
         </div>
         <div class="mb-3">
@@ -36,32 +47,57 @@
             <label class="form-label">Link Mediafire</label>
             <input class="form-control" type="text" placeholder="Link Mediafire" aria-label="default input example" value="@Model.LinkDownMedia" id="LinkDownMedia">
         </div>
+        <button class="btn btn-outline-primary" v-on:click="addLink">Thêm Link dự phòng</button>
+        <div class="row customLink">
+
+            <div id="moreLink" style="margin-right:8px" v-for="(link, index) in addedLinks" :key="index">
+                <div class="mb-3 col-12">
+                    <label class="form-label">Chọn Link thêm
+                        <button type="button" style="margin-left: 8px" class="btn btn-danger" v-on:click="deleteList(index)">Xóa</button>
+
+                    </label>
+                    <select v-model="link.id" class="form-control">
+                        <option v-for="(config, configIndex) in Config" v-bind:key="config.id" v-bind:value="config.id" >{{config.nameConfig}}</option>
+                    </select>
+                </div>
+                <div class="mb-3 col-12" v-if="link.id">
+                    <label class="form-label">Nhập link tương ứng</label>
+                    <input class="form-control" v-model="link.Link" type="text" placeholder="Nhập link chọn" aria-label="">
+
+                </div>
+            </div>
+
+        </div>
         <div class="mb-3 ">
             <div class="mb-3 d-flex align-items-center">
                 <div style="width:100%">
                     <label class="form-label">Kích thước RAM</label>
                 </div>
                 <input class="form-control" type="text" placeholder="Kích thước RAM" value="@Model.RAM" id="ram">
-                <select v-model="selectedRAM" class="form-control">
-                    <option v-for="ramOption in RAM" :key="ramOption" :value="ramOption">{{ ramOption }}</option>
-                </select>
+
             </div>
             <div class="mb-3 d-flex align-items-center">
                 <div style="width:100%">
                     <label class="form-label">Dung lượng</label>
                 </div>
                 <input class="form-control flex-grow-1 me-2" type="text" placeholder="Dung lượng" value="@Model.GB" id="GB">
-                <select v-model="selectedGB" class="form-control">
-                    <option v-for="ramOption in RAM" :key="ramOption" :value="ramOption">{{ ramOption }}</option>
-                </select>
+
             </div>
             <div class="mb-3">
                 <label class="form-label">Ngôn ngữ</label>
                 <input class="form-control" type="text" placeholder="Ngôn ngữ" value="@Model.Language" id="Language">
             </div>
             <div class="mb-3">
+                <label class="form-label">Số người chơi</label>
+                <input class="form-control" type="text" placeholder="Số người chơi" value="@Model.AmountPlayer" id="AmountPlayer">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Chơi bằng</label>
+                <input class="form-control" type="text" placeholder="Chơi bằng" value="@Model.PlayWith" id="PlayWith">
+            </div>
+            <div class="mb-3">
                 <label class="form-label">Số part</label>
-                <input class="form-control" type="text" placeholder="Ngôn ngữ" value="@Model.Part" id="Part">
+                <input class="form-control" type="text" placeholder="Số part" value="@Model.Part" id="Part">
             </div>
             <div class="mb-3">
                 <label class="form-label">Hệ điều hành</label>
@@ -105,6 +141,10 @@
         <div class="mb-3">
             <label class="form-label">Mô tả chi tiết game</label>
             <textarea id="editor" v-model="ckName">@Model.DetailsGame</textarea>
+        </div> 
+        <div class="mb-3">
+            <label class="form-label">Link cho trả tiền</label>
+            <textarea id="editorMain" v-model="ckNameLinkMoney">@Model.LinkMoney</textarea>
         </div>
 
         <div class="form-group">

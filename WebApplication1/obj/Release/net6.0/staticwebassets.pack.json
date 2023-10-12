@@ -7425,6 +7425,38 @@
       "PackagePath": "staticwebassets\\Admin\\vendor\\jquery\\jquery.slim.min.map"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ConfigLink\\Dropbox_Icon.png",
+      "PackagePath": "staticwebassets\\ConfigLink\\Dropbox_Icon.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ConfigLink\\Google_Drive_icon.png",
+      "PackagePath": "staticwebassets\\ConfigLink\\Google_Drive_icon.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ConfigLink\\Microsoft_Office_OneDrive.png",
+      "PackagePath": "staticwebassets\\ConfigLink\\Microsoft_Office_OneDrive.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ConfigLink\\fshare.png",
+      "PackagePath": "staticwebassets\\ConfigLink\\fshare.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ConfigLink\\gofile.png",
+      "PackagePath": "staticwebassets\\ConfigLink\\gofile.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ConfigLink\\logo_mediafire.png",
+      "PackagePath": "staticwebassets\\ConfigLink\\logo_mediafire.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ConfigLink\\mega.png",
+      "PackagePath": "staticwebassets\\ConfigLink\\mega.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ConfigLink\\terabox.png",
+      "PackagePath": "staticwebassets\\ConfigLink\\terabox.png"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ckeditor5-build-classic\\LICENSE.md",
       "PackagePath": "staticwebassets\\ckeditor5-build-classic\\LICENSE.md"
     },
@@ -17385,12 +17417,20 @@
       "PackagePath": "staticwebassets\\ckfinder_aspnet_3.5.2.zip"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\css\\admin.css",
+      "PackagePath": "staticwebassets\\css\\admin.css"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\Dragon-Ball-Songoku-Adult-1024x819.png",
+      "PackagePath": "staticwebassets\\img\\Dragon-Ball-Songoku-Adult-1024x819.png"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\IMG_7028.PNG",
@@ -17403,6 +17443,10 @@
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\Logo-Dat.png",
       "PackagePath": "staticwebassets\\img\\Logo-Dat.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\avatar.png",
+      "PackagePath": "staticwebassets\\img\\avatar.png"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\banner-game-THE-LAST-OF-US-PART-1.png",
@@ -17475,6 +17519,10 @@
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\Vue_product.js",
       "PackagePath": "staticwebassets\\js\\Vue_product.js"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\comment_user.js",
+      "PackagePath": "staticwebassets\\js\\comment_user.js"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\site.js",
@@ -17717,12 +17765,40 @@
       "PackagePath": "staticwebassets\\upload\\0a40a485-ef7f-49b1-96c9-544898e9b6fe_download-Remnant-II-daominhha.jpg"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\108eaab9-a3c7-4ca7-99d1-c082c0626e1e_wall.jpg",
+      "PackagePath": "staticwebassets\\upload\\108eaab9-a3c7-4ca7-99d1-c082c0626e1e_wall.jpg"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\15b9a3f0-2d06-4024-9718-4ba59020cfb2_free-download-Remnant-II-daominhha.net_.jpg",
       "PackagePath": "staticwebassets\\upload\\15b9a3f0-2d06-4024-9718-4ba59020cfb2_free-download-Remnant-II-daominhha.net_.jpg"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\164cc787-bbf9-45fd-aa16-c04d3663bc6f_download-Far-cry-6-full-crack-daominhha.jpg",
+      "PackagePath": "staticwebassets\\upload\\164cc787-bbf9-45fd-aa16-c04d3663bc6f_download-Far-cry-6-full-crack-daominhha.jpg"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\1680017a-b5aa-4681-b076-8684447a0893_free-facebook-messenger-icon-2881-thumb.png",
+      "PackagePath": "staticwebassets\\upload\\1680017a-b5aa-4681-b076-8684447a0893_free-facebook-messenger-icon-2881-thumb.png"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\2285dc6b-8ca7-41da-a8b7-9c530591c965_IMG_7028.PNG",
       "PackagePath": "staticwebassets\\upload\\2285dc6b-8ca7-41da-a8b7-9c530591c965_IMG_7028.PNG"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\273141af-6112-4342-a207-d43736dd1d08_free-facebook-messenger-icon-2881-thumb.png",
+      "PackagePath": "staticwebassets\\upload\\273141af-6112-4342-a207-d43736dd1d08_free-facebook-messenger-icon-2881-thumb.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\29821a1d-b7f3-4ee4-a1c0-6c1c6d1bb60f_free-facebook-messenger-icon-2881-thumb.png",
+      "PackagePath": "staticwebassets\\upload\\29821a1d-b7f3-4ee4-a1c0-6c1c6d1bb60f_free-facebook-messenger-icon-2881-thumb.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\317d9941-dbad-4b68-932e-bd8d8e7b713c_free-facebook-messenger-icon-2881-thumb.png",
+      "PackagePath": "staticwebassets\\upload\\317d9941-dbad-4b68-932e-bd8d8e7b713c_free-facebook-messenger-icon-2881-thumb.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\363520897_978173086820897_6370430591329561354_n.jpg",
+      "PackagePath": "staticwebassets\\upload\\363520897_978173086820897_6370430591329561354_n.jpg"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\40f81fa3-a920-4584-83fd-d29dfcbf62e8_Download-Baldurs-Gate-3-full-crack-pc-daominhha.jpg",
@@ -17747,6 +17823,10 @@
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\78d54396-040b-47bb-a0f6-6ac773287143_download-Far-cry-6-full-crack-daominhha.jpg",
       "PackagePath": "staticwebassets\\upload\\78d54396-040b-47bb-a0f6-6ac773287143_download-Far-cry-6-full-crack-daominhha.jpg"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\7c304504-1b12-4f3d-a296-48572f090a73_banner-game-THE-LAST-OF-US-PART-1.png",
+      "PackagePath": "staticwebassets\\upload\\7c304504-1b12-4f3d-a296-48572f090a73_banner-game-THE-LAST-OF-US-PART-1.png"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\8c963f37-9fa8-40c5-b675-4bd3a4bc4de1_free-download-Far-cry-6-full-crack-daominhha.jpg",
@@ -17781,12 +17861,36 @@
       "PackagePath": "staticwebassets\\upload\\ae7d006f-e1f3-41d6-bb88-f277686efdb6_free-download-Remnant-II-daominhha.net_.jpg"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\b1f9afa5-0503-46b0-a560-aa7c89570143_IMG_7028.PNG",
+      "PackagePath": "staticwebassets\\upload\\b1f9afa5-0503-46b0-a560-aa7c89570143_IMG_7028.PNG"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\banner-game-THE-LAST-OF-US-PART-1.png",
       "PackagePath": "staticwebassets\\upload\\banner-game-THE-LAST-OF-US-PART-1.png"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\banner-game-daominhha-2.png",
       "PackagePath": "staticwebassets\\upload\\banner-game-daominhha-2.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\bfc48ef5-9d83-4210-a4c2-b48068ef168e_fshare.png",
+      "PackagePath": "staticwebassets\\upload\\bfc48ef5-9d83-4210-a4c2-b48068ef168e_fshare.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\c1ff69b1-16a0-4a24-a239-f982e1ba2a2e_banner-game-daominhha-2.png",
+      "PackagePath": "staticwebassets\\upload\\c1ff69b1-16a0-4a24-a239-f982e1ba2a2e_banner-game-daominhha-2.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\d10b07a0-abc8-470e-b2c6-a28b71ad28be_8719203312972_1-removebg-preview.png",
+      "PackagePath": "staticwebassets\\upload\\d10b07a0-abc8-470e-b2c6-a28b71ad28be_8719203312972_1-removebg-preview.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\d18b81fa-3af7-4616-9b05-22f4195f538e_IMG_7028.PNG",
+      "PackagePath": "staticwebassets\\upload\\d18b81fa-3af7-4616-9b05-22f4195f538e_IMG_7028.PNG"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\d449b27c-e98f-4ce7-b1bc-fc3e8a8a062b_free-facebook-messenger-icon-2881-thumb.png",
+      "PackagePath": "staticwebassets\\upload\\d449b27c-e98f-4ce7-b1bc-fc3e8a8a062b_free-facebook-messenger-icon-2881-thumb.png"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\ed892a57-0421-4a12-b39d-cbeff34fc77a_download-OCTOPATH-TRAVELER-II-daominhha.png",
@@ -17799,6 +17903,10 @@
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\free-download-Remnant-II-daominhha.net_.jpg",
       "PackagePath": "staticwebassets\\upload\\free-download-Remnant-II-daominhha.net_.jpg"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\free-facebook-messenger-icon-2881-thumb.png",
+      "PackagePath": "staticwebassets\\upload\\free-facebook-messenger-icon-2881-thumb.png"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\photo1681130131.jpeg",

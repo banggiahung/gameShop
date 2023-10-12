@@ -1,0 +1,69 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+<div id="comment_user">
+    <div class="row">
+        <div class="col-lg-12" v-for="(pageComments, pageIndex) in paginatedComments" :key="pageIndex">
+            <div class="card card-block card-stretch card-height">
+                <div class="card-header d-flex justify-content-between" style="background: #12214E;">
+                    <div class="header-title">
+                        <h5 class="card-title" style="color:white;">Bình luận game: {{pageComments.productName}}</h5>
+                    </div>
+                </div>
+                <div class="card-body p-0 widthdraw scoll-auto" style="height:500px;overflow-x:hidden;overflow-y:auto;">
+                    <div class="comment-widgets" >
+                        <!-- Comment Row -->
+                        <div class="d-flex flex-row comment-row m-t-0 mt-3" v-for="(subCm, subindex) in pageComments.comments" :key="subindex">
+                            <div class="p-2"><img src="/img/Dragon-Ball-Songoku-Adult-1024x819.png" alt="user" width="50" class="rounded-circle"></div>
+                            <div class="comment-text w-100">
+                                <h6 class="font-medium">{{subCm.nameCustomer}}</h6>
+                                <span class="m-b-15 d-block">{{subCm.commentText}}</span>
+                                <button class="btn btn-outline-info" v-if="subCm.isHeartAdmin === false " v-on:click="openComment(subCm,subindex)">Trả lời</button>
+
+                                <div class="comment-footer">
+                                    <span class="text-muted float-right">{{formatDate(new Date(subCm.createDate))}}</span>
+                                </div>
+                                <div class="d-flex flex-row comment-row m-t-0 mt-3" v-if="subCm.isHeartAdmin === true">
+                                    <div class="p-2"><img src="/img/avatar.png" alt="user" width="50" class="rounded-circle"></div>
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium">Administrator</h6>
+                                        <span class="m-b-15 d-block">{{subCm.commentByAdmin}}</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row comment-row m-t-0 mt-3" v-if="subindex == subIndex && subCm.id === sub.id">
+                                    <div class="p-2"><img src="/img/avatar.png" alt="user" width="50" class="rounded-circle"></div>
+                                    <div class="comment-text w-100">
+                                        <h6 class="font-medium">Administrator</h6>
+                                        <textarea class="commentar mt-3" placeholder="Nhập trả lời của bạn" v-model="CommentByAdmin" rows="5" cols="100"></textarea>
+                                        <div>
+                                            <button class="btn btn-primary float-end" v-on:click="postAdmin">Trả lời</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <ul class="pagination justify-content-center mt-4">
+            <li class="page-item" v-if="currentPage > 1">
+                <a class="page-link" v-on:click="changePage(currentPage - 1)">Prev</a>
+            </li>
+            <li class="page-item" v-for="pageNumber in visiblePageNumbers" :key="pageNumber">
+                <a class="page-link" v-on:click="changePage(pageNumber)">{{ pageNumber }}</a>
+            </li>
+            <li class="page-item" v-if="currentPage < totalPages">
+                <a class="page-link" v-on:click="changePage(currentPage + 1)">Next</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="~/js/comment_user.js"></script>

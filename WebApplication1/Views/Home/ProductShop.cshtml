@@ -26,7 +26,7 @@
     </div>
 
     <div class="row game-news">
-        <div class="col-3" v-for="(product, index) in paginatedDataItems" :key="index">
+        <div class="col-6 col-md-4 col-lg-3" v-for="(product, index) in paginatedDataItems" :key="index">
             <div class="nk-blog-post">
                 <a :href="`/Home/DetailsProduct/${product.id}`"
                    class="nk-post-img">
@@ -43,7 +43,7 @@
                              :alt="product.name" decoding="async"
                              :title="product.name">
                     </noscript>
-                    <span class="nk-post-comments-count">{{ getRandomNumber() }}</span>
+                    
                     <span class="nk-post-categories">
                         <span class="bg-main-5" style="background-color: #81d742 !important;">
                             <i class="fa-solid fa-bells mr-4"></i>GAME MỚI
@@ -59,7 +59,8 @@
                 </h2>
                 <div class="hnc-theloai text-light">
                     <i class="fa-solid fa-tags mr-5 text-light"></i>
-                    <a :href="`/Home/DetailsProduct/${product.id}`" rel="category tag" class="text-main-1">{{product.categoryName}}</a>
+                    <a v-for="json in product.cateJsonApi"
+                       :href=`/Home/ProductByCate/${json.id}` rel="category tag" class="text-main-1">{{json.name}} <span class="text-light"> ,</span></a>
                 </div>
                 <div class="game-info">
                     <div class="view-btn">
@@ -79,4 +80,4 @@
     </div>
 </div>
 
-<script src="~/js/frontend/allproduct.js"></script>
+<script src="~/js/frontend/allproduct.js" asp-append-version="true"></script>

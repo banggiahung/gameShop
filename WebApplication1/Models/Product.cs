@@ -17,7 +17,12 @@ namespace WebApplication1.Models
         public string? Language { get; set; }
         public string? CPU { get; set; }
         public string? Part { get; set; }
+        public string? PlayWith { get; set; }
+        public string? CateJson { get; set; }
+        public string? MoreLink { get; set; }
+        public string? LinkMoney { get; set; }
         public int? CateId { get; set; }
+        public int? AmountPlayer { get; set; }
         public DateTime? CreateDate { get; set; }
     }
 }

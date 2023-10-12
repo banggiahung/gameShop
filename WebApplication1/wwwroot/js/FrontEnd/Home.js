@@ -14,11 +14,11 @@
         createDateGame: "",
         cateIdGame: "",
         categoryNameGame: "",
-        itemsPerPage: 7, 
+        itemsPerPage: 7,
         currentPage: 1,
         searchKeyword: "",
 
-        maxDisplayedItems: 8,
+        maxDisplayedItems: 28,
         maxDisplayedItemsCate: 8,
 
         imgBanner1: "",
@@ -42,8 +42,11 @@
                 this.imgBanner3 = response.data[0].banner3;
                 return Promise.resolve();
             });
+        $('#preloader').fadeIn();
+
         axios.get("/Home/GetAllProductLayOut")
             .then((response) => {
+                $('#preloader').fadeOut();
                 this.dataItems = response.data;
                 return Promise.resolve();
             });
@@ -97,8 +100,8 @@
             this.currentPage = pageNumber;
         },
         initData() {
-            
-           
+
+
         },
     }
 });

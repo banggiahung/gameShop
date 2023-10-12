@@ -1,0 +1,116 @@
+﻿@model List<WebApplication1.Models.Product>
+<div id="search_key" class="mt-3" >
+   
+    <h3 class="nk-decorated-h-3 "><span>Từ khóa tìm kiếm: <span>@ViewBag.Res</span></span></h3>
+
+    <div v-if="!dataSearch.length" class="row game-news text-white text-center not-found">
+        Không có dữ liệu để hiển thị.
+    </div>
+    <div class="row game-news" v-else>
+
+        <div class="col-6 col-md-4 col-lg-3" v-for="(product, index) in paginatedDataItems" :key="index">
+            <div class="nk-blog-post">
+                <a :href="`/Home/DetailsProduct/${product.id}`"
+                   class="nk-post-img">
+                    <img width="380" height="218"
+                         :src="product.mainImg"
+                         class="game-image wp-post-image entered lazyloaded"
+                         :alt="product.name" decoding="async"
+                         :title="product.name"
+                         data-ll-status="loaded"><noscript>
+                        <img width="380" height="218"
+                             :src="product.mainImg"
+                             class="game-image wp-post-image"
+                             :alt="product.name" decoding="async"
+                             :title="product.name">
+                    </noscript>
+                    <span class="nk-post-categories">
+                        <span class="bg-main-5" style="background-color: #81d742 !important;">
+                            <i class="fa-solid fa-bells mr-4"></i>GAME MỚI
+                        </span>
+                    </span>
+                </a>
+                <div class="nk-gap"></div>
+                <h2 class="nk-post-title h4 text-light">
+                    <a class="fix-line"
+                       :href="`/Home/DetailsProduct/${product.id}`">
+                        {{product.name}}
+                    </a>
+                </h2>
+                <div class="hnc-theloai text-light">
+                    <i class="fa-solid fa-tags mr-5 text-light"></i>
+                    <a :href="`/Home/DetailsProduct/${product.id}`" rel="category tag" class="text-main-1">{{product.categoryName}}</a>
+                </div>
+                <div class="game-info">
+                    <div class="view-btn">
+                        <a :href="`/Home/DetailsProduct/${product.id}`"
+                           class="text-white">Tải Game</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <ul class="pagination justify-content-center">
+            <li v-for="page in visiblePages" :key="page" :class="[{ active: page === currentPage }, 'page-item']">
+                <a class="page-link" style="cursor:pointer" v-on:click="changePage(page)">{{ page }}</a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<script asp-append-version="true">
+
+    var search_key = new Vue({
+        el: '#search_key',
+        data: {
+            dataSearch: [],
+            itemsPerPage: 20,
+            maxPages: 5,
+            currentPage: 1
+        },
+        computed: {
+            filteredDataItems: function () {
+                return this.dataSearch;
+            },
+            totalItems() {
+                return this.filteredDataItems.length;
+            },
+            totalPages() {
+                return Math.ceil(this.totalItems / this.itemsPerPage);
+            },
+            visiblePages() {
+                const startPage = Math.max(1, this.currentPage - Math.floor(this.maxPages / 2));
+                const endPage = Math.min(this.totalPages, startPage + this.maxPages - 1);
+
+                let pages = [];
+                for (let i = startPage; i <= endPage; i++) {
+                    pages.push(i);
+                }
+
+                return pages;
+            },
+            paginatedDataItems() {
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = Math.min(startIndex + this.itemsPerPage - 1, this.totalItems - 1);
+                return this.filteredDataItems.slice(startIndex, endIndex + 1);
+            }
+        },
+        mounted() {
+
+            $('#preloader').fadeIn();
+
+            axios.post(`/search/@ViewBag.Res`)
+                .then((response) => {
+                    this.dataSearch = response.data.products;
+                })
+                .catch(error => {
+                    console.error('There was an error!', error); 
+                })
+                .finally(() => {
+                    $('#preloader').fadeOut(); 
+                });
+        },
+
+    });
+</script>

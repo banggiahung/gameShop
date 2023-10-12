@@ -20,6 +20,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5HYW1lXFZpZXdzXFByb2R1Y3RzXENhdGVnb3JpZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Areas/AdminGame/Views/Products/CommentUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5HYW1lXFZpZXdzXFByb2R1Y3RzXENvbW1lbnRVc2VyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Areas/AdminGame/Views/Products/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5HYW1lXFZpZXdzXFByb2R1Y3RzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -62,6 +66,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Views/Home/ProductShop.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcm9kdWN0U2hvcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Views/Home/SearchWithKey.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTZWFyY2hXaXRoS2V5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Views/Shared/Error.cshtml]

@@ -1,0 +1,55 @@
+﻿@{
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div id="recharage_admin">
+    <h3>Quản lý nạp tiền</h3>
+    <div class="alert alert-success" role="alert">
+        Để xác nhận nạp tiền , vui lòng ấn vào trạng thái nạp tiền
+    </div>
+    <table id="table_user" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên tài khoản</th>
+                <th>Số tiền nạp</th>
+                <th>Mã nội dung</th>
+                <th>Tài khoản chuyển</th>
+                <th>Ngày tạo</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(items,index) in dataUser" key="index">
+                <td>{{index+1}}</td>
+                <td>
+                    {{items.userName}}
+                </td>
+                <td>
+                    {{formatCurrency(items.priceUser)}}
+                </td>
+                <td>
+                    {{items.contentTransit}}
+                </td>
+                <td>
+                    <span class="text-success">Phương thức: {{items.loaiBank}}</span> <br />
+                    <span class="text-success">Tên ngân hàng: {{items.bankName}}</span> <br />
+                    <span class="text-success">Số tài khoản: {{items.bankAccount}}</span><br />
+                    <span class="text-success">Tên tài khoản: {{items.nameAccount}}</span>
+                </td>
+                <td>
+                    {{formatDate(new Date(items.createDate))}}
+                </td>
+                <td>
+                    <div v-on:click="handleTransaction(items)" v-bind:class="{ 'btn btn-danger ': !items.isDone, 'btn btn-success': items.isDone}">
+                        <span>
+                            {{ items.isDone ?   'Đã xử lý' : 'Đang chờ'  }}
+                        </span>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<script src="~/js/admin_user.js"></script>

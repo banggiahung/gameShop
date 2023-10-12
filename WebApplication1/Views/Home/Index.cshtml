@@ -31,56 +31,7 @@
             </div>
         </div>
     </div>
-    @*<div class="row d-flex about-game">
-        <div class="col-4">
-            <div class="nk-feature-1">
-                <div class="nk-feature-icon">
-                    <img width="128" height="128" src="/img/icon-game-moi-7.png" alt="Categories Icon"
-                         data-lazy-src="/img/icon-game-moi-7.png" data-ll-status="loaded"
-                         class="entered lazyloaded"><noscript>
-                        <img width="128" height="128"
-                             src="/img/icon-game-moi-7.png" alt="Categories Icon" />
-                    </noscript>
-                </div>
-                <div class="nk-feature-cont">
-                    <h3 class="nk-feature-title"><a href="/Home/ProductShop">1000+ GAME NEW</a></h3>
-                    <h4 class="nk-feature-title text-main-1"><a href="/Home/ProductShop">Xem thêm</a></h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="nk-feature-1">
-                <div class="nk-feature-icon">
-                    <img width="128" height="128" src="/img/icon-game-moi-6.png" alt="Categories Icon"
-                         data-lazy-src="/img/icon-game-moi-6.png" data-ll-status="loaded"
-                         class="entered lazyloaded"><noscript>
-                        <img width="128" height="128"
-                             src="/img/icon-game-moi-6.png" alt="Categories Icon" />
-                    </noscript>
-                </div>
-                <div class="nk-feature-cont">
-                    <h3 class="nk-feature-title"><a href="/Home/ProductShop">2000+ DLC NEW</a></h3>
-                    <h4 class="nk-feature-title text-main-1"><a href="/Home/ProductShop">Xem thêm</a></h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="nk-feature-1">
-                <div class="nk-feature-icon">
-                    <img width="128" height="128" src="/img/icon-game-moi-3.png" alt="Categories Icon"
-                         data-lazy-src="/img/icon-game-moi-3.png" data-ll-status="loaded"
-                         class="entered lazyloaded"><noscript>
-                        <img width="128" height="128"
-                             src="/img/icon-game-moi-3.png" alt="Categories Icon" />
-                    </noscript>
-                </div>
-                <div class="nk-feature-cont">
-                    <h3 class="nk-feature-title"><a href="/Home/ProductShop">500+ MODS NEW</a></h3>
-                    <h4 class="nk-feature-title text-main-1"><a href="/Home/ProductShop">Xem thêm</a></h4>
-                </div>
-            </div>
-        </div>
-    </div>*@
+ 
     <div class="new-game">
         <h3 class="nk-decorated-h-2 ">
             <span>
@@ -91,7 +42,7 @@
         </h3>
     </div>
     <div class="row list-game-hot">
-        <div class="col-6 nk-news-box">
+        <div class="col-12 col-lg-6 col-md-12  col-xl-6 nk-news-box">
             <div class="nk-news-box-each-info">
                 <div class="nano">
                     <div class="nano-content">
@@ -117,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-lg-6 col-md-12 col-xl-6">
             <div class="row">
                 <div class="col-12" v-for="(item, index) in dataLatest">
                     <div class="nk-news-box-item ">
@@ -160,7 +111,7 @@
         </h3>
     </div>
     <div class="row game-news">
-        <div class="col-3" v-for="(product, index) in displayedItems" :key="index">
+        <div class="col-6 col-md-4 col-lg-3" v-for="(product, index) in displayedItems" :key="index">
             <div class="nk-blog-post">
                 <a :href=`/Home/DetailsProduct/${product.id}`
                    class="nk-post-img">
@@ -175,7 +126,7 @@
                              class="game-image wp-post-image"
                              decoding="async"
                              title="My Mundane Life Is Threatened by the Tropes of an RPG!!! 2">
-                    </noscript> <span class="nk-post-comments-count">14</span>
+                    </noscript> 
                     <span class="nk-post-categories">
                         <span class="bg-main-5" style="background-color: #81d742 !important;">
                             <i class="fa-solid fa-bells mr-4"></i>GAME MỚI
@@ -191,8 +142,9 @@
                 </h2>
                 <div class="hnc-theloai text-light">
                     <i class="fa-solid fa-tags mr-5 text-light"></i>
-                    <a :href=`/Home/DetailsProduct/${product.id}`
-                       rel="category tag" class="text-main-1">{{product.categoryName}}</a>
+                    <a 
+                       rel="category tag" class="text-main-1" v-for="json in product.cateJsonApi"
+                       :href=`/Home/ProductByCate/${json.id}`> {{json.name}}<span class="text-light"> ,</span> </a>
                 </div>
                 <div class="game-info">
                     <div class="view-btn">
@@ -201,13 +153,16 @@
                     </div>
 
                 </div>
+               
             </div>
         </div>
-
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-outline-success" href="/Home/ProductShop">Xem thêm <i class="fa-solid fa-angle-right"></i></a>
+        </div>
 
     </div>
 
-    <div class="new-game mt-5">
+  @*  <div class="new-game mt-5">
         <h3 class="nk-decorated-h-2 ">
             <span>
                 <span class="text-main-1">GAMES</span><span class="text-light">
@@ -215,8 +170,8 @@
                 </span>
             </span>
         </h3>
-    </div>
-    <div class="row game-news">
+    </div>*@
+   @* <div class="row game-news">
         <div class="col-3" v-for="(cate, index) in displayedItemsCate">
             <div class="nk-blog-post">
                 <a :href=`/Home/DetailsProduct/${cate.id}`
@@ -230,7 +185,7 @@
                              :src="cate.mainImg"
                              class="game-image wp-post-image"
                              decoding="async">
-                    </noscript> <span class="nk-post-comments-count">14</span>
+                    </noscript> 
                     <span class="nk-post-categories">
                         <span class="bg-main-5" style="background-color: #81d742 !important;">
                             <i class="fa-solid fa-bells mr-4"></i>GAME CRACK
@@ -246,6 +201,7 @@
                 </h2>
                 <div class="hnc-theloai text-light">
                     <i class="fa-solid fa-tags mr-5 text-light"></i>
+
                     <a :href=`/Home/DetailsProduct/${cate.id}`
                        rel="category tag" class="text-main-1">{{cate.categoryName}}</a>
 
@@ -261,7 +217,7 @@
         </div>
 
 
-    </div>
+    </div>*@
     <div class="collapse-content">
         <div class="collapse-content-inner">
             <p>
@@ -298,4 +254,4 @@
         <button id="viewmore-collapse">Xem thêm<i class="fas fa-chevron-down ml-8"></i></button>
     </div>
 </div>
-<script src="~/js/frontend/home.js"></script>
+<script src="~/js/frontend/home.js" asp-append-version="true"></script>

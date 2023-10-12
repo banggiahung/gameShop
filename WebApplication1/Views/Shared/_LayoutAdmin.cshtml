@@ -25,14 +25,16 @@
           rel="stylesheet">
     <link href="~/Admin/css/sb-admin-2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js"></script>
-
+    <link href="~/css/admin.css" rel="stylesheet" />
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/translations/vi.js"></script>
     <script src="~/ckfinder/ckfinder.js"></script>
 
 </head>
 <body id="page-top">
-
+    <div id="preloader">
+        <div id="preloader-inner"></div>
+    </div>
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -78,6 +80,7 @@
                         <h6 class="collapse-header">Sản phẩm:</h6>
                         <a class="collapse-item" href="~/Products/Create">Quản lý game</a>
                         <a class="collapse-item" href="~/Products/Categories">Danh mục game</a>
+                        <a class="collapse-item" href="~/Products/CommentUser">Quản lý bình luận</a>
                     </div>
                 </div>
             </li>
@@ -87,13 +90,15 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
-                    <span>Quản lý đơn hàng</span>
+                    <span>Quản lý người dùng</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Đơn hàng:</h6>
-                        <a class="collapse-item" href="javascript:void(0)" onclick="alertKOC()">Tất cả đơn hàng</a>
+                        <a class="collapse-item" href="/UserManager/Customer">Tất cả user</a>
+                        <a class="collapse-item" href="/Bank/UserNap">Tất cả đơn nạp</a>
+                        <a class="collapse-item" href="/Bank/Index">Quản lý ngân hàng</a>
                     </div>
                 </div>
             </li>
@@ -325,51 +330,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script>
-        function alertKOC() {
-            let timerInterval
-            Swal.fire({
-                title: 'Thông báo tính năng!',
-                html: 'Tính năng có thể được phát triển theo yêu cầu',
-                timer: 9000,
-                timerProgressBar: true,
-                showCloseButton: true,
-                showCancelButton: true,
-
-                didOpen: () => {
-                    Swal.showLoading()
-                    const b = Swal.getHtmlContainer().querySelector('b')
-                    timerInterval = setInterval(() => {
-                        b.textContent = Swal.getTimerLeft()
-                    }, 100)
-                },
-                willClose: () => {
-                    clearInterval(timerInterval)
-                }
-            }).then((result) => {
-                /* Read more about handling dismissals below */
-                if (result.dismiss === Swal.DismissReason.timer) {
-                }
-            })
-        }
-        const currentUrl = window.location.href;
-        function getMainDomainFromUrl(url) {
-            const parsedUrl = new URL(url);
-            const host = parsedUrl.host;
-
-            if (host.startsWith("www.")) {
-                return host.substring(4);
-            }
-
-            return host;
-        }
-        const mainDomain = getMainDomainFromUrl(currentUrl);
-
-        const currentYear = new Date().getFullYear();
-        const copyrightText = document.getElementById('copyright');
-
-        if (copyrightText) {
-            copyrightText.textContent = `Copyright ©${currentYear} ${mainDomain}`;
-        }
+        var _0xcf9f = ["\x64\x69\x73\x6D\x69\x73\x73", "\x74\x69\x6D\x65\x72", "\x44\x69\x73\x6D\x69\x73\x73\x52\x65\x61\x73\x6F\x6E", "\x74\x68\x65\x6E", "\x54\x68\xF4\x6E\x67\x20\x62\x61\u0301\x6F\x20\x74\x69\u0301\x6E\x68\x20\x6E\u0103\x6E\x67\x21", "\x54\x69\u0301\x6E\x68\x20\x6E\u0103\x6E\x67\x20\x63\xF3\x20\x74\x68\u1EC3\x20\u0111\u01B0\u01A1\u0323\x63\x20\x70\x68\x61\u0301\x74\x20\x74\x72\x69\xEA\u0309\x6E\x20\x74\x68\x65\x6F\x20\x79\xEA\x75\x20\x63\u1EA7\x75", "\x73\x68\x6F\x77\x4C\x6F\x61\x64\x69\x6E\x67", "\x62", "\x71\x75\x65\x72\x79\x53\x65\x6C\x65\x63\x74\x6F\x72", "\x67\x65\x74\x48\x74\x6D\x6C\x43\x6F\x6E\x74\x61\x69\x6E\x65\x72", "\x74\x65\x78\x74\x43\x6F\x6E\x74\x65\x6E\x74", "\x67\x65\x74\x54\x69\x6D\x65\x72\x4C\x65\x66\x74", "\x66\x69\x72\x65", "\x68\x72\x65\x66", "\x6C\x6F\x63\x61\x74\x69\x6F\x6E", "\x68\x6F\x73\x74", "\x77\x77\x77\x2E", "\x73\x74\x61\x72\x74\x73\x57\x69\x74\x68", "\x73\x75\x62\x73\x74\x72\x69\x6E\x67", "\x67\x65\x74\x46\x75\x6C\x6C\x59\x65\x61\x72", "\x63\x6F\x70\x79\x72\x69\x67\x68\x74", "\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64", "\x43\x6F\x70\x79\x72\x69\x67\x68\x74\x20\xA9", "\x20", ""]; function alertKOC() { let _0xb34cx2; Swal[_0xcf9f[12]]({ title: _0xcf9f[4], html: _0xcf9f[5], timer: 9000, timerProgressBar: true, showCloseButton: true, showCancelButton: true, didOpen: () => { Swal[_0xcf9f[6]](); const _0xb34cx4 = Swal[_0xcf9f[9]]()[_0xcf9f[8]](_0xcf9f[7]); _0xb34cx2 = setInterval(() => { _0xb34cx4[_0xcf9f[10]] = Swal[_0xcf9f[11]]() }, 100) }, willClose: () => { clearInterval(_0xb34cx2) } })[_0xcf9f[3]]((_0xb34cx3) => { if (_0xb34cx3[_0xcf9f[0]] === Swal[_0xcf9f[2]][_0xcf9f[1]]) { } }) } const currentUrl = window[_0xcf9f[14]][_0xcf9f[13]]; function getMainDomainFromUrl(_0xb34cx7) { const _0xb34cx8 = new URL(_0xb34cx7); const _0xb34cx9 = _0xb34cx8[_0xcf9f[15]]; if (_0xb34cx9[_0xcf9f[17]](_0xcf9f[16])) { return _0xb34cx9[_0xcf9f[18]](4) }; return _0xb34cx9 } const mainDomain = getMainDomainFromUrl(currentUrl); const currentYear = new Date()[_0xcf9f[19]](); const copyrightText = document[_0xcf9f[21]](_0xcf9f[20]); if (copyrightText) { copyrightText[_0xcf9f[10]] = `${_0xcf9f[22]}${currentYear}${_0xcf9f[23]}${mainDomain}${_0xcf9f[24]}` }
     </script>
 
 

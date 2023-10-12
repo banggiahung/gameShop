@@ -16,8 +16,20 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = C:\Users\bangg\source\repos\WebApplication1\WebApplication1
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Areas/AdminGame/Views/Bank/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5HYW1lXFZpZXdzXEJhbmtcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Areas/AdminGame/Views/Bank/UserNap.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5HYW1lXFZpZXdzXEJhbmtcVXNlck5hcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Areas/AdminGame/Views/Products/Categories.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5HYW1lXFZpZXdzXFByb2R1Y3RzXENhdGVnb3JpZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Areas/AdminGame/Views/Products/CommentUser.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5HYW1lXFZpZXdzXFByb2R1Y3RzXENvbW1lbnRVc2VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Areas/AdminGame/Views/Products/Create.cshtml]
@@ -44,6 +56,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5HYW1lXFZpZXdzXFByb2R1Y3RzXExvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Areas/AdminGame/Views/UserManager/Customer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5HYW1lXFZpZXdzXFVzZXJNYW5hZ2VyXEN1c3RvbWVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Views/Home/DetailsProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZXRhaWxzUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -64,12 +80,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcm9kdWN0U2hvcC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Views/Home/SearchWithKey.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTZWFyY2hXaXRoS2V5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Views/User/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/bangg/source/repos/WebApplication1/WebApplication1/Views/_ViewImports.cshtml]

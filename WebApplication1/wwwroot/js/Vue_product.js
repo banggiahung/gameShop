@@ -94,7 +94,6 @@
             this.xhr.addEventListener('abort', function () {
                 console.error("Upload aborted.");
             });
-
             this.xhr.send(data);
         });
     }
@@ -111,9 +110,11 @@ Admin_vue = new Vue({
     data: {
         id: 0,
         ckName: "",
-        editor: null,
+        ckNameLinkMoney: "",
+        editor: "",
+        editorMain: "",
         categoryID: 0,
-        CategoryID: 0,
+        CategoryID: 1,
         categoryName: "",
         Part: "",
         CateItems: [],
@@ -122,24 +123,71 @@ Admin_vue = new Vue({
         previewImage: null,
         uploadedImage: null,
         CPU: "Windows",
-        RAM: ["GB", "MB"],
-        selectedRAM: "GB",
-        selectedGB: "GB"
+        CateJson: [],
+        Config: [],
+        addedLinks: [],
+
     },
+    computed: {
+
+    },
+
     mounted() {
-        this.getItemsById();
+        axios.get("/Products/GetAllConfig")
+            .then((response) => {
+                this.Config = response.data;
+                return Promise.resolve();
+            })
+        this.id = $("#valueId").val();
+        this.CateJson = $("#CateJson").val();
+        axios.get(`/Products/getIdProducts?id=${this.id}`)
+            .then((response) => {
+                this.ckName = response.data.detailsGame;
+                this.ckNameLinkMoney = response.data.linkMoney;
+                this.CategoryID = response.data.cateId;
+                if (this.editor) {
+                    this.editor.setData(this.ckName);
+                }
+                if (this.editorMain) {
+                    this.editorMain.setData(this.ckNameLinkMoney);
+                }
+                const configJsonArray = JSON.parse(response.data.moreLink);
+
+                this.addedLinks = configJsonArray;
+
+                return Promise.resolve();
+            });
 
         ClassicEditor
             .create(document.querySelector('#editor'), {
                 extraPlugins: [MyCustomUploadAdapterPlugin],
+                mediaEmbed: {
+                    previewsInData: true
+                }
             })
-
             .then(editor => {
                 this.editor = editor;
                 if (this.editor && this.editor.model) {
                     this.editor.model.document.on('change:data', () => {
-                        console.log(" this.ckName", this.ckName)
                         this.ckName = this.editor.getData();
+                    });
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        ClassicEditor
+            .create(document.querySelector('#editorMain'), {
+                extraPlugins: [MyCustomUploadAdapterPlugin],
+                mediaEmbed: {
+                    previewsInData: true
+                }
+            })
+            .then(editor => {
+                this.editorMain = editor;
+                if (this.editorMain && this.editorMain.model) {
+                    this.editorMain.model.document.on('change:data', () => {
+                        this.ckNameLinkMoney = this.editorMain.getData();
                     });
                 }
             })
@@ -151,23 +199,29 @@ Admin_vue = new Vue({
         axios.get("/Products/GetAllCategory")
             .then((response) => {
                 this.CateItems = response.data;
+                const cateJsonArray = JSON.parse(this.CateJson);
+                this.CateItems.forEach(tp => {
+                    tp.selected = cateJsonArray.includes(tp.id);
+                });
                 return Promise.resolve();
             })
+
     },
     methods: {
-
-        getItemsById() {
-            this.id = $("#valueId").val();
-            axios.get(`/Products/getIdProducts?id=${this.id}`)
-                .then((response) => {
-                    this.ckName = response.data.detailsGame;
-                    this.CategoryID = response.data.cateId;
-                    if (this.editor) {
-                        this.editor.setData(this.ckName);
-                    }
-                    return Promise.resolve();
-                });
+        updateConfigSelection() {
+            this.Config.forEach(config => {
+                config.idSelected = this.addedLinks.some(link => link.id === config.id);
+            });
         },
+        addLink() {
+            this.addedLinks.push({ id: '', Link: '' });
+        },
+        updateCateJson: function () {
+            this.CateJson = this.CateItems
+                .filter(item => item.selected)
+                .map(item => item.id);
+        },
+
         onFileChange(event) {
             this.imageFile = event.target.files[0];
             this.previewImage = URL.createObjectURL(this.imageFile);
@@ -175,22 +229,44 @@ Admin_vue = new Vue({
         },
         async editProducts() {
             try {
-
+                if (this.CateJson.length === 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Phải chọn danh mục sản phẩm',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
+                if ($("#AmountPlayer").val() == null || $("#AmountPlayer").val() == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Phải nhập số lượng người chơi',
+                        confirmButtonText: 'OK'
+                    });
+                    return;
+                }
                 this.id = $("#valueId").val();
                 const formData = new FormData();
                 formData.append('Name', $("#name").val());
-                formData.append('RAM', $("#ram").val() + this.selectedGB);
-                formData.append('GB', $("#GB").val() + this.selectedRAM);
+                formData.append('RAM', $("#ram").val());
+                formData.append('GB', $("#GB").val());
                 formData.append('Language', $("#Language").val());
                 formData.append('CPU', this.CPU);
                 formData.append('LinkDown', $("#downLink").val());
                 formData.append('LinkDownDrop', $("#LinkDownDrop").val());
                 formData.append('LinkDownMedia', $("#LinkDownMedia").val());
                 formData.append('DetailsGame', this.ckName);
+                formData.append('LinkMoney', this.ckNameLinkMoney);
                 formData.append('DesShort', $("#desShort").val());
                 formData.append('Part', $("#Part").val());
-                formData.append('CateId', this.CategoryID);
-                formData.append('id', this.id);
+                formData.append('PlayWith', $("#PlayWith").val());
+                formData.append('AmountPlayer', $("#AmountPlayer").val());
+                formData.append('CateId', 1021);
+                formData.append('CateJson', this.CateJson);
+                formData.append('id', $("#valueId").val());
+                formData.append('MoreLink', JSON.stringify(this.addedLinks));
                 if (this.$refs.PrPath.files[0] != null) {
                     formData.append('PrPath', this.$refs.PrPath.files[0]);
 
@@ -226,6 +302,9 @@ Admin_vue = new Vue({
                     }
                 });
             }
-        }
+        },
+        deleteList(index) {
+            this.addedLinks.splice(index, 1);
+        },
     }
 });

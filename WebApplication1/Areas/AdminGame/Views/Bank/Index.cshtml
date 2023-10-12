@@ -1,0 +1,131 @@
+﻿@{
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div id="bank_admin">
+    <h3>Quản lý ngân hàng</h3>
+
+    <button type="button" class="btn btn-success p-2 mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal" v-on:click="resetData">
+        Thêm mới
+    </button>
+    <table id="table_bank" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên ngân hàng</th>
+                <th>Số tài khoản</th>
+                <th>Tên chủ tài khoản</th>
+                <th>Mã QR</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(items,index) in dataBank" key="index">
+                <td>{{index+1}}</td>
+                <td>
+                    {{items.bankName}}
+                </td>
+
+                <td>
+                    {{items.bankAcc}}
+                </td>
+                <td>
+                    {{items.bankUser}}
+                </td>
+
+                <td>
+                    <img :src="items.qrBank" style="width:100px;height:auto; object-fit:cover" />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" v-on:click="getItemsByIdDelete(items.id)">Xóa</button>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    @*thêm mới*@
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog  modal-xl modal-fullscreen ">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" v-on:click="resetData">X</button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="alert alert-primary">
+                        Nếu chọn loại thanh toán là ví điển tử, vui lòng thêm ảnh ngân hàng
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="control-label">Loại thanh toán</label>
+                                <select v-model="loaiBank" class="form-control">
+                                    <option v-for="tp in BankCustom" v-bind:key="tp.type" v-bind:value="tp.type">{{ tp.type }}</option>
+                                </select>
+
+                            </div>
+
+                            <div class="bank" v-show="loaiBank === 'Ví điện tử'">
+
+                                <div class="mb-3">
+                                    <label class="control-label">Tên ví</label>
+                                    <input type="text" class="form-control" id="price" placeholder="Momo..." v-model="bankName">
+
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bankAccount" class="form-label">Số điện thoại </label>
+                                    <input type="number" class="form-control" id="price" v-model="bankAccount">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bankAccount" class="form-label">Tên chủ tài khoản</label>
+                                    <input type="text" class="form-control" id="price" v-model="nameAccount">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="control-label">Ảnh logo ví</label>
+                                    <input type="file" ref="PrPath2" v-on:change="onFileChange2" accept="image/*">
+
+                                </div>
+                            </div>
+                            <div class="bank" v-show="loaiBank !== 'Ví điện tử'">
+                                <div class="mb-3">
+                                    <label class="control-label">Tên ngân hàng</label>
+                                    <select v-model="bankName" class="form-control" id="bankSelect">
+                                        <option v-for="tp in bankAuto" v-bind:key="tp.shortName" v-bind:value="tp.shortName">{{ tp.shortName }}</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bankAccount" class="form-label">Số tài khoản</label>
+                                    <input type="number" class="form-control" id="price" v-model="bankAccount">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bankAccount" class="form-label">Tên chủ tài khoản</label>
+                                    <input type="text" class="form-control" id="price" v-model="nameAccount">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="formFileSm" class="form-label"> Ảnh QR CODE</label>
+                                <input type="file" ref="PrPath" v-on:change="onFileChange" accept="image/*">
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-label"> Ảnh xem trước </div>
+                                <img :src="previewImage" alt="" style="width:50%" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="resetData">Đóng</button>
+                    <button type="button" class="btn btn-primary" v-on:click="addBank">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script src="~/js/admin_bank.js"></script>

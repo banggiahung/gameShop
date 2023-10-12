@@ -5,6 +5,18 @@
         max-width: 100%;
         height: auto;
     }
+
+    textarea {
+        min-height: 40px;
+        padding: 12px 8px;
+        width: 100%;
+        border: none;
+        resize: none;
+        border: 1px solid #ffff;
+    }
+
+        textarea:focus {
+        }
 </style>
 <div id="details_product">
     <div class="row main-product">
@@ -46,29 +58,12 @@
                 </div>
             </div>
         </div>
-        @*<div class="col-4">
-            <div class="nk-widget nk-widget-highlighted">
-                <h4 class="nk-widget-title text-light">
-                    <span>
-                        <span class="text-main-1">Mua game</span> bản
-                        quyền
-                    </span>
-                </h4>
-                <div class="nk-widget-content">
-                    <p style="color:white;">
-                        Nếu thấy game @Model.Name!!!
-                        hay thì nhớ mua bản quyền game
-                        ủng
-                        hộ nhà phát triển các bạn nhé
-                    </p>
-                </div>
-            </div>
-        </div>*@
+
     </div>
     <div class="row detail-product">
         <div class="col-lg-12 col-sm-12">
             <h2 class="nk-decorated-h-3 heading-ellipsis text-light">
-                <img src="/img/Logo-Dat.png" style="width:50px"/>
+                <img src="/img/Logo-Dat.png" style="width:50px" />
                 <span>Chi tiết game @Model.Name!!!</span>
             </h2>
             <div class="detals mt-3">
@@ -113,7 +108,13 @@
                                             <img class="icon mr-10"
                                                  src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/genres.png"
                                                  width="20" height="20" />
-                                        </noscript><b>Thể loại: </b><a href="/Home/ProductShop" rel="category tag">@ViewBag.CategoryName</a>
+                                        </noscript><b>Thể loại: </b>
+                                        @foreach (var index in Enumerable.Range(0, ViewBag.CategoryIds.Count))
+                                        {
+                                            var categoryId = ViewBag.CategoryIds[index];
+                                            var categoryName = ViewBag.CategoryName[index];
+                                            <a href="/Home/ProductByCate/@categoryId" rel="category tag">@Html.Raw(categoryName)<span style="color:#fff; font-weight:600">,</span></a>
+                                        }
                                     </span>
                                 </li>
                                 <li>
@@ -161,7 +162,7 @@
                                         <i class="fa-solid fa-check-circle "></i><b>
                                             Số người
                                             chơi:
-                                        </b>Chơi đơn
+                                        </b>@Model.AmountPlayer
                                     </span>
                                 </li>
                                 <li>
@@ -183,7 +184,7 @@
                                     <span class="table-label">
                                         <i class="fa-solid fa-check-circle "></i><b>
                                             Chơi bằng:
-                                        </b>Bàn phím / Chuột
+                                        </b>@Model.PlayWith
                                     </span>
                                 </li>
                                 <li>
@@ -210,13 +211,51 @@
             <h2 class="text-light">
                 <img src="/img/Logo-Dat.png" style="width:50px" />
 
-                Giới thiệu game @Model.Name!!!</h2>
+                Giới thiệu game @Model.Name!!!
+            </h2>
             @Html.Raw(Model.DetailsGame)
 
         </div>
 
     </div>
+    <div class="row download-game">
+        <div class="col-lg-12 col-sm-12">
+            <div id="download ">
+                <div class="nk-box-1 bg-dark-2">
+                    <h2 class="nk-decorated-h-3 text-light">
+                        <img src="/img/Logo-Dat.png" style="width:50px" />
+                        <span>
+                            Link tải
+                            game không quảng cáo game: @Model.Name!!!
+                        </span>
+                    </h2>
 
+                    <div class="nk-download">
+                        <div class="nk-download-content">
+                            <p style="text-align: center;">
+                                <strong>
+                                    <span style="color: #ffff00;">
+                                        Dưới đây là link không quảng cáo game @Model.Name!!!
+                                    </span>
+                                </strong>
+                            </p>
+                        </div>
+                        <div v-if="linkMore != null" class="link-more-button">
+                            <div v-html="linkMore"></div>
+                        </div>
+                        <div class="nk-tabs tab-download d-flex justify-content-center" v-else>
+                            <div class="tab-content text-light">
+                                <button class="btn btn-success" v-on:click="getLinkMoney">Lấy link</button>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
     <div class="row download-game">
         <div class="col-lg-12 col-sm-12">
             <div id="download ">
@@ -243,9 +282,8 @@
                             <ul class="nav nav-tabs-fill nav-tabs" id="" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link active text-light text-center"
-                                         href="@Model.LinkDown"
-                                       target="_blank"
-                                       >Link Tải</a>
+                                       href="@Model.LinkDown"
+                                       target="_blank">Link Tải</a>
                                 </li>
                             </ul>
                             <div class="tab-content text-light">
@@ -265,10 +303,10 @@
                                                        target="_blank"
                                                        class="nk-btn nk-btn-rounded nk-btn-outline"
                                                        style="color: #66c054;border-color: #66c054"><i class="fa-brands fa-google-drive" style="color: #66c054;"></i> Google Driver</a>
-                                                       <img width="32" height="32" class="link-vip entered lazyloaded"
-                                                          src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
-                                                           data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
-                                                            data-ll-status="loaded"><noscript>
+                                                    <img width="32" height="32" class="link-vip entered lazyloaded"
+                                                         src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                         data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                         data-ll-status="loaded"><noscript>
                                                         <img width="32"
                                                              height="32" class="link-vip"
                                                              src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png" />
@@ -341,4 +379,364 @@
         </div>
 
     </div>
+    <!-- link dự phòng -->
+    <div class="row download-game">
+        <div class="col-lg-12 col-sm-12">
+            <div id="download ">
+                <div class="nk-box-1 bg-dark-2">
+                    <h2 class="nk-decorated-h-3 text-light">
+                        <img src="/img/Logo-Dat.png" style="width:50px" />
+                        <span>
+                            Link tải
+                            game dự phòng @Model.Name!!!
+                        </span>
+                    </h2>
+                    <div class="nk-download">
+                        <div class="nk-download-content">
+                            <p style="text-align: center;">
+                                <strong>
+                                    <span style="color: #ffff00;">
+                                        Tải theo link dự phòng game @Model.Name!!!
+                                    </span>
+                                </strong>
+                            </p>
+                        </div>
+                        <div class="nk-tabs tab-download">
+                            <div class="tab-content text-light">
+                                <div id="download-link-vip" class="tab-pane fade show active" role="tabpanel">
+                                    <div class="nk-gap-2"></div>
+                                    <div class="inner-button mb-3" v-for="link in addedLinks">
+                                        <div class="row-button">
+                                            <div class="col-button title-button">
+                                                Link tải: {{link.customName}} -
+                                                <img :src="link.imgCustome" style="width:10%; height:auto; object-fit:cover; margin-left:12px" />
+
+                                            </div>
+                                            <div class="col-button list-button">
+                                                <div class="link-inner linkvip" data="null">
+                                                    <a :href="link.Link"
+                                                       target="_blank"
+                                                       class="nk-btn nk-btn-rounded nk-btn-outline"
+                                                       style="color: #2cdaf2;border-color: #2cdaf2">
+                                                        {{link.customName}}
+                                                    </a>
+                                                    <img width="32" height="32" class="link-vip entered lazyloaded"
+                                                         src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                         data-lazy-src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png"
+                                                         data-ll-status="loaded"><noscript>
+                                                        <img width="32"
+                                                             height="32" class="link-vip"
+                                                             src="https://daominhha.net/wp-content/themes/hncgamingtheme/images/link-vip.png" />
+                                                    </noscript>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row d-flex justify-content-center mt-3 main-product bg-dark-2">
+        <div class="col-12">
+            <div class="card ">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Bình luận của bạn</h4>
+                </div>
+                <div class="d-flex flex-row comment-row m-t-0">
+                    <div class="p-2"><img src="/img/Dragon-Ball-Songoku-Adult-1024x819.png" alt="user" width="50" class="rounded-circle"></div>
+                    <div class="comment-text w-100">
+                        <input class="form-control " style="background-color:#2b2b2b; color: #fff" v-model="nameUser" placeholder="Nhập tên hiển thị" />
+                        <textarea class="commentar mt-3" style="background-color:#2b2b2b;color: #fff" placeholder="Nhập bình luận của bạn" v-model="textComment"></textarea>
+                        <div class="comment-footer">
+                            <button class="btn btn-primary float-end" v-on:click="addPostCmt">Thêm bình luận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 mt-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Bình luận gần nhất</h4>
+                </div>
+                <div class="comment-widgets " v-if="dataComment.length == 0">
+                    <!-- Comment Row -->
+                    <div class="d-flex justify-content-center m-t-0 mt-3">
+                        <h4 class="text-center">Không có bản ghi bình luận nào</h4>
+                    </div> <!-- Comment Row -->
+
+                </div>
+                <div class="comment-widgets" v-else>
+                    <!-- Comment Row -->
+                    <div class="d-flex flex-row comment-row m-t-0 mt-3" v-for="listComment in dataComment">
+                        <div class="p-2"><img src="/img/Dragon-Ball-Songoku-Adult-1024x819.png" alt="user" width="50" class="rounded-circle"></div>
+                        <div class="comment-text w-100">
+                            <h6 class="font-medium">{{hiddenUsername(listComment.nameCustomer)}}</h6>
+                            <span class="m-b-15 d-block">{{listComment.commentText}}</span>
+                            <div class="comment-footer">
+                                <span class="text-muted float-right">{{formatDate(new Date(listComment.createDate))}}</span>
+                            </div>
+                            <div class="d-flex flex-row comment-row m-t-0 mt-3" v-if="listComment.isHeartAdmin === true">
+                                <div class="p-2"><img src="/img/avatar.png" alt="user" width="50" class="rounded-circle"></div>
+                                <div class="comment-text w-100">
+                                    <h6 class="font-medium">Administrator</h6>
+                                    <span class="m-b-15 d-block">{{listComment.commentByAdmin}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Card -->
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                        <button class="page-link" v-on:click="prevPage" :disabled="currentPage === 1">Sau</button>
+                    </li>
+                    <li v-for="pageNumber in visiblePages" :key="pageNumber" class="page-item" :class="{ active: pageNumber === currentPage }">
+                        <button class="page-link" v-on:click="gotoPage(pageNumber)">{{ pageNumber }}</button>
+                    </li>
+                    <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                        <button class="page-link" v-on:click="nextPage" :disabled="currentPage === totalPages">Tiếp</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
 </div>
+<script>
+    details_product = new Vue({
+        el: '#details_product',
+        data: {
+            dataComment: [],
+            ProductId: @Model.Id,
+            itemsPerPage: 20,
+            maxPages: 5,
+            currentPage: 1,
+            nameUser: "",
+            textComment: "",
+            totalPages: 1,
+            paramPage: {},
+            addedLinks: [],
+            Config: [],
+            user: '@ViewBag.userName',
+            soDu: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.TotalPay)) || 0,
+
+            linkMore: null
+
+        },
+        //created: function () {
+        //    EventBus.$on('userData', (value) => {
+        //        console.log(value)
+        //        this.user = value;
+        //    });
+        //    EventBus.$on('soDuUser', (value) => {
+        //        console.log(value)
+
+        //        this.soDu = value;
+        //    });
+        //},
+        computed: {
+            //hiddenUsername() {
+            //    if (this.nameUser.length > 5) {
+            //        return this.nameUser.substring(0, 5) + "***";
+            //    }
+            //    return this.nameUser;
+            //},
+            visiblePages() {
+                const totalVisiblePages = 5;
+                const halfVisiblePages = Math.floor(totalVisiblePages / 2);
+                let startPage = this.currentPage - halfVisiblePages;
+                let endPage = this.currentPage + halfVisiblePages;
+
+                if (startPage <= 0) {
+                    startPage = 1;
+                    endPage = Math.min(totalVisiblePages, this.totalPages);
+                } else if (endPage > this.totalPages) {
+                    endPage = this.totalPages;
+                    startPage = Math.max(1, this.totalPages - totalVisiblePages + 1);
+                }
+
+                return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+            },
+        },
+        mounted() {
+            this.fetchData();
+            axios.get("/Products/GetAllConfig")
+                .then((response) => {
+                    this.Config = response.data;
+                    return Promise.resolve();
+                })
+            axios.get(`/Home/getIdProducts?id=${this.ProductId}`)
+                .then((response) => {
+                    const configJsonArray = JSON.parse(response.data.moreLink);
+                    this.addedLinks = configJsonArray;
+                    this.addedLinks = configJsonArray.map((link) => {
+                        const configItem = this.Config.find((config) => config.id === link.id);
+                        return {
+                            id: link.id,
+                            Link: link.Link,
+                            customName: configItem ? configItem.nameConfig : "",
+                            imgCustome: configItem ? configItem.imgLink : "",
+                        };
+                    });
+                    return Promise.resolve();
+                });
+
+        },
+        methods: {
+            hiddenUsername(nameUser) {
+                if (nameUser && nameUser.length > 0) {
+                    return nameUser.substring(0, 5) + '***';
+                }
+                return nameUser || '';
+            },
+            prevPage() {
+                if (this.currentPage > 1) {
+                    this.currentPage--;
+                    this.fetchData();
+                }
+            },
+            nextPage() {
+                if (this.currentPage < this.totalPages) {
+                    this.currentPage++;
+                    this.fetchData();
+                }
+            },
+            gotoPage(pageNumber) {
+                if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+                    this.currentPage = pageNumber;
+                    this.fetchData();
+                }
+            },
+            fetchData() {
+                $('#preloader').fadeIn();
+
+                axios.get(`/Home/GetAllComment/${this.ProductId}?page=${this.currentPage}&itemsPerPage=5`)
+                    .then((response) => {
+                        this.dataComment = response.data.data;
+                        this.paramPage = response.data.pagination;
+                        this.totalPages = this.paramPage.totalPages;
+                        $('#preloader').fadeOut();
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        $('#preloader').fadeOut();
+                    });
+            },
+
+            formatDate(date) {
+                const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                return date.toLocaleDateString('vi-VN', options);
+            },
+            addPostCmt() {
+                try {
+                    const formData = new FormData();
+                    formData.append('NameCustomer', this.nameUser);
+                    formData.append('CommentText', this.textComment);
+                    formData.append('productId', this.ProductId);
+
+                    axios.post('/Home/PostComment', formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }).then((res) => {
+                            if (res.data.code == 'error') {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: res.data.message,
+                                    confirmButtonText: 'OK'
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thành công',
+                                    text: 'Đã lưu thành công',
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        });
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã có lỗi xảy ra',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            },
+            async getLinkMoney() {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cảnh báo',
+                    text: "Xác nhận trả 1.000đ để có link không quảng cáo?",
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        if (this.soDu < 1000) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Bạn không đủ tiền vui lòng nạp thêm',
+                                confirmButtonText: 'OK'
+                            });
+                            return;
+                        }
+                        const formData = new FormData();
+                        formData.append('idProduct', this.ProductId);
+
+                        axios.post('/User/Checkout', formData,
+                            {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            }).then((res) => {
+                                if (res.data.code == 400) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Lỗi',
+                                        text: `${res.data.message}`,
+                                        confirmButtonText: 'OK'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thành công',
+                                        text: 'Đã lưu thành công',
+                                        confirmButtonText: 'OK'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            this.linkMore = res.data.content;
+                                        }
+                                    });
+                                }
+                            });
+                    }
+                });
+            }
+        }
+
+    });
+</script>

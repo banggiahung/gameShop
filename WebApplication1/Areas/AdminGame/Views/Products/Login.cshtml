@@ -266,6 +266,10 @@
                     </div>
                 </div>
                 <div class="col-md-12">
+                    @if(ViewBag.LoginAdmin != null)
+                    {
+                        <span class="text-danger d-flex justify-content-center">@ViewBag.LoginAdmin</span>
+                    }
                     <div class="login-form">
                         <h3>SIGN IN</h3>
                         <form method="post" action="~/Products/Login">

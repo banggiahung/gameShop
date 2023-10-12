@@ -53,7 +53,7 @@
     },
     methods: {
         getRandomNumber() {
-            return Math.round(Math.random() * 100); 
+            return Math.round(Math.random() * 100);
         },
         changePage(page) {
             this.currentPage = page;

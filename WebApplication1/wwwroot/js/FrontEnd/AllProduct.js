@@ -13,7 +13,7 @@
             if (this.CategoryID === 0) {
                 return this.dataItems;
             } else {
-                return this.dataItems.filter(item => item.cateId === this.CategoryID);
+                return this.dataItems.filter(item => item.cateJsonApi.some(cat => cat.id === this.CategoryID));
             }
         },
         totalItems() {
@@ -40,8 +40,12 @@
         }
     },
     mounted() {
-        axios.get("/Home/GetAllProduct")
+        $('#preloader').fadeIn();
+
+        axios.get("/Home/GetAllProductLayOut")
             .then((response) => {
+                $('#preloader').fadeOut();
+
                 this.dataItems = response.data;
                 return Promise.resolve();
             });
@@ -66,7 +70,7 @@
                 })
         },
         getRandomNumber() {
-            return Math.round(Math.random() * 100); 
+            return Math.round(Math.random() * 100);
         },
         changePage(page) {
             this.currentPage = page;

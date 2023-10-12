@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using WebApplication1.Data;
 using WebApplication1.Services;
 
@@ -8,39 +11,56 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddTransient<ICommon, Common>();
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
+builder.Services.AddControllers();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+    options.LoginPath = "/Products/Login";
+    options.AccessDeniedPath = "/Home/AccessDenied";
+})
+.AddJwtBearer("Bearer", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-        options.SlidingExpiration = true;
-        options.AccessDeniedPath = "/Forbidden/";
-        options.LoginPath = "/Home/Login";
-        options.AccessDeniedPath = "/Home/AccessDenied";
-        options.SlidingExpiration = true;
-    });
-
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("shopgame$#!@ddategame14gamemienphi$#")),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddMvc(options =>
+{
+    options.EnableEndpointRouting = false;
+});
+
 var connectionString = builder.Configuration.GetConnectionString("connMSSQL") ?? throw new InvalidCastException(nameof(args));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString, sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorNumbersToAdd: null);
+    }));
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+
 
 
 app.UseHttpsRedirection();
@@ -60,4 +80,20 @@ app.MapAreaControllerRoute(
       name: "Areas",
       areaName: "AdminGame",
       pattern: "{controller=Products}/{action=Login}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "GetAllProductTest",
+        pattern: "/NextPages/GetAllProductTest/{page}",
+        defaults: new { controller = "Products", action = "GetAllProductTest" }
+    ); 
+    endpoints.MapControllerRoute(
+        name: "GetAllComment",
+        pattern: "/NextPages/GetAllProductTest/{page}",
+        defaults: new { controller = "Home", action = "GetAllComment" }
+    );
+    
+
+    endpoints.MapControllers();
+});
 app.Run();

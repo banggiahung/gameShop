@@ -7,7 +7,7 @@
         LinkDown: "",
         LinkDownMedia: "",
         LinkDownDrop: "",
-        CategoryID: 0,
+        CategoryID: 1,
         PrPath: null,
         imageFile: null,
         previewImage: null,
@@ -21,30 +21,51 @@
         itemsPerPage: 7,
         currentPage: 1,
         searchKeyword: "",
+        CateJson: [],
+        paramPage: {},
+        currentPage: 1,
+        totalPages: 1,
+
     },
     computed: {
-        filteredDataItems() {
-            
-            return this.dataItems.filter((product) =>
-                product.name.toLowerCase().includes(this.searchKeyword.toLowerCase())
-            );
-        },
+        //filteredDataItems() {
 
-        
-        totalPages() {
-            return Math.ceil(this.filteredDataItems.length / this.itemsPerPage);
-        },
-
-   
-        paginatedDataItems() {
-            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-            const endIndex = startIndex + this.itemsPerPage;
-            return this.filteredDataItems.slice(startIndex, endIndex);
-        },
+        //    return this.dataItems.filter((product) =>
+        //        product.name.toLowerCase().includes(this.searchKeyword.toLowerCase())
+        //    );
+        //},
 
 
+        //totalPages() {
+        //    return Math.ceil(this.filteredDataItems.length / this.itemsPerPage);
+        //},
+
+
+        //paginatedDataItems() {
+        //    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        //    const endIndex = startIndex + this.itemsPerPage;
+        //    return this.filteredDataItems.slice(startIndex, endIndex);
+        //},
+
+
+        //visiblePages() {
+
+        //    const totalVisiblePages = 5;
+        //    const halfVisiblePages = Math.floor(totalVisiblePages / 2);
+        //    let startPage = this.currentPage - halfVisiblePages;
+        //    let endPage = this.currentPage + halfVisiblePages;
+
+        //    if (startPage <= 0) {
+        //        startPage = 1;
+        //        endPage = Math.min(totalVisiblePages, this.totalPages);
+        //    } else if (endPage > this.totalPages) {
+        //        endPage = this.totalPages;
+        //        startPage = Math.max(1, this.totalPages - totalVisiblePages + 1);
+        //    }
+
+        //    return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+        //},
         visiblePages() {
-            
             const totalVisiblePages = 5;
             const halfVisiblePages = Math.floor(totalVisiblePages / 2);
             let startPage = this.currentPage - halfVisiblePages;
@@ -62,14 +83,53 @@
         },
     },
     mounted() {
-        axios.get("/Products/GetAllProduct")
-            .then((response) => {
-                this.dataItems = response.data;
-                return Promise.resolve();
-            });
+        //$('#preloader').fadeIn();
+
+        //axios.get("/Products/GetAllProductTest?page=1&itemsPerPage=7")
+        //    .then((response) => {
+        //        this.dataItems = response.data.products;
+        //        this.paramPage = response.data.pagination;
+        //        $('#preloader').fadeOut();
+
+        //        return Promise.resolve();
+        //    });
         this.initData();
+        this.fetchData();
     },
     methods: {
+        prevPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+                this.fetchData();
+            }
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+                this.fetchData();
+            }
+        },
+        gotoPage(pageNumber) {
+            if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+                this.currentPage = pageNumber;
+                this.fetchData();
+            }
+        },
+        fetchData() {
+            $('#preloader').fadeIn();
+
+            axios.get(`/Products/GetAllProductTest?page=${this.currentPage}&itemsPerPage=7`)
+                .then((response) => {
+                    this.dataItems = response.data.products;
+                    this.paramPage = response.data.pagination;
+                    this.totalPages = this.paramPage.totalPages;
+                    $('#preloader').fadeOut();
+                })
+                .catch((error) => {
+                    console.error(error);
+                    $('#preloader').fadeOut();
+                });
+        },
         handleSearch() {
             this.currentPage = 1;
         },
@@ -77,29 +137,38 @@
             const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
             return date.toLocaleDateString('vi-VN', options);
         },
-        prevPage() {
-            // Điều hướng đến trang trước đó
-            if (this.currentPage > 1) {
-                this.currentPage -= 1;
-            }
-        },
-        nextPage() {
-            // Điều hướng đến trang kế tiếp
-            if (this.currentPage < this.totalPages) {
-                this.currentPage += 1;
-            }
-        },
-        gotoPage(pageNumber) {
-            // Điều hướng đến trang có số thứ tự pageNumber
-            this.currentPage = pageNumber;
-        },
+        //prevPage() {
+        //    // Điều hướng đến trang trước đó
+        //    if (this.currentPage > 1) {
+        //        this.currentPage -= 1;
+        //    }
+        //},
+        //nextPage() {
+        //    // Điều hướng đến trang kế tiếp
+        //    if (this.currentPage < this.totalPages) {
+        //        this.currentPage += 1;
+        //    }
+        //},
+        //gotoPage(pageNumber) {
+        //    // Điều hướng đến trang có số thứ tự pageNumber
+        //    this.currentPage = pageNumber;
+        //},
         initData() {
 
             axios.get("/Products/GetAllCategory")
                 .then((response) => {
                     this.CateItems = response.data;
+                    const cateJsonArray = JSON.parse(this.CateJson);
+                    this.CateItems.forEach(tp => {
+                        tp.selected = cateJsonArray.includes(tp.id);
+                    });
                     return Promise.resolve();
                 })
+        },
+        updateCateJson: function () {
+            this.CateJson = this.CateItems
+                .filter(item => item.selected)
+                .map(item => item.id);
         },
         onFileChange(event) {
             this.imageFile = event.target.files[0];
@@ -143,6 +212,8 @@
                 formData.append('DesShort', this.Description);
                 formData.append('CateId', this.CategoryID);
                 formData.append('PrPath', this.$refs.PrPath.files[0]);
+                formData.append('CateJson', JSON.stringify(this.CateJson));
+
 
                 await axios.post('/Products/AddProduct', formData,
                     {

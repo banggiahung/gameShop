@@ -15,7 +15,8 @@
     </div>
 
     <div class="row game-news">
-        <div class="col-3" v-for="(product, index) in paginatedDataItems" :key="index">
+        
+        <div class="col-6 col-md-4 col-lg-3" v-for="(product, index) in paginatedDataItems" :key="index">
             <div class="nk-blog-post">
                 <a :href="`/Home/DetailsProduct/${product.id}`"
                    class="nk-post-img">
@@ -66,7 +67,7 @@
 
     </div>
 </div>
-<script>
+<script asp-append-version="true">
     all_product_with_cate = new Vue({
         el: '#all_product_with_cate',
         data: {
@@ -111,6 +112,7 @@
         },
         mounted() {
             this.CategoryID = parseInt(this.$el.getAttribute('data-category-id'));
+            
             axios.get(`/Home/GetAllProductByCate/${this.CategoryID}`)
                 .then((response) => {
                     this.dataItems = response.data;
@@ -124,7 +126,6 @@
             axios.get("/Home/GetAllProduct")
                 .then((response) => {
                     this.dataItemsBackup = response.data;
-                    console.log(this.dataItemsBackup);
                     return Promise.resolve();
                 })
         },

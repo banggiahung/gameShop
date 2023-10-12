@@ -10,8 +10,10 @@ namespace WebApplication1.Services
         string GetSHA256(string str);
 		string GetMD5(string str);
 
+        void SendEmail(UserConfig user, int PayMoney);
+        void SendEmailUserNap(UserConfig user, int payMoney);
 
-		//void SendEmail(DataUser request);
-		//string GenerateToken();
-	}
+        //void SendEmail(DataUser request);
+        //string GenerateToken();
+    }
 }

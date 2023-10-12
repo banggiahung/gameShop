@@ -15,6 +15,9 @@ using WebApplication1.Services;
 using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using static WebApplication1.Controllers.HomeController;
+using WebApplication1.Models.Pagination;
 
 namespace WebApplication1.Areas.AdminGame.Controllers
 {
@@ -50,6 +53,19 @@ namespace WebApplication1.Areas.AdminGame.Controllers
             // Đã đăng nhập và có quyền "Admin", tiếp tục hiển thị trang Index
             ViewBag.checkActive = "trangChu";
             return View();
+        } 
+        public  IActionResult CommentUser()
+        {
+            if (!User.Identity.IsAuthenticated || !User.IsInRole("Admin"))
+            {
+                // Lưu lại URL hiện tại để chuyển hướng sau khi đăng nhập thành công
+                string returnUrl = Url.Action("CommentUser", "Products");
+                return RedirectToAction("Login", "Products", new { returnUrl });
+            }
+
+            // Đã đăng nhập và có quyền "Admin", tiếp tục hiển thị trang Index
+            ViewBag.checkActive = "trangChu";
+            return View();
         }
         [HttpPost]
         public  IActionResult ChangePassword(string pass)
@@ -70,14 +86,44 @@ namespace WebApplication1.Areas.AdminGame.Controllers
             return Ok();
         }
 
+        //[AllowAnonymous]
+        //[HttpGet]
+        //public IActionResult GetAllProduct()
+        //{
+
+        //    var pr = from _pr in _context.Product
+        //             join _cate in _context.Category on _pr.CateId equals _cate.id
+        //             select new
+        //             {
+        //                 ID = _pr.Id,
+        //                 Name = _pr.Name,
+        //                 MainImg = _pr.MainImg,
+        //                 LinkDown = _pr.LinkDown,
+        //                 LinkDownDrop = _pr.LinkDownDrop,
+        //                 LinkDownMedia = _pr.LinkDownMedia,
+        //                 DetailsGame = _pr.DetailsGame,
+        //                 DesShort = _pr.DesShort,
+        //                 CreateDate = _pr.CreateDate,
+        //                 CateId = _pr.CateId,
+        //                 CategoryName = _cate.NameCate,
+        //                 RAM = _pr.RAM,
+        //                 GB = _pr.GB,
+        //                 Language = _pr.Language,
+        //                 CPU = _pr.CPU,
+        //                 Part = _pr.Part,
+        //                 PlayWith = _pr.PlayWith,
+        //                 AmountPlayer = _pr.AmountPlayer,
+        //             };
+
+        //    return Ok(pr.ToList().OrderByDescending(x => x.ID));
+        //}
+
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult GetAllProduct()
+        public IActionResult GetAllProduct(int page = 1, int pageSize = 7)
         {
-
             var pr = from _pr in _context.Product
-                     join _cate in _context.Category on _pr.CateId equals _cate.id
-                     select new
+                     select new ProductViewModel
                      {
                          ID = _pr.Id,
                          Name = _pr.Name,
@@ -88,17 +134,143 @@ namespace WebApplication1.Areas.AdminGame.Controllers
                          DetailsGame = _pr.DetailsGame,
                          DesShort = _pr.DesShort,
                          CreateDate = _pr.CreateDate,
-                         CateId = _pr.CateId,
-                         CategoryName = _cate.NameCate,
                          RAM = _pr.RAM,
                          GB = _pr.GB,
                          Language = _pr.Language,
                          CPU = _pr.CPU,
                          Part = _pr.Part,
+                         CateJson = _pr.CateJson
                      };
 
-            return Ok(pr.ToList().OrderByDescending(x => x.ID));
+            var productList = pr.ToList();
+
+            foreach (var product in productList)
+            {
+                var cateIds = JsonConvert.DeserializeObject<List<int>>(product.CateJson);
+                var categoryInfos = new List<CategoryInfo>();
+                foreach (var cateId in cateIds)
+                {
+                    var category = _context.Category.FirstOrDefault(c => c.id == cateId);
+                    if (category != null)
+                    {
+                        categoryInfos.Add(new CategoryInfo
+                        {
+                            Id = category.id,
+                            Name = category.NameCate
+                        });
+                    }
+                }
+
+                product.CateJsonApi = categoryInfos;
+            }
+
+            return Ok(productList.OrderByDescending(x => x.ID));
         }
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult GetAllProductTest([FromQuery] PaginationParams @params)
+        {
+            var pr = from _pr in _context.Product
+                     select new ProductViewModel
+                     {
+                         ID = _pr.Id,
+                         Name = _pr.Name,
+                         MainImg = _pr.MainImg,
+                         LinkDown = _pr.LinkDown,
+                         LinkDownDrop = _pr.LinkDownDrop,
+                         LinkDownMedia = _pr.LinkDownMedia,
+                         DetailsGame = _pr.DetailsGame,
+                         DesShort = _pr.DesShort,
+                         CreateDate = _pr.CreateDate,
+                         RAM = _pr.RAM,
+                         GB = _pr.GB,
+                         Language = _pr.Language,
+                         CPU = _pr.CPU,
+                         Part = _pr.Part,
+                         CateJson = _pr.CateJson
+                     };
+
+            var totalProducts = pr.Count();
+            var totalPages = (int)Math.Ceiling((double)totalProducts / @params.ItemsPerPage);
+
+            if (@params.Page < 1)
+            {
+                @params.Page = 1;
+            }
+            else if (@params.Page > totalPages)
+            {
+                @params.Page = totalPages;
+            }
+
+            var productList = pr.OrderByDescending(x => x.ID).Skip((@params.Page - 1) * @params.ItemsPerPage).Take(@params.ItemsPerPage).ToList();
+
+            var paginationMetadata = new PaginationMetadata(totalProducts, @params.Page, @params.ItemsPerPage);
+
+            foreach (var product in productList)
+
+            {
+                var cateIds = JsonConvert.DeserializeObject<List<int>>(product.CateJson);
+                var categoryInfos = new List<CategoryInfo>();
+                foreach (var cateId in cateIds)
+                {
+                    var category = _context.Category.FirstOrDefault(c => c.id == cateId);
+                    if (category != null)
+                    {
+                        categoryInfos.Add(new CategoryInfo
+                        {
+                            Id = category.id,
+                            Name = category.NameCate
+                        });
+                    }
+                }
+
+                product.CateJsonApi = categoryInfos;
+            }
+
+            return new JsonResult(new
+            {
+                Pagination = new
+                {
+                    firstPage = Url.Action("GetAllProductTest", new { page = 1, itemsPerPage = @params.ItemsPerPage }),
+                    lastPage = Url.Action("GetAllProductTest", new { page = totalPages, itemsPerPage = @params.ItemsPerPage }),
+                    nextPage = @params.Page < totalPages ? Url.Action("GetAllProductTest", new { page = @params.Page + 1, itemsPerPage = @params.ItemsPerPage }) : null,
+                    previousPage = @params.Page > 1 ? Url.Action("GetAllProductTest", new { page = @params.Page - 1, itemsPerPage = @params.ItemsPerPage }) : null,
+                    currentPage = @params.Page,
+                    totalCount = totalProducts,
+                    totalPages,
+                    hasPrevious = @params.Page > 1,
+                    hasNext = @params.Page < totalPages
+                },
+                Products = productList
+            });
+        }
+
+
+
+
+        public class ProductViewModel
+        {
+            public int ID { get; set; }
+            public string? Name { get; set; }
+            public string? MainImg { get; set; }
+            public string? LinkDown { get; set; }
+            public string? LinkDownDrop { get; set; }
+            public string? LinkDownMedia { get; set; }
+            public string? DetailsGame { get; set; }
+            public string? DesShort { get; set; }
+            public string? RAM { get; set; }
+            public string? GB { get; set; }
+            public string? Language { get; set; }
+            public string? CPU { get; set; }
+            public string? CategoryName { get; set; }
+            public string CateJson { get; set; }
+            public string? Part { get; set; }
+            public int? CateId { get; set; }
+            public DateTime? CreateDate { get; set; }
+            public List<string> CateNames { get; set; } 
+            public List<CategoryInfo> CateJsonApi { get; set; } 
+        }
+
         //Thêm sản phẩm
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product model, ImgViewModel img)
@@ -495,7 +667,12 @@ namespace WebApplication1.Areas.AdminGame.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-       
+        [HttpGet]
+        public IActionResult GetAllConfig()
+        {
+            var cg = _context.ConfigLink.ToList();
+            return Ok(cg.OrderByDescending(x => x.ID));
+        }
         [HttpPost]
         public async Task<IActionResult> UpdateMainView(MainView model, ImgViewModel img, ImgViewModelBanner banner)
         {
@@ -552,7 +729,7 @@ namespace WebApplication1.Areas.AdminGame.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-       
+        [Authorize]
         public IActionResult Categories()
         {
             if (!User.Identity.IsAuthenticated || !User.IsInRole("Admin"))
@@ -633,14 +810,11 @@ namespace WebApplication1.Areas.AdminGame.Controllers
         }
 
         // GET: AdminGame/Products/Create
+        [Authorize]
+
         public IActionResult Create()
         {
-            if (!User.Identity.IsAuthenticated || !User.IsInRole("Admin"))
-            {
-                // Lưu lại URL hiện tại để chuyển hướng sau khi đăng nhập thành công
-                string returnUrl = Url.Action("Index", "Products");
-                return RedirectToAction("Login", "Products", new { returnUrl });
-            }
+           
             return View();
         }
 
@@ -751,6 +925,8 @@ namespace WebApplication1.Areas.AdminGame.Controllers
                     {
                         edit.MainImg = edit.MainImg;
                     }
+                    string cateJsonString = formData["CateJson"];
+                    List<int> cateJsonList = JsonConvert.DeserializeObject<List<int>>(cateJsonString);
 
                     edit.Name = formData["Name"];
                     edit.RAM = formData["RAM"];
@@ -763,7 +939,13 @@ namespace WebApplication1.Areas.AdminGame.Controllers
                     edit.DetailsGame = formData["DetailsGame"];
                     edit.DesShort = formData["DesShort"];
                     edit.Part = formData["Part"];
+                    edit.PlayWith = formData["PlayWith"];
+                    edit.AmountPlayer = Convert.ToInt32(formData["AmountPlayer"]);
                     edit.CateId =  Convert.ToInt32(formData["CateId"]);
+                    edit.CateJson = JsonConvert.SerializeObject(cateJsonList);
+                    edit.MoreLink = formData["MoreLink"];
+                    edit.LinkMoney = formData["LinkMoney"];
+
                     edit.CreateDate = DateTime.Now;
                     _context.Update(edit);
                     await _context.SaveChangesAsync();
@@ -955,6 +1137,57 @@ namespace WebApplication1.Areas.AdminGame.Controllers
             return Json(new { urls = filePaths });
         }
 
+        [HttpGet]
+        public IActionResult GetAllCommentUser()
+        {
+            var comments = _context.Comment
+                             .Join(
+                                 _context.Product,
+                                 comment => comment.productId,
+                                 product => product.Id,
+                                 (comment, product) => new
+                                 {
+                                     Comment = comment,
+                                     ProductName = product.Name
+                                 })
+                             .OrderByDescending(x => x.Comment.Id)
+                             .ThenBy(x => x.Comment.productId)
+                             .GroupBy(x => x.Comment.productId)
+                             .Select(group => new
+                             {
+                                 ProductId = group.Key,
+                                 ProductName = group.First().ProductName,
+                                 Comments = group.Select(x => x.Comment).ToList()
+                             })
+                             .ToList();
+
+            return Ok(comments);
+        }
+        [HttpPost]
+        public async Task<IActionResult> PostCommentAdmin([FromForm] int id, IFormCollection formData)
+        {
+            var find = await _context.Comment.FindAsync(id);
+            if (id != find.Id)
+            {
+                return NotFound();
+
+            }
+            try
+            {
+                find.isHeartAdmin = true;
+                find.CommentByAdmin = formData["CommentByAdmin"];
+                _context.Update(find);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+               
+                    return NotFound();
+              
+            }
+            return Ok(find);
+
+        }
 
         private bool ProductExists(int id)
         {
