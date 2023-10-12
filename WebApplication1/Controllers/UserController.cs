@@ -296,13 +296,28 @@ namespace WebApplication1.Controllers
                                 user.Total -= 1000;
                                 await _context.SaveChangesAsync();
 
-                                return new JsonResult(new
+                                if(pr.LinkMoney != null)
                                 {
-                                    code = 200,
-                                    status = "Success",
-                                    content = pr.LinkMoney,
+                                    return new JsonResult(new
+                                    {
+                                        code = 200,
+                                        status = "Success",
+                                        content = pr.LinkMoney,
 
-                                });
+                                    });
+                                }
+                                else
+                                {
+                                    return new JsonResult(new
+                                    {
+                                        code = 200,
+                                        status = "Success",
+                                        content = "<p>Hiện tại chưa có link</p>",
+
+                                    });
+
+                                }
+                               
 
                             }
 
