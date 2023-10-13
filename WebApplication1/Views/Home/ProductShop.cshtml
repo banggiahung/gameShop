@@ -1,20 +1,31 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
+    ViewData["Title"] = "Tất cả game";
+
+    ViewBag.Description = "Tải game miễn phí tại website ddat14game.com";
+
+    ViewBag.GGName = "Tải game miễn phí tại website ddat14game.com";
+    ViewBag.GGDescription = "Trang web ddat14game.com - nơi bạn có thể tìm thấy và tải xuống hàng ngàn tựa game miễn phí một cách dễ dàng và nhanh chóng. Chúng tôi tự hào là một nguồn tài nguyên đáng tin cậy cho những người đam mê trò chơi, mang đến cho bạn trải nghiệm giải trí tuyệt vời mà không cần phải trả bất kỳ chi phí nào.Với sự đa dạng về thể loại và chủ đề, ddat14game.com đảm bảo sẽ đáp ứng được mọi sở thích và sự mong đợi của bạn. Từ những trò chơi phiêu lưu đầy thách thức đến những tựa game giải đố thông minh, từ game hành động đầy kịch tính đến những tựa game thể thao ấn tượng - tất cả đều có mặt tại đây, đợi bạn khám phá và thưởng thứcDựa trên tiêu chí chất lượng và an toàn, chúng tôi cam kết cung cấp cho bạn những phiên bản game mới nhất và cập nhật thường xuyên. Trang web của chúng tôi cũng chú trọng đến việc bảo vệ người dùng khỏi các rủi ro an ninh mạng, đảm bảo bạn có trải nghiệm tải game mượt mà và tin cậy.";
+    ViewBag.GGImage = "https://ddat14game.com/upload/5c024407-6fda-46b4-b008-f9575f52c8e7_10104.jpg";
+
+
+    ViewBag.OgUrl = "https://ddat14game.com/";
+    ViewBag.OgTitle = "Tải game miễn phí tại website ddat14game.com";
+    ViewBag.OgDescription = "Trang web ddat14game.com - nơi bạn có thể tìm thấy và tải xuống hàng ngàn tựa game miễn phí một cách dễ dàng và nhanh chóng. Chúng tôi tự hào là một nguồn tài nguyên đáng tin cậy cho những người đam mê trò chơi, mang đến cho bạn trải nghiệm giải trí tuyệt vời mà không cần phải trả bất kỳ chi phí nào.Với sự đa dạng về thể loại và chủ đề, ddat14game.com đảm bảo sẽ đáp ứng được mọi sở thích và sự mong đợi của bạn. Từ những trò chơi phiêu lưu đầy thách thức đến những tựa game giải đố thông minh, từ game hành động đầy kịch tính đến những tựa game thể thao ấn tượng - tất cả đều có mặt tại đây, đợi bạn khám phá và thưởng thứcDựa trên tiêu chí chất lượng và an toàn, chúng tôi cam kết cung cấp cho bạn những phiên bản game mới nhất và cập nhật thường xuyên. Trang web của chúng tôi cũng chú trọng đến việc bảo vệ người dùng khỏi các rủi ro an ninh mạng, đảm bảo bạn có trải nghiệm tải game mượt mà và tin cậy.";
+    ViewBag.OgImage = "https://ddat14game.com/upload/5c024407-6fda-46b4-b008-f9575f52c8e7_10104.jpg";
+
+
 }
 <div id="all_product">
     <div class="category-main">
         <div id="hnc-game-filters">
             <div class="row row-sm" style="align-items: center;">
-                <div class="col-12 col-md-12 col-lg-11 col-xl-11">
+                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
                     <form class="row">
 
-                        <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 filter-row mb-8">
-                            <label class="control-label">Chọn danh mục</label>
-                            <select v-model="CategoryID" class="form-control">
-                                <option v-for="tp in CateItems" v-bind:key="tp.id" v-bind:value="tp.id">{{ tp.nameCate }}</option>
-                            </select>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-center mb-8 ">
+                            <label class="control-label text-center">Có tất cả ({{totalItemsCount}}) game</label>
+                            
                         </div>
                         
                     </form>
@@ -26,7 +37,7 @@
     </div>
 
     <div class="row game-news">
-        <div class="col-6 col-md-4 col-lg-3" v-for="(product, index) in paginatedDataItems" :key="index">
+        <div class="col-6 col-md-4 col-lg-3" v-for="(product, index) in dataItems" :key="index">
             <div class="nk-blog-post">
                 <a :href="`/Home/DetailsProduct/${product.id}`"
                    class="nk-post-img">
@@ -71,11 +82,21 @@
                 </div>
             </div>
         </div>
-        <ul class="pagination justify-content-center">
+        <div class="text-details-scoll text-center mb-4" v-if="loadedItemsCount < totalItemsCount">
+            <p class="text-white">Cuộn xuống để tải thêm {{loadedItemsCount}}/{{totalItemsCount}} game</p>
+
+        </div>
+        <div class="text-details-scoll text-center mb-4" v-else>
+            <p class="text-white">Đã hiển thị hết  {{loadedItemsCount}}/{{totalItemsCount}} game</p>
+
+        </div>
+      
+        <div v-if="loading" class="text-white text-center load-text">Đang tải thêm...<img src="~/img/zkzg.gif" /></div>
+       @* <ul class="pagination justify-content-center">
             <li v-for="page in visiblePages" :key="page" :class="[{ active: page === currentPage }, 'page-item']">
                 <a class="page-link" style="cursor:pointer" v-on:click="changePage(page)">{{ page }}</a>
             </li>
-        </ul>
+        </ul>*@
 
     </div>
 </div>

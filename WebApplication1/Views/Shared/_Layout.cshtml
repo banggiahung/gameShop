@@ -8,22 +8,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta name="description" content="This is the website description. Nice eh?">
-    <!-- Google / Search Engine Tags -->
-    <meta itemprop="name" content="Tải game miễn phí tại website ddat14game.com">
-    <meta itemprop="description" content="Trang web ddat14game.com - nơi bạn có thể tìm thấy và tải xuống hàng ngàn tựa game miễn phí một cách dễ dàng và nhanh chóng. Chúng tôi tự hào là một nguồn tài nguyên đáng tin cậy cho những người đam mê trò chơi, mang đến cho bạn trải nghiệm giải trí tuyệt vời mà không cần phải trả bất kỳ chi phí nào.Với sự đa dạng về thể loại và chủ đề, ddat14game.com đảm bảo sẽ đáp ứng được mọi sở thích và sự mong đợi của bạn. Từ những trò chơi phiêu lưu đầy thách thức đến những tựa game giải đố thông minh, từ game hành động đầy kịch tính đến những tựa game thể thao ấn tượng - tất cả đều có mặt tại đây, đợi bạn khám phá và thưởng thứcDựa trên tiêu chí chất lượng và an toàn, chúng tôi cam kết cung cấp cho bạn những phiên bản game mới nhất và cập nhật thường xuyên. Trang web của chúng tôi cũng chú trọng đến việc bảo vệ người dùng khỏi các rủi ro an ninh mạng, đảm bảo bạn có trải nghiệm tải game mượt mà và tin cậy.">
-    <meta itemprop="image" content="https://ddat14game.com/upload/5c024407-6fda-46b4-b008-f9575f52c8e7_10104.jpg">
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://ddat14game.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Tải game miễn phí tại website ddat14game.com">
-    <meta property="og:description" content="Trang web ddat14game.com - nơi bạn có thể tìm thấy và tải xuống hàng ngàn tựa game miễn phí một cách dễ dàng và nhanh chóng. Chúng tôi tự hào là một nguồn tài nguyên đáng tin cậy cho những người đam mê trò chơi, mang đến cho bạn trải nghiệm giải trí tuyệt vời mà không cần phải trả bất kỳ chi phí nào.Với sự đa dạng về thể loại và chủ đề, ddat14game.com đảm bảo sẽ đáp ứng được mọi sở thích và sự mong đợi của bạn. Từ những trò chơi phiêu lưu đầy thách thức đến những tựa game giải đố thông minh, từ game hành động đầy kịch tính đến những tựa game thể thao ấn tượng - tất cả đều có mặt tại đây, đợi bạn khám phá và thưởng thứcDựa trên tiêu chí chất lượng và an toàn, chúng tôi cam kết cung cấp cho bạn những phiên bản game mới nhất và cập nhật thường xuyên. Trang web của chúng tôi cũng chú trọng đến việc bảo vệ người dùng khỏi các rủi ro an ninh mạng, đảm bảo bạn có trải nghiệm tải game mượt mà và tin cậy.">
-    <meta property="og:image" content="https://ddat14game.com/upload/5c024407-6fda-46b4-b008-f9575f52c8e7_10104.jpg">
 
-    <title>Ddat14 - taigamemienphi</title>
+
+    <meta name="description" content="@ViewBag.Description">
+    <!-- Google / Search Engine Tags -->
+
+    <meta itemprop="name" content="@ViewBag.GGName">
+    <meta itemprop="description" content="@ViewBag.GGDescription">
+    <meta itemprop="image" content="@ViewBag.GGImage">
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="@ViewBag.OgUrl">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@ViewBag.OgUrl">
+    <meta property="og:description" content="@ViewBag.OgDescription">
+    <meta property="og:image" content="@ViewBag.OgImage">
+
+
+
+
+
+    <title>@ViewData["Title"] - Ddat14 - taigamemienphi</title>
     <link rel="icon" type="image/x-icon" href="/img/logo-dat2.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css"  />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" />
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
@@ -42,7 +49,7 @@
 
     <script>
         var EventBus = new Vue();
-     </script>
+    </script>
 </head>
 <style>
     :root {
@@ -57,6 +64,7 @@
     .show {
         width: 100% !important;
     }
+
     .scroll-wrapper {
         overflow: auto;
         max-height: 100vh;
@@ -132,19 +140,27 @@
     <div id="preloader">
         <div id="preloader-inner"></div>
     </div>
+    <div class="loading-main" id="loadingMore">
+        <div class="loading-background"></div>
+        <div class="u-loading">
+            <div class="u-loading__symbol">
+                <img src="/img/Logo-Dat.png">
+            </div>
+        </div>
+    </div>
     <div class="scroll-wrapper">
         <div class="container" id="main">
-            <!-- header --> 
-           
+            <!-- header -->
+
             <div class="row nav_head" id="search_vue">
                 <div class="justify-content-between mobile-only-btn align-items-center">
 
                     <div class="btn-mobile">
-                            <p class="gt text-light" v-if="token != null">Số dư: {{formatCurrency(@ViewBag.TotalPay)}}</p>
-                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#bankForm" role="button" class="gt " v-if="token != null" title="Nạp tiền vào tài khoản">Nạp tiền</a>
-                            <p class="gt text-light" v-else>Chào mừng các bạn đến với website</p>
-                        </div>
-                    
+                        <p class="gt text-light" v-if="token != null">Số dư: {{formatCurrency(@ViewBag.TotalPay)}}</p>
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#bankForm" role="button" class="gt " v-if="token != null" title="Nạp tiền vào tài khoản">Nạp tiền</a>
+                        <p class="gt text-light" v-else>Chào mừng các bạn đến với website</p>
+                    </div>
+
 
                     <div class="btn-mobile">
                         <button type="button" class="btn btn-primary ma-le" data-bs-toggle="modal" data-bs-target="#staticBackdrop" v-if="token == null">
@@ -221,7 +237,7 @@
                 <div class="col-4 dek-menu">
                     <p class="gt text-light" v-if="token != null">Số dư: {{formatCurrency(@ViewBag.TotalPay)}}</p>
                     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#bankForm" role="button" class="gt " v-if="token != null" title="Nạp tiền vào tài khoản">Nạp tiền</a>
-                    <p class="gt text-light" v-else >Chào mừng các bạn đến với website</p>
+                    <p class="gt text-light" v-else>Chào mừng các bạn đến với website</p>
                 </div>
                 <div class="col-4 dek-menu">
                     <div class="search-box">
@@ -235,9 +251,9 @@
                                     </button>
                                 </span>
                             </form>
-                            
+
                         </div>
-                      
+
                     </div>
                 </div>
                 <div id="ajaxsearchprores1_1"
@@ -255,11 +271,11 @@
                             <div class="item asp_r_pagepost asp_r_pagepost_105041 asp_r_post asp_last_item asp_an_fadeInDown" v-for="itemProduct in filteredDataItemsLayout">
                                 <div class="asp_content">
                                     <a class="asp_res_image_url" :href=`/Home/DetailsProduct/${itemProduct.id}`>
-                                       <div class="asp_image"
+                                        <div class="asp_image"
                                              v-bind:style="{ 'background-image': 'url(' + itemProduct.mainImg + ')' }">
                                             <div class="void"></div>
                                         </div>
-                                      
+
                                     </a>
                                     <h3 class="d-flex align-items-center">
                                         <a class="asp_res_url" :href=`/Home/DetailsProduct/${itemProduct.id}`>
@@ -268,7 +284,7 @@
                                     </h3>
                                     <div class="etc">
                                     </div>
-                                 
+
 
                                 </div>
                                 <div v-if="filteredDataItemsLayout.length === 1" class="no-results">
@@ -277,7 +293,7 @@
                                 </div>
                                 <div class="clear"></div>
                             </div>
-                           
+
                         </div>
 
                     </div>
@@ -311,7 +327,7 @@
                             Đăng xuất
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="staticBackdrop"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -322,7 +338,7 @@
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <div>
 
-                                            <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                                <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                             </div>
                                             <div class="form-outline flex-fill mb-0">
                                                 <input type="text" id="form3Example1c" class="form-control" v-model="userName" />
@@ -333,7 +349,7 @@
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <div>
 
-                                            <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                                <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                             </div>
                                             <div class="form-outline flex-fill mb-0">
                                                 <input type="password" id="form3Example4c" class="form-control" v-model="password" />
@@ -352,7 +368,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="modal fade" id="bankForm" tabindex="-1" aria-labelledby="bankForm" aria-hidden="true">
                     <div class="modal-dialog modal-xl">
@@ -466,7 +482,7 @@
                             <div class="modal-footer text-left pop-footer">
                                 <div class="rows">
                                     <div class="col-sm-5 col-md-3 red float-start">
-                                        <i class="fa fa-phone-square" style="margin-top:3px;"></i> Hotline hỗ trợ: <span class="pop-hotline"> 0379.358.959</span>
+                                        <i class="fa fa-phone-square" style="margin-top:3px;"></i> Hotline hỗ trợ: <span class="pop-hotline">0961.395.877</span>
                                     </div>
                                     <div class="col-md-2"> </div>
                                     <div class="col-sm-7  col-md-7 float-end">
@@ -482,21 +498,42 @@
                     </div>
                 </div>
                 <div class="modal fade" id="bankNapTien" tabindex="-1" aria-labelledby="bankNapTien" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-                    <div class="modal-dialog modal-sm">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content ">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Chuyển khoản</h5>
                             </div>
                             <div class="modal-body">
+                                <div class="alert alert-danger">
+                                    Quét mã QR sẽ tự động có nội dung, nhưng hãy chú ý kiểm tra lại
+                                    <br />
+                                    Hãy chắc chắn bạn chuyển đúng số tiền và nội dung để nhận tiền
+                                    <br />
+                                    Nếu sau 5p chưa nhận tiền, liên hệ admin 0961.395.877
+                                </div>
                                 <div class="row">
                                     <div class="col-xs-12">
+                                        <div v-if="isLoading" class="load-text text-center">
+                                            Đang tải ảnh QRCODE...<img src="~/img/zkzg.gif" />
+                                        </div>
                                         <div class="text-center">
                                             <div>
-                                                <label class="form-label">Nhập số tiền chuyển</label>
-                                                <input placeholder="Nhập số tiền chuyển" v-model="PriceUser" class="form-control" />
-                                                <p>
-                                                    Số tiền thực nhận : {{formatCurrency(PriceUser)}}
-                                                </p>
+                                                <label class="form-label">Chọn mức tiền</label>
+                                                <select class="form-select" v-model="PriceUser" v-on:change="createQrCode">
+                                                    <option :value="10000" selected>10.000đ</option>
+                                                    <option :value="20000">20.000đ</option>
+                                                    <option :value="30000">30.000đ</option>
+                                                    <option :value="40000">40.000đ</option>
+                                                    <option :value="50000">50.000đ</option>
+                                                    <option :value="60000">60.000đ</option>
+                                                    <option :value="70000">70.000đ</option>
+                                                    <option :value="80000">80.000đ</option>
+                                                    <option :value="90000">90.000đ</option>
+                                                    <option :value="100000">100.000đ</option>
+                                                    <option :value="200000">200.000đ</option>
+                                                    <option :value="500000">500.000đ</option>
+                                                </select>
+                                               
                                             </div>
                                         </div>
 
@@ -506,14 +543,17 @@
                                             <strong style="line-height: 30px;">
                                                 Nội dung CK bắt buộc là: <span class="orange"
                                                                                style="font-size: 30px; line-height: 23px;">
-                                                    <span id="ucPopupMoney_moneyID " class="f-12">@ViewBag.userName</span>
+                                                                               <br />
+                                                    <span id="ucPopupMoney_moneyID " class="f-12">{{dataTransit}} {{contentTran}}</span>
                                                 </span>
                                             </strong><br>
                                             <hr />
                                             <p>Quét mã bên dưới</p>
-                                            <em>
-                                                <img :src="dataBankChoose.qrBank" style="width: 200px; height: auto; object-fit:cover" />
+                                            
+                                            <em v-if="qrCodeSrc != null">
+                                                <img :src="qrCodeSrc" v-on:load="onImageLoad" style="width: 200px; height: auto; object-fit:cover" />
                                             </em>
+                                           
                                         </div>
                                         <br>
                                     </div>
@@ -522,7 +562,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="closeModal">Đóng</button>
-                                <button type="button" class="btn btn-primary" v-on:click="confirmData">Xác nhận đã chuyển</button>
+                                <button type="button" class="btn btn-primary" v-on:click="confirmData" :disabled="qrCodeSrc == null">Xác nhận đã chuyển</button>
                             </div>
                         </div>
                     </div>
@@ -564,7 +604,7 @@
                 </div>
             </div>
             @RenderBody()
-            <footer class="nk-footer mt-5">
+            <footer class="nk-footer mt-5" id="footerV2">
                 <div class="container">
                     <div class="bg-footer">
                         <div class="row vertical-gap">
@@ -605,37 +645,15 @@
                                 <div class="widget_text nk-widget">
                                     <h4 class="nk-widget-title">CHÍNH SÁCH &amp; ĐIỀU KHOẢN</h4>
                                     <div class="textwidget custom-html-widget">
-                                        <li>
-                                            <a href="javascript:void(0)" rel="nofollow" onclick="alertKOC">
+
+                                        <li v-for="pageFooter in page">
+                                            <a :href="`/su-kien/${pageFooter.SlugCustom}`">
                                                 <b>
+                                                    {{pageFooter.NameCustom}}
+                                                    <span v-if="pageFooter.ID == 1">về ddat14game.com</span>
                                                 </b>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="javascript:void(0)" rel="nofollow" onclick="alertKOC">
-                                                <b>
-                                                    Chính sách
-                                                    bảo mật
-                                                </b>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" rel="nofollow" onclick="alertKOC">
-                                                <b>
-                                                    Điều khoản
-                                                    sử dụng
-                                                </b>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="alertKOC">
-                                                <b>
-                                                    Câu hỏi thường
-                                                    gặp
-                                                </b>
-                                            </a>
-                                        </li>
-                                        <li><a href="#" rel="nofollow" onclick="alertKOC"><b>Liên hệ</b></a></li>
                                     </div>
                                 </div>
                             </div>
@@ -674,17 +692,18 @@
                     </div>
                 </div>
             </footer>
+            <script src="~/js/frontend/footer.js"></script>
         </div>
-       
+
     </div>
     <script>
         var _0x737a = ["\x64\x69\x73\x6D\x69\x73\x73", "\x74\x69\x6D\x65\x72", "\x44\x69\x73\x6D\x69\x73\x73\x52\x65\x61\x73\x6F\x6E", "\x74\x68\x65\x6E", "\x54\x68\xF4\x6E\x67\x20\x62\x61\u0301\x6F\x20\x74\x69\u0301\x6E\x68\x20\x6E\u0103\x6E\x67\x21", "\x43\x68\xFA\x6E\x67\x20\x74\xF4\x69\x20\u0111\x61\x6E\x67\x20\x63\u1EAD\x70\x20\x6E\x68\u1EAD\x74\x20\x74\x72\x6F\x6E\x67\x20\x74\x68\u1EDD\x69\x20\x67\x69\x61\x6E\x20\x74\u1EDB\x69", "\x73\x68\x6F\x77\x4C\x6F\x61\x64\x69\x6E\x67", "\x62", "\x71\x75\x65\x72\x79\x53\x65\x6C\x65\x63\x74\x6F\x72", "\x67\x65\x74\x48\x74\x6D\x6C\x43\x6F\x6E\x74\x61\x69\x6E\x65\x72", "\x74\x65\x78\x74\x43\x6F\x6E\x74\x65\x6E\x74", "\x67\x65\x74\x54\x69\x6D\x65\x72\x4C\x65\x66\x74", "\x66\x69\x72\x65", "\x76\x69\x65\x77\x6D\x6F\x72\x65\x2D\x63\x6F\x6C\x6C\x61\x70\x73\x65", "\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64", "\x2E\x63\x6F\x6C\x6C\x61\x70\x73\x65\x2D\x63\x6F\x6E\x74\x65\x6E\x74\x2D\x69\x6E\x6E\x65\x72", "\x63\x6C\x69\x65\x6E\x74\x48\x65\x69\x67\x68\x74", "\x64\x69\x73\x70\x6C\x61\x79", "\x73\x74\x79\x6C\x65", "\x62\x6C\x6F\x63\x6B", "\x68\x65\x69\x67\x68\x74", "\x70\x78", "\x63\x6C\x69\x63\x6B", "\x73\x63\x72\x6F\x6C\x6C\x48\x65\x69\x67\x68\x74", "\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C", "\x54\x68\x75\x20\x67\u1ECD\x6E\x3C\x69\x20\x63\x6C\x61\x73\x73\x3D\x22\x66\x61\x73\x20\x66\x61\x2D\x63\x68\x65\x76\x72\x6F\x6E\x2D\x75\x70\x20\x6D\x6C\x2D\x38\x22\x3E\x3C\x2F\x69\x3E", "\x58\x65\x6D\x20\x74\x68\xEA\x6D\x3C\x69\x20\x63\x6C\x61\x73\x73\x3D\x22\x66\x61\x73\x20\x66\x61\x2D\x63\x68\x65\x76\x72\x6F\x6E\x2D\x64\x6F\x77\x6E\x20\x6D\x6C\x2D\x38\x22\x3E\x3C\x2F\x69\x3E", "\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72"]; function alertKOC() { let _0x2821x2; Swal[_0x737a[12]]({ title: _0x737a[4], html: _0x737a[5], timer: 9000, timerProgressBar: true, showCloseButton: true, showCancelButton: true, didOpen: () => { Swal[_0x737a[6]](); const _0x2821x4 = Swal[_0x737a[9]]()[_0x737a[8]](_0x737a[7]); _0x2821x2 = setInterval(() => { _0x2821x4[_0x737a[10]] = Swal[_0x737a[11]]() }, 100) }, willClose: () => { clearInterval(_0x2821x2) } })[_0x737a[3]]((_0x2821x3) => { if (_0x2821x3[_0x737a[0]] === Swal[_0x737a[2]][_0x737a[1]]) { } }) } const viewMoreButton = document[_0x737a[14]](_0x737a[13]); const collapseContent = document[_0x737a[8]](_0x737a[15]); const maxCollapsedHeight = 110; let isCollapsed = true; if (collapseContent[_0x737a[16]] > maxCollapsedHeight) { viewMoreButton[_0x737a[18]][_0x737a[17]] = _0x737a[19]; if (isCollapsed) { collapseContent[_0x737a[18]][_0x737a[20]] = maxCollapsedHeight + _0x737a[21] }; viewMoreButton[_0x737a[27]](_0x737a[22], function () { if (isCollapsed) { collapseContent[_0x737a[18]][_0x737a[20]] = collapseContent[_0x737a[23]] + _0x737a[21]; viewMoreButton[_0x737a[24]] = _0x737a[25] } else { collapseContent[_0x737a[18]][_0x737a[20]] = maxCollapsedHeight + _0x737a[21]; viewMoreButton[_0x737a[24]] = _0x737a[26] }; isCollapsed = !isCollapsed }) }
 
 
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script>
@@ -728,7 +747,11 @@
                 dataBank: [],
                 dataBankChoose: {},
                 categorySlect: "",
-                inputSearch: ""
+                inputSearch: "",
+                dataTransit: "",
+                contentTran: "",
+                qrCodeSrc: null,
+                isLoading: false,
 
             },
             computed: {
@@ -745,7 +768,7 @@
 
                         return [{ msg: 'Không tìm thấy kết quả phù hợp' }];
                     }
-                   
+
                 },
 
                 searchResultsStyle() {
@@ -778,7 +801,7 @@
             beforeDestroy() {
                 window.removeEventListener('click', this.handleWindowClick);
             },
-            watch:{
+            watch: {
                 filteredDataItemsLayout(newVal) {
                     if (newVal.length === 1 && newVal[0].msg === 'Không tìm thấy kết quả phù hợp') {
                         this.shouldShowResults = false;
@@ -790,10 +813,11 @@
                 },
                 user(valuePr) {
                     EventBus.$emit('userData', valuePr);
-                }, 
+                },
                 soDu(valuePr) {
                     EventBus.$emit('soDuUser', valuePr);
-                }
+                },
+                
             },
             mounted() {
                 if (this.user.trim() !== '') {
@@ -803,15 +827,14 @@
 
                 }
                 const token = localStorage.getItem('token');
-                if(token)
-                {
+                if (token) {
                     this.token = token;
 
                 }
-                else{
+                else {
                     this.token = null;
                 }
-               
+
                 axios.get("/Products/GetAllProduct")
                     .then((response) => {
 
@@ -834,6 +857,29 @@
 
             },
             methods: {
+                createQrCode() {
+                    $('#loadingMore').fadeIn();
+
+                    this.isLoading = true;
+                    const ndck = this.dataTransit + ' ' + this.contentTran
+
+                    this.qrCodeSrc = `https://api.vieqr.com/vietqr/${this.dataBankChoose.bankName}/${this.dataBankChoose.bankAcc}/${this.PriceUser}/compact.jpg?NDck=${ndck}&FullName=${this.dataBankChoose.bankUser}`;
+
+                },
+                onImageLoad() {
+                    $('#loadingMore').fadeOut();
+
+                    this.isLoading = false;
+                },
+                generateRandomString(length) {
+                    const characters = 'abcdefghijklmnopqrstuvwxyz';
+                    let result = '';
+                    for (let i = 0; i < length; i++) {
+                        const randomIndex = Math.floor(Math.random() * characters.length);
+                        result += characters.charAt(randomIndex);
+                    }
+                    return result;
+                },
                 closeModal() {
                     $('#bankNapTien').modal('hide');
                     $('#bankForm').modal('show');
@@ -842,12 +888,14 @@
                 async clickBank(data) {
                     $('#bankForm').modal('hide');
                     $('#bankNapTien').modal('show');
-
+                    const transit = this.generateRandomString(5);
+                    this.dataTransit = transit;
+                    this.contentTran = this.user.split('@@')[0];
                     this.dataBankChoose = data;
                 },
                 async confirmData() {
                     try {
-                        if (this.PriceUser < 10000 || this.PriceUser == 0 ) {
+                        if (this.PriceUser < 10000 || this.PriceUser == 0) {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Lỗi',
@@ -856,25 +904,25 @@
                             });
                             return;
                         }
-                        $('#preloader').fadeIn();
-
+                        $('#loadingMore').fadeIn();
+                       
                         const formData = new FormData();
                         formData.append('PriceUser', this.PriceUser);
                         formData.append('BankId', this.dataBankChoose.id);
-                        formData.append('ContentTransit', '@ViewBag.userName');
+                        formData.append('ContentTransit', this.dataTransit + ' ' + this.contentTran);
                         await axios.post('/User/UpdateRechaUser', formData,
                             {
                                 headers: {
                                     'Content-Type': 'multipart/form-data'
                                 }
                             }).then(res => {
-                                $('#preloader').fadeOut();
+                                $('#loadingMore').fadeOut();
 
                                 if (res.data.code == 200) {
                                     Swal.fire({
                                         icon: 'success',
                                         title: 'Thành công',
-                                        text: 'Tiền sẽ được cộng trong ít phút',
+                                        text: `${res.data.message}`,
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.isConfirmed) {
@@ -906,7 +954,7 @@
                     }
                     catch (error) {
                         console.error(error);
-                        $('#preloader').fadeOut();
+                        $('#loadingMore').fadeOut();
 
                         Swal.fire({
                             icon: 'error',
@@ -922,23 +970,25 @@
 
                 },
                 listBank() {
-                    $('#preloader').fadeIn();
+                    $('#loadingMore').fadeIn();
 
                     axios.get(`/User/GetAllBank`)
                         .then((response) => {
-                            $('#preloader').fadeOut();
+                            $('#loadingMore').fadeOut();
 
                             this.dataBank = response.data;
                             return Promise.resolve();
                         });
                 },
-                removeToken(){
+                removeToken() {
                     localStorage.removeItem('CheckLog')
                     localStorage.removeItem('token');
                     window.location.href = "/User/Logout";
 
                 },
-                async postLogin(){
+                async postLogin() {
+                    $('#loadingMore').fadeIn();
+
                     const formData = new FormData();
                     formData.append("UserName", this.userName);
                     formData.append("Password", this.password);
@@ -948,6 +998,8 @@
                                 'Content-Type': 'multipart/form-data'
                             }
                         }).then(res => {
+                            $('#loadingMore').fadeOut();
+
                             if (res.data.code == 400) {
                                 Swal.fire({
                                     icon: 'warning',
@@ -958,11 +1010,13 @@
                                 this.mess = res.data.message;
                             }
                             else {
+
                                 axios.get('/get-id-user')
                                     .then(userResponse => {
                                         const token = userResponse.data;
                                         localStorage.setItem('token', token);
                                         localStorage.removeItem('CheckLog')
+                                        $('#loadingMore').fadeOut();
 
                                         Swal.fire({
                                             icon: 'success',
@@ -976,9 +1030,11 @@
                                         });
                                     })
                                     .catch(error => {
+                                        $('#loadingMore').fadeOut();
+
                                         console.error("Error fetching user ID: ", error);
                                     });
-                                
+
                             }
 
 
@@ -1011,8 +1067,8 @@
                     this.searchKeywordPage = ""
 
                 },
-                SearchClick(){
-                    if (this.searchKeywordPage){
+                SearchClick() {
+                    if (this.searchKeywordPage) {
                         window.location.href = `/keywords/${this.searchKeywordPage}`
                     }
                     return;

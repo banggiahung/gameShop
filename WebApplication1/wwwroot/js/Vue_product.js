@@ -181,6 +181,18 @@ Admin_vue = new Vue({
                 extraPlugins: [MyCustomUploadAdapterPlugin],
                 mediaEmbed: {
                     previewsInData: true
+                },
+                link: {
+                    addTargetToExternalLinks: true,
+                    decorators: [
+                        {
+                            mode: 'manual',
+                            label: 'Downloadable',
+                            attributes: {
+                                download: 'download'
+                            }
+                        }
+                    ]
                 }
             })
             .then(editor => {

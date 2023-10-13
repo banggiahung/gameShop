@@ -16,6 +16,7 @@ using WebApplication1.Models.UserConfigViewModels;
 using WebApplication1.Services;
 using static Microsoft.AspNetCore.Razor.Language.TagHelperMetadata;
 using WebApplication1.Models.HistoryViewModels;
+using Newtonsoft.Json;
 
 namespace WebApplication1.Controllers
 {
@@ -27,12 +28,15 @@ namespace WebApplication1.Controllers
         private readonly ICommon _icommon;
         private static readonly Random random = new Random();
         private static readonly string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        public UserController(ILogger<UserController> logger, ApplicationDbContext context, ICommon icommon)
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration _configuration;
+        public UserController(ILogger<UserController> logger, ApplicationDbContext context, ICommon icommon, IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _logger = logger;
             _context = context;
             _icommon = icommon;
+            _clientFactory = clientFactory;
+            _configuration = configuration;
         }
         public static string GenerateRandomString(int length)
         {
@@ -200,20 +204,119 @@ namespace WebApplication1.Controllers
             var pr = _context.BankConfig.ToList().OrderByDescending(x => x.ID);
             return Ok(pr);
         }
+        public class Transaction
+        {
+            public string TransactionID { get; set; }
+            public string Amount { get; set; }
+            public string Description { get; set; }
+            public string TransactionDate { get; set; }
+            public string Type { get; set; }
+        }
+        public class BankApiResponse
+        {
+            public bool Status { get; set; }
+            public string Message { get; set; }
+            public List<Transaction> Transactions { get; set; }
+        }
+
+        public async Task<List<Transaction>> GetBankTransactions()
+        {
+            var stk = _configuration.GetSection("SoTkNganHang").Value;
+            var password = _configuration.GetSection("MatKhauNganHang").Value;
+            var Token = _configuration.GetSection("Token").Value;
+
+            var httpClient = _clientFactory.CreateClient();
+            var response = await httpClient.GetAsync($"https://api.web2m.com/historyapivcbv3/{password}/{stk}/{Token}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var bankApiResponse = JsonConvert.DeserializeObject<BankApiResponse>(json);
+
+                if (bankApiResponse.Status && bankApiResponse.Transactions != null)
+                {
+                    // Lấy giao dịch có Type là "IN" đầu tiên
+                    var latestInTransaction = bankApiResponse.Transactions.FirstOrDefault(t => t.Type == "IN");
+
+                    // Nếu có giao dịch, trả về danh sách chứa giao dịch đó
+                    return latestInTransaction != null ? new List<Transaction> { latestInTransaction } : new List<Transaction>();
+                }
+                else
+                {
+                    throw new Exception("API response status is false or transactions are null");
+                }
+            }
+            else
+            {
+                throw new Exception("Failed to retrieve bank transactions");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TestApiResult(string GiaoDich)
+        {
+            var maxAttempts = 3; // Số lần kiểm tra lại tối đa
+            var delayBetweenAttempts = TimeSpan.FromSeconds(3); // Khoảng thời gian giữa các lần kiểm tra
+
+            for (int attempt = 0; attempt < maxAttempts; attempt++)
+            {
+                var bankTransactions = await GetBankTransactions();
+                var matchingTransaction = bankTransactions
+     .FirstOrDefault(t =>
+     {
+         var splitDescription = t.Description.Split('.');
+
+         return splitDescription.Any(part => part.Trim() == GiaoDich.Trim());
+     });
+                if (matchingTransaction != null)
+                {
+                    decimal amount = Convert.ToDecimal(matchingTransaction.Amount);
+                    return new JsonResult(new
+                    {
+                        code = 200,
+                        status = "Success",
+                        message = amount
+                    });
+                }
+
+                // Nếu không tìm thấy giao dịch và còn dưới số lần kiểm tra tối đa, đợi 5s rồi thử lại
+                if (attempt < maxAttempts - 1)
+                {
+                    await Task.Delay(delayBetweenAttempts);
+                }
+            }
+
+            return new JsonResult(new
+            {
+                code = 400,
+                status = "Failed",
+                message = "No matching transaction found after " + maxAttempts + " attempts."
+            });
+        }
+
         [HttpPost]
         public async Task<IActionResult> UpdateRechaUser(HistoryCRUD model)
         {
             try
             {
+                if (model.PriceUser < 10000)
+                {
+                    return new JsonResult(new
+                    {
+                        code = 405,
+                        status = "error",
+                        message = "Số tiền phải lớn hơn 10.000đ"
+                    });
+                }
                 if (User.Identity.IsAuthenticated)
                 {
                     string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                     var user = _context.UserConfig.Where(x => x.UserID == userId).FirstOrDefault();
+                    
                     if (user != null)
                     {
                         History buy = new History();
-                        buy.isDone = false;
                         buy.UserId = user.UserID;
                         buy.PriceUser = model.PriceUser;
                         buy.BankId = model.BankId;
@@ -221,16 +324,68 @@ namespace WebApplication1.Controllers
                         buy.CreateDate = DateTime.Now;
 
                         await _context.AddAsync(buy);
+                        var maxAttempts = 3; 
+                        var delayBetweenAttempts = TimeSpan.FromSeconds(10); 
 
+                        for (int attempt = 0; attempt < maxAttempts; attempt++)
+                        {
+                            var bankTransactions = await GetBankTransactions();
+                            var matchingTransaction = bankTransactions
+      .FirstOrDefault(t =>
+      {
+          var splitDescription = t.Description.Split('.');
+
+          return splitDescription.Any(part => part.Trim() == model.ContentTransit.Trim());
+      });
+
+                            if (matchingTransaction != null)
+                            {
+                                if (int.TryParse(matchingTransaction.Amount, out int transactionAmount) && transactionAmount == model.PriceUser)
+                                {
+                                    if (transactionAmount == model.PriceUser)
+                                    {
+                                        buy.isDone = true;
+                                        user.Total += model.PriceUser;
+                                        await _context.SaveChangesAsync();
+                                        _icommon.SendEmailUserNap(user, buy.PriceUser ?? 0);
+                                        return new JsonResult(new
+                                        {
+                                            code = 200,
+                                            status = "Success",
+                                            message = "Đã nạp tiền thành công"
+                                        });
+                                    }
+                                    else
+                                    {
+                                        buy.isDone = false;
+                                        await _context.SaveChangesAsync();
+                                        _icommon.SendEmail(user, buy.PriceUser ?? 0);
+                                        return new JsonResult(new
+                                        {
+                                            code = 200,
+                                            status = "Success",
+                                            message = "Số tiền của bạn chọn không đúng với số tiền chuyển, tiền sẽ được cộng theo số tiền admin nhận"
+                                        });
+                                    }
+                                }
+                               
+                            }
+
+                            if (attempt < maxAttempts - 1)
+                            {
+                                await Task.Delay(delayBetweenAttempts);
+                            }
+                        }
+                        buy.isDone = false;
                         await _context.SaveChangesAsync();
-                        _icommon.SendEmail(user, buy.PriceUser??0);
-                        
+
+                        _icommon.SendEmail(user, buy.PriceUser ?? 0);
 
                         return new JsonResult(new
                         {
                             code = 200,
-                            status = "Successs",
-                            message = "Đã thêm dữ liệu"
+                            status = "Success",
+                            message = "Chúng tôi chưa nhận được tiền, vui lòng kiểm tra lại hoặc liên hệ admin"
                         });
                     }
                     else
@@ -253,9 +408,6 @@ namespace WebApplication1.Controllers
                         message = "Bạn chưa đăng nhập"
                     });
                 }
-
-
-
 
             }
             catch (Exception ex)
@@ -293,11 +445,12 @@ namespace WebApplication1.Controllers
                                         message = "Không đủ tiền để mua sản phẩm này."
                                     });
                                 }
-                                user.Total -= 1000;
-                                await _context.SaveChangesAsync();
+                               
 
-                                if(pr.LinkMoney != null)
+                                if(pr.LinkMoney != null || pr.LinkMoney != "")
                                 {
+                                    user.Total -= 1000;
+                                    await _context.SaveChangesAsync();
                                     return new JsonResult(new
                                     {
                                         code = 200,
@@ -312,7 +465,7 @@ namespace WebApplication1.Controllers
                                     {
                                         code = 200,
                                         status = "Success",
-                                        content = "<p>Hiện tại chưa có link</p>",
+                                        content = "<p>Hiện tại chưa có link</p><br /><p>Số tiền của bạn đã được hoàn</p>",
 
                                     });
 
@@ -355,7 +508,69 @@ namespace WebApplication1.Controllers
 
             });
         }
+        [HttpGet]
+        public IActionResult GetAllTitile()
+        {
+            var pr = from _page in _context.PageCustom
+                     select new PageCustom
+                     {
+                         ID = _page.ID,
+                         NameCustom = _page.NameCustom,
+                         SlugCustom = _page.SlugCustom
+                     };
+            var item = pr.Select(ToDictionaryWithNonNullProperties).ToList();
+            return new JsonResult(new
+            {
+                code = 200,
+                status = "Success",
+                Page = item,
 
-       
+            });
+
+        }
+        [Route("su-kien/{slug}")]
+        public IActionResult PageCustom(string slug)
+        {
+            var backgroundSettings = _context.MainView.FirstOrDefault();
+            ViewData["BackgroundImageUrl"] = backgroundSettings?.ImgMain;
+            if (User.Identity.IsAuthenticated)
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = _context.UserConfig.Where(x => x.UserID == userId).FirstOrDefault();
+                if (user != null)
+                {
+                    ViewBag.TotalPay = user.Total;
+                    ViewBag.userName = user.UserName;
+
+                }
+
+            }
+            var pr = _context.PageCustom.FirstOrDefault(x => x.SlugCustom == slug);
+            if (pr != null)
+            {
+                ViewBag.SlugPage = pr.NameCustom;
+                return View(pr);
+
+            }
+            return NotFound();
+
+
+        }
+        public static IDictionary<string, object> ToDictionaryWithNonNullProperties<T>(T obj)
+        {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+
+            var dictionary = new Dictionary<string, object>();
+            foreach (var property in typeof(T).GetProperties())
+            {
+                var value = property.GetValue(obj);
+                if (value != null)
+                {
+                    dictionary.Add(property.Name, value);
+                }
+            }
+            return dictionary;
+        }
+
     }
 }

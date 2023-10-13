@@ -1,6 +1,20 @@
 ﻿@{
     Layout = null;
 }
+<head>
+    <meta name="description" content="Tải game miễn phí tại website ddat14game.com">
+    <!-- Google / Search Engine Tags -->
+    <meta itemprop="name" content="Tải game miễn phí tại website ddat14game.com">
+    <meta itemprop="description" content="Trang web ddat14game.com - nơi bạn có thể tìm thấy và tải xuống hàng ngàn tựa game miễn phí một cách dễ dàng và nhanh chóng. Chúng tôi tự hào là một nguồn tài nguyên đáng tin cậy cho những người đam mê trò chơi, mang đến cho bạn trải nghiệm giải trí tuyệt vời mà không cần phải trả bất kỳ chi phí nào.Với sự đa dạng về thể loại và chủ đề, ddat14game.com đảm bảo sẽ đáp ứng được mọi sở thích và sự mong đợi của bạn. Từ những trò chơi phiêu lưu đầy thách thức đến những tựa game giải đố thông minh, từ game hành động đầy kịch tính đến những tựa game thể thao ấn tượng - tất cả đều có mặt tại đây, đợi bạn khám phá và thưởng thứcDựa trên tiêu chí chất lượng và an toàn, chúng tôi cam kết cung cấp cho bạn những phiên bản game mới nhất và cập nhật thường xuyên. Trang web của chúng tôi cũng chú trọng đến việc bảo vệ người dùng khỏi các rủi ro an ninh mạng, đảm bảo bạn có trải nghiệm tải game mượt mà và tin cậy.">
+    <meta itemprop="image" content="https://ddat14game.com/upload/5c024407-6fda-46b4-b008-f9575f52c8e7_10104.jpg">
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://ddat14game.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Tải game miễn phí tại website ddat14game.com">
+    <meta property="og:description" content="Trang web ddat14game.com - nơi bạn có thể tìm thấy và tải xuống hàng ngàn tựa game miễn phí một cách dễ dàng và nhanh chóng. Chúng tôi tự hào là một nguồn tài nguyên đáng tin cậy cho những người đam mê trò chơi, mang đến cho bạn trải nghiệm giải trí tuyệt vời mà không cần phải trả bất kỳ chi phí nào.Với sự đa dạng về thể loại và chủ đề, ddat14game.com đảm bảo sẽ đáp ứng được mọi sở thích và sự mong đợi của bạn. Từ những trò chơi phiêu lưu đầy thách thức đến những tựa game giải đố thông minh, từ game hành động đầy kịch tính đến những tựa game thể thao ấn tượng - tất cả đều có mặt tại đây, đợi bạn khám phá và thưởng thứcDựa trên tiêu chí chất lượng và an toàn, chúng tôi cam kết cung cấp cho bạn những phiên bản game mới nhất và cập nhật thường xuyên. Trang web của chúng tôi cũng chú trọng đến việc bảo vệ người dùng khỏi các rủi ro an ninh mạng, đảm bảo bạn có trải nghiệm tải game mượt mà và tin cậy.">
+    <meta property="og:image" content="https://ddat14game.com/upload/5c024407-6fda-46b4-b008-f9575f52c8e7_10104.jpg">
+
+</head>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" />
@@ -21,6 +35,7 @@
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
                                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Đăng ký tài khoản</p>
+                                <p class="text-center text-warning">(Lưu ý hãy điền đúng email để được nhận mail cộng tiền)</p>
                                 <p class="text-center text-danger" v-if="mess != null">{{mess}}</p>
                                 <form class="mx-1 mx-md-4">
 
@@ -56,8 +71,11 @@
                                         </label>
                                     </div>
 
-                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                    <div class="d-flex justify-content-center mx-4 mb-4 mb-lg-4">
                                         <button type="button" class="btn btn-primary btn-lg" v-on:click="postRegistor">Đăng ký</button>
+                                    </div>
+                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                        <a href="/" class="" v-on:click="postRegistor">Bạn đã có tài khoản?</a>
                                     </div>
 
                                 </form>

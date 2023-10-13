@@ -118,17 +118,54 @@
         fetchData() {
             $('#preloader').fadeIn();
 
-            axios.get(`/Products/GetAllProductTest?page=${this.currentPage}&itemsPerPage=7`)
+            //axios.get(`/Products/GetAllProductTest?page=${this.currentPage}&itemsPerPage=7`)
+            //    .then((response) => {
+            //        this.dataItems = response.data.products;
+            //        this.paramPage = response.data.pagination;
+            //        this.totalPages = this.paramPage.totalPages;
+            //        $('#preloader').fadeOut();
+            //    })
+            //    .catch((error) => {
+            //        console.error(error);
+            //        $('#preloader').fadeOut();
+            //    });
+            let currentPage = 0;
+            if ($.fn.DataTable.isDataTable('#table_products')) {
+                currentPage = $('#table_products').DataTable().page();
+                $('#table_products').DataTable().destroy();
+            }
+            axios.get("/Products/GetAllProduct")
                 .then((response) => {
-                    this.dataItems = response.data.products;
-                    this.paramPage = response.data.pagination;
-                    this.totalPages = this.paramPage.totalPages;
+                    this.dataItems = response.data;
                     $('#preloader').fadeOut();
+
+                    return Promise.resolve();
                 })
-                .catch((error) => {
-                    console.error(error);
-                    $('#preloader').fadeOut();
+                .then(() => {
+                    const table = $("#table_products").DataTable({
+                        ...this.$globalConfig.createDataTableConfig(),
+                        'columnDefs': [{
+                            'targets': [-1],
+                            'orderable': false,
+                        }],
+                        searching: true,
+                        iDisplayLength: 10,
+                        "ordering": false,
+                        lengthChange: true,
+                        aaSorting: [[0, "desc"]],
+                        aLengthMenu: [
+                            [5, 10, 25, 50, 100, -1],
+
+                            ["5 dòng", "10 dòng", "25 dòng", "50 dòng", "100 dòng", "Tất cả"],
+                        ],
+
+                    });
+                      if (currentPage !== 0) {
+                table.page(currentPage).draw('page');
+            }
                 });
+          
+           
         },
         handleSearch() {
             this.currentPage = 1;
@@ -228,7 +265,9 @@
                     confirmButtonText: 'OK'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.reload();
+                        //window.location.reload();
+                        this.fetchData();
+
                     }
                 });
             } catch (error) {
@@ -307,7 +346,8 @@
                                         confirmButtonText: 'OK',
                                     }).then((result) => {
                                         if (result.isConfirmed) {
-                                            window.location.reload();
+                                            //window.location.reload();
+                                            this.fetchData();
                                         }
                                     });
 

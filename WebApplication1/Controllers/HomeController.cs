@@ -556,9 +556,63 @@ namespace WebApplication1.Controllers
             }
             return View();
         }
+
+        //[HttpGet]
+        //public IActionResult GetAllProductLayOut()
+        //{
+        //    var pr = from _pr in _context.Product
+        //             select new ProductViewModel
+        //             {
+        //                 ID = _pr.Id,
+        //                 Name = _pr.Name,
+        //                 MainImg = _pr.MainImg,
+        //                 LinkDown = _pr.LinkDown,
+        //                 LinkDownDrop = _pr.LinkDownDrop,
+        //                 LinkDownMedia = _pr.LinkDownMedia,
+        //                 DetailsGame = _pr.DetailsGame,
+        //                 DesShort = _pr.DesShort,
+        //                 CreateDate = _pr.CreateDate,
+        //                 CateId = _pr.CateId,
+        //                 RAM = _pr.RAM,
+        //                 GB = _pr.GB,
+        //                 Language = _pr.Language,
+        //                 CPU = _pr.CPU,
+        //                 Part = _pr.Part,
+        //                 CateJson = _pr.CateJson
+        //             };
+
+        //    var productList = pr.Take(20).OrderByDescending(x => x.ID).ToList();
+
+        //    foreach (var product in productList)
+        //    {
+        //        var cateIds = JsonConvert.DeserializeObject<List<int>>(product.CateJson);
+        //        var categoryInfos = new List<CategoryInfo>(); // Tạo một danh sách CategoryInfo mới
+
+        //        foreach (var cateId in cateIds)
+        //        {
+        //            var category = _context.Category.FirstOrDefault(c => c.id == cateId);
+        //            if (category != null)
+        //            {
+        //                categoryInfos.Add(new CategoryInfo
+        //                {
+        //                    Id = category.id,
+        //                    Name = category.NameCate
+        //                });
+        //            }
+        //        }
+
+        //        product.CateJsonApi = categoryInfos;
+        //    }
+
+        //    return Ok(productList);
+        //}
+
+
+        //thử load
         [HttpGet]
-        public IActionResult GetAllProductLayOut()
+        public IActionResult GetAllProductLayOut(int skip = 0, int take = 20)
         {
+            var count = _context.Product.Count();
             var pr = from _pr in _context.Product
                      select new ProductViewModel
                      {
@@ -580,12 +634,12 @@ namespace WebApplication1.Controllers
                          CateJson = _pr.CateJson
                      };
 
-            var productList = pr.Take(20).OrderByDescending(x => x.ID).ToList();
+            var productList = pr.OrderByDescending(x => x.ID).Skip(skip).Take(take).ToList();
 
             foreach (var product in productList)
             {
                 var cateIds = JsonConvert.DeserializeObject<List<int>>(product.CateJson);
-                var categoryInfos = new List<CategoryInfo>(); // Tạo một danh sách CategoryInfo mới
+                var categoryInfos = new List<CategoryInfo>(); 
 
                 foreach (var cateId in cateIds)
                 {
@@ -603,7 +657,14 @@ namespace WebApplication1.Controllers
                 product.CateJsonApi = categoryInfos;
             }
 
-            return Ok(productList);
+            return new JsonResult(new
+            {
+                code = 200,
+                status = "Success",
+                TotalItems = count,
+                Products = productList,
+
+            });
         }
 
         [HttpGet]

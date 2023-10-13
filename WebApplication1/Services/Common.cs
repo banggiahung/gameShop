@@ -140,7 +140,7 @@ namespace WebApplication1.Services
 
             var messageToUser = new MimeMessage();
             messageToUser.From.Add(new MailboxAddress("", _configuration.GetSection("EmailUserName").Value));
-            messageToUser.To.Add(MailboxAddress.Parse("banggiahung131@gmail.com"));
+            messageToUser.To.Add(MailboxAddress.Parse(_configuration.GetSection("EmailSend").Value));
             messageToUser.Subject = "Đơn nạp tiền";
             var builder = new BodyBuilder();
 

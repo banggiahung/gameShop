@@ -42,12 +42,13 @@
                 this.imgBanner3 = response.data[0].banner3;
                 return Promise.resolve();
             });
-        $('#preloader').fadeIn();
+        $('#loadingMore').fadeIn();
 
         axios.get("/Home/GetAllProductLayOut")
             .then((response) => {
-                $('#preloader').fadeOut();
-                this.dataItems = response.data;
+                $('#loadingMore').fadeOut();
+
+                this.dataItems = response.data.products;
                 return Promise.resolve();
             });
         axios.get("/Home/GetTop5LatestProducts")

@@ -6,7 +6,11 @@
         CategoryID: 0,
         itemsPerPage: 20,
         maxPages: 5,
-        currentPage: 1
+        currentPage: 1,
+        loading: false,
+        allDataLoaded: false,
+        totalItemsCount: 0, 
+        loadedItemsCount: 0, 
     },
     computed: {
         filteredDataItems: function () {
@@ -40,22 +44,68 @@
         }
     },
     mounted() {
-        $('#preloader').fadeIn();
 
-        axios.get("/Home/GetAllProductLayOut")
-            .then((response) => {
-                $('#preloader').fadeOut();
+        //axios.get("/Home/GetAllProductLayOut")
+        //    .then((response) => {
+        //        $('#preloader').fadeOut();
 
-                this.dataItems = response.data;
-                return Promise.resolve();
-            });
+        //        this.dataItems = response.data;
+        //        return Promise.resolve();
+        //    });
         axios.get("/Home/GetAllCategory")
             .then((response) => {
                 this.CateItems = response.data;
                 return Promise.resolve();
             })
+
+        this.loadMoreProducts(); 
+
+        $(".scroll-wrapper").on("scroll", this.onScroll);
+    },
+    beforeDestroy() {
+        $(".scroll-wrapper").off("scroll", this.onScroll);
     },
     methods: {
+        onScroll(event) {
+            const container = event.target;
+            if (container.scrollHeight - container.scrollTop === container.clientHeight) {
+                this.loadMoreProducts();
+            }
+        },
+        loadMoreProducts() {
+            if (this.loading || this.allDataLoaded) return;
+            this.loading = true;
+            $('#loadingMore').fadeIn();
+
+            axios.get(`/Home/GetAllProductLayOut?skip=${this.dataItems.length}&take=20`)
+                .then((response) => {
+                    if (response.data.products.length === 0) {
+                        this.allDataLoaded = true;
+
+
+                    } else {
+
+                        this.loadedItemsCount += 20;
+                        
+                        this.totalItemsCount = response.data.totalItems; 
+                        if (this.loadedItemsCount > this.totalItemsCount) {
+                            this.loadedItemsCount = this.totalItemsCount;
+                        }
+                        this.dataItems.push(...response.data.products);
+
+
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error loading more products", error);
+
+                })
+                .finally(() => {
+                    this.loading = false;
+                    $('#loadingMore').fadeOut();
+
+                });
+        },
         handleCategoryChange() {
             if (this.CategoryID === 0) {
                 window.location.reload();

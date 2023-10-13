@@ -1,4 +1,22 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Danh mục" + ViewBag.NameCate;
+    ViewBag.Description = ViewBag.NameCate;
+
+    ViewBag.GGName = ViewBag.NameCate;
+    ViewBag.GGDescription = "Danh mục" + ViewBag.NameCate;
+    ViewBag.GGImage = "https://ddat14game.com/upload/5c024407-6fda-46b4-b008-f9575f52c8e7_10104.jpg";
+
+
+
+    ViewBag.OgUrl = "https://localhost:44328/Home/ProductByCate/" + ViewBag.IdCate;
+    ViewBag.OgTitle = ViewBag.NameCate;
+    ViewBag.OgDescription = "Danh mục" + ViewBag.NameCate;
+    ViewBag.OgImage = "https://ddat14game.com/upload/5c024407-6fda-46b4-b008-f9575f52c8e7_10104.jpg";
+
+    
+
+}
+
 
 <div id="all_product_with_cate" data-category-id="@ViewBag.IdCate">
     <input type="hidden" value="@ViewBag.IdCate" />

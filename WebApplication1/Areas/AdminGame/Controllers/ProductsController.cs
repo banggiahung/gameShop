@@ -120,7 +120,7 @@ namespace WebApplication1.Areas.AdminGame.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult GetAllProduct(int page = 1, int pageSize = 7)
+        public IActionResult GetAllProduct()
         {
             var pr = from _pr in _context.Product
                      select new ProductViewModel

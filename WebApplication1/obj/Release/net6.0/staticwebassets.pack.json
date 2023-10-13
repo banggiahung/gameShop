@@ -7457,6 +7457,14 @@
       "PackagePath": "staticwebassets\\ConfigLink\\terabox.png"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\EmailUser.html",
+      "PackagePath": "staticwebassets\\EmailUser.html"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\EmailUserNap.html",
+      "PackagePath": "staticwebassets\\EmailUserNap.html"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ckeditor5-build-classic\\LICENSE.md",
       "PackagePath": "staticwebassets\\ckeditor5-build-classic\\LICENSE.md"
     },
@@ -17413,10 +17421,6 @@
       "PackagePath": "staticwebassets\\ckfinder\\src\\debug.log"
     },
     {
-      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\ckfinder_aspnet_3.5.2.zip",
-      "PackagePath": "staticwebassets\\ckfinder_aspnet_3.5.2.zip"
-    },
-    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\css\\admin.css",
       "PackagePath": "staticwebassets\\css\\admin.css"
     },
@@ -17443,6 +17447,10 @@
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\Logo-Dat.png",
       "PackagePath": "staticwebassets\\img\\Logo-Dat.png"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\ZKZg.gif",
+      "PackagePath": "staticwebassets\\img\\ZKZg.gif"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\avatar.png",
@@ -17489,12 +17497,28 @@
       "PackagePath": "staticwebassets\\img\\re4remake-banner.png"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\secure.png",
+      "PackagePath": "staticwebassets\\img\\secure.png"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\img\\wall.jpg",
       "PackagePath": "staticwebassets\\img\\wall.jpg"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\Admin_Bank.js",
+      "PackagePath": "staticwebassets\\js\\Admin_Bank.js"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\Admin_User.js",
+      "PackagePath": "staticwebassets\\js\\Admin_User.js"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\CateGame.js",
       "PackagePath": "staticwebassets\\js\\CateGame.js"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\Config_ckeditor.js",
+      "PackagePath": "staticwebassets\\js\\Config_ckeditor.js"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\FrontEnd\\AllProduct.js",
@@ -17503,6 +17527,10 @@
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\FrontEnd\\AllProductByCate.js",
       "PackagePath": "staticwebassets\\js\\FrontEnd\\AllProductByCate.js"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\FrontEnd\\Footer.js",
+      "PackagePath": "staticwebassets\\js\\FrontEnd\\Footer.js"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\FrontEnd\\Home.js",
@@ -17523,6 +17551,10 @@
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\comment_user.js",
       "PackagePath": "staticwebassets\\js\\comment_user.js"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\dataTableConfig.js",
+      "PackagePath": "staticwebassets\\js\\dataTableConfig.js"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\js\\site.js",
@@ -17805,8 +17837,16 @@
       "PackagePath": "staticwebassets\\upload\\40f81fa3-a920-4584-83fd-d29dfcbf62e8_Download-Baldurs-Gate-3-full-crack-pc-daominhha.jpg"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\4bc69a06-231a-4a3a-9cd3-fdbd64c711c9_tele.jpg",
+      "PackagePath": "staticwebassets\\upload\\4bc69a06-231a-4a3a-9cd3-fdbd64c711c9_tele.jpg"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\57c93acf-27f5-4957-ae2d-ca3dd90e1857_download-Far-cry-6-full-crack-daominhha.jpg",
       "PackagePath": "staticwebassets\\upload\\57c93acf-27f5-4957-ae2d-ca3dd90e1857_download-Far-cry-6-full-crack-daominhha.jpg"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\608984bf-ed69-406b-82c1-aa6fbb728748_tele.jpg",
+      "PackagePath": "staticwebassets\\upload\\608984bf-ed69-406b-82c1-aa6fbb728748_tele.jpg"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\64486263-712e-4655-81f7-7a0b7759f96a_z3930379444387_878b613f742e60bc119e37c153010ed7.jpg",
@@ -17833,6 +17873,10 @@
       "PackagePath": "staticwebassets\\upload\\8c963f37-9fa8-40c5-b675-4bd3a4bc4de1_free-download-Far-cry-6-full-crack-daominhha.jpg"
     },
     {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\8d47d7e7-0e1f-45b8-9bae-fda3d80d8ae6_tele.jpg",
+      "PackagePath": "staticwebassets\\upload\\8d47d7e7-0e1f-45b8-9bae-fda3d80d8ae6_tele.jpg"
+    },
+    {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\908ee7db-0cb5-43b9-b385-d7c499b2746d_free-download-Remnant-II-daominhha.net_.jpg",
       "PackagePath": "staticwebassets\\upload\\908ee7db-0cb5-43b9-b385-d7c499b2746d_free-download-Remnant-II-daominhha.net_.jpg"
     },
@@ -17855,6 +17899,10 @@
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\a55c3e47-9ff3-46a4-8646-d2195a2a33be_tai-mien-phi-Zombie-Soupdaominhha.jpg",
       "PackagePath": "staticwebassets\\upload\\a55c3e47-9ff3-46a4-8646-d2195a2a33be_tai-mien-phi-Zombie-Soupdaominhha.jpg"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\a7e95b35-a2e7-480d-9805-8ab7cccf7ea6_do-an-thiet-ke.jpg",
+      "PackagePath": "staticwebassets\\upload\\a7e95b35-a2e7-480d-9805-8ab7cccf7ea6_do-an-thiet-ke.jpg"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\ae7d006f-e1f3-41d6-bb88-f277686efdb6_free-download-Remnant-II-daominhha.net_.jpg",
@@ -17899,6 +17947,10 @@
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\ee8381c8-fbb3-43a6-95b3-dd7f2dded989_wall.jpg",
       "PackagePath": "staticwebassets\\upload\\ee8381c8-fbb3-43a6-95b3-dd7f2dded989_wall.jpg"
+    },
+    {
+      "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\f70c7ae6-1322-4d4d-8e57-191684ae7bb3_ban-ve-kien-truc-nha.jpg",
+      "PackagePath": "staticwebassets\\upload\\f70c7ae6-1322-4d4d-8e57-191684ae7bb3_ban-ve-kien-truc-nha.jpg"
     },
     {
       "Id": "C:\\Users\\bangg\\source\\repos\\WebApplication1\\WebApplication1\\wwwroot\\upload\\free-download-Remnant-II-daominhha.net_.jpg",

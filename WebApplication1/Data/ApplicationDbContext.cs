@@ -20,6 +20,7 @@ namespace WebApplication1.Data
         public DbSet<UserConfig> UserConfig { get; set; }
         public DbSet<BankConfig> BankConfig { get; set; }
         public DbSet<History> History { get; set; }
+        public DbSet<PageCustom> PageCustom { get; set; }
 
 
 

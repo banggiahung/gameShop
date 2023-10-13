@@ -12,20 +12,7 @@
                 Thêm mới sản phẩm
             </button>
         </div>
-        <div class="search">
-            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search game..."
-                           aria-label="Search" aria-describedby="basic-addon2" v-model="searchKeyword"
-                           v-on:input="handleSearch">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
+       
     </div>
    
     <table class="table table-bordered" id="table_products">
@@ -87,7 +74,7 @@
         </ul>
     </nav>
 *@
-    <nav aria-label="Page navigation">
+   @* <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             <li class="page-item" :class="{ disabled: currentPage === 1 }">
                 <button class="page-link" v-on:click="prevPage" :disabled="currentPage === 1">Prev</button>
@@ -99,7 +86,7 @@
                 <button class="page-link" v-on:click="nextPage" :disabled="currentPage === totalPages">Next</button>
             </li>
         </ul>
-    </nav>
+    </nav>*@
     @*Modal thêm sản phẩm*@
     <!-- Button trigger modal -->
     <!-- Modal -->
@@ -167,4 +154,5 @@
         </div>
     </div>
 </div>
+<script src="~/js/datatableconfig.js"></script>
 <script src="~/js/gamescript.js"></script>

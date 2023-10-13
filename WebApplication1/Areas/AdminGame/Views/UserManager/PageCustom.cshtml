@@ -1,0 +1,758 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/super-build/ckeditor.js"></script>
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/x-icon" href="/Img/banner-anh-compressed.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script&family=Nunito+Sans:wght@200&family=Raleway:wght@300&display=swap"
+          rel="stylesheet">
+    <link href="~/Admin/css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.30.0/index.min.js"></script>
+    <link href="~/Admin/css/admin.css" rel="stylesheet" />
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link rel="icon" href="/img/Logo-Dat.png" type="image/png">
+
+
+</head>
+<body id="page-top">
+    <div id="preloader">
+        <div id="preloader-inner"></div>
+    </div>
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Shop <sup>2</sup></div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/Products/Index">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Interface
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Quản lý sản phẩm</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Sản phẩm:</h6>
+                        <a class="collapse-item" href="~/Products/Create">Quản lý game</a>
+                        <a class="collapse-item" href="~/Products/Categories">Danh mục game</a>
+                        <a class="collapse-item" href="~/Products/CommentUser">Quản lý bình luận</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                   aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Quản lý người dùng</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Đơn hàng:</h6>
+                        <a class="collapse-item" href="/UserManager/Customer">Tất cả user</a>
+                        <a class="collapse-item" href="/Bank/UserNap">Tất cả đơn nạp</a>
+                        <a class="collapse-item" href="/Bank/Index">Quản lý ngân hàng</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Quản lý trang chủ
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="javascript:void(0)" data-toggle="collapse" data-target="#collapsePages"
+                   aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Tất cả trang</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Trang:</h6>
+                        <a class="collapse-item" href="/UserManager/PageCustom">Quản lý các trang</a>
+
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+            <!-- Sidebar Message -->
+
+
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                   aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                 aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                               placeholder="Search for..." aria-label="Search"
+                                               aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" onclick="alertKOC()" id="alertsDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">0+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" onclick="alertKOC()" id="messagesDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">0</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <img class="img-profile rounded-circle"
+                                     src="/Img/default.jpg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    
+                    <style>
+                        .ck .ck-sticky-panel .ck-sticky-panel__content {
+                            position: static !important;
+                            transform: none !important;
+                        }
+                    </style>
+                    <h3>Quảng lý trang giới thiệu</h3>
+                    <div class="alert alert-warning">
+                        Nếu không có trình soạn thảo, hãy ấn ctrl + shift + r !!!!
+                    </div>
+                    <div id="Admin_Page">
+                        <div class="p-3">
+                            <button type="button" class="btn btn-success p-2" data-bs-toggle="modal" data-bs-target="#exampleModal" v-on:click="resetDataPage">
+                                Thêm trang mới
+                            </button>
+                        </div>
+                        <table class="table table-bordered" id="page_table">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên trang</th>
+                                    <th>Slug trang</th>
+                                    <th>Ngày tạo</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(items,index) in dataPage" :key="index">
+                                    <td>{{index + 1}}</td>
+                                    <td>
+                                        {{items.nameCustom}}
+
+                                    </td>
+                                    <td>
+                                        {{items.slugCustom}}
+
+                                    </td>
+                                    <td>
+                                        {{formatDate(new Date(items.createDate))}}
+                                    </td>
+
+                                    <td style="width: fit-content">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Edit" v-on:click="getItemsById(items.id)">Sửa</button>
+                                        <button type="button" class="btn btn-danger" v-on:click="getItemsByIdDelete(items.id)" :disabled="items.id == 1">Xóa</button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                            <div class="modal-dialog modal-xl ">
+                                <div class="modal-content ">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới sản phẩm</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" v-on:click="resetDataPage">X</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tên trang </label>
+                                                    <input class="form-control" type="text" placeholder="Tên trang" aria-label="default input example" v-model="NamePage">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Slug trang</label>
+                                                    <input class="form-control" type="text" :value="SlugPage" placeholder="Slug được tạo tự động" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Chi tiết trang </label>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <textarea id="editorMain" v-model="ckName"> </textarea>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="resetDataPage">Đóng</button>
+                                        <button type="button" class="btn btn-primary" v-on:click="addPage">Lưu</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*edit*@
+                        <div class="modal fade" id="Edit" tabindex="-1" aria-labelledby="Edit" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                            <div class="modal-dialog  modal-xl modal-fullscreen modal-dialog-scrollable">
+                                <div class="modal-content ">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Sửa trang</h5>
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tên trang </label>
+                                                    <input class="form-control" type="text" placeholder="Tên trang" aria-label="default input example" v-model="NamePage">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Slug trang </label>
+                                                    <input class="form-control" type="text" :value="SlugPage" placeholder="Slug được tạo tự động" readonly />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Chi tiết trang </label>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <textarea id="editor" v-model="ckName"> </textarea>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="resetDataPage">Đóng</button>
+                                        <button type="button" class="btn btn-primary" v-on:click="editPage">Sửa danh mục</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <script src="~/js/config_ckeditor.js" asp-append-version="true"></script>
+                    <script src="~/js/datatableconfig.js" asp-append-version="true"></script>
+                    <script>
+                        var Admin_Page = new Vue({
+                            el: "#Admin_Page",
+                            data: {
+                                dataPage: [],
+                                SlugPage: "",
+                                NamePage: "",
+                                ckName: "",
+                                idPage: ""
+                            },
+                            computed: {
+                                computedSlug() {
+                                    return this.generateSlug(this.NamePage);
+                                },
+                            },
+                            watch: {
+                                computedSlug(newVal) {
+                                    this.SlugPage = newVal;
+                                },
+                            },
+                            mounted() {
+
+                                this.loadPageItems();
+                                configureCKEditor('#editorMain', this, this.ckName);
+
+                            },
+                            methods: {
+                                generateSlug(text) {
+                                    if (text != null) {
+                                        let str = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+                                        const replacements = {
+                                            "đ": "d",
+                                            "Đ": "D"
+                                        };
+
+                                        str = str
+                                            .replace(/đ/g, 'd')
+                                            .replace(/Đ/g, 'D')
+                                            .toLowerCase()
+                                            .replace(/ /g, '-')
+                                            .replace(/[^\w-]+/g, '');
+
+
+                                        return str;
+                                    }
+
+                                },
+                                formatDate(date) {
+                                    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                                    return date.toLocaleDateString('vi-VN', options);
+                                },
+                                loadPageItems() {
+
+                                    $('#preloader').fadeIn();
+                                    let currentPage = 0;
+                                    if ($.fn.DataTable.isDataTable('#page_table')) {
+                                        currentPage = $('#page_table').DataTable().page();
+                                        $('#page_table').DataTable().destroy();
+                                    }
+
+                                    axios.get("/UserManager/GetAllPage")
+                                        .then((response) => {
+                                            this.dataPage = response.data;
+                                            $('#preloader').fadeOut();
+
+                                            return Promise.resolve();
+                                        })
+                                        .then(() => {
+                                            const table = $("#page_table").DataTable({
+                                                ...this.$globalConfig.createDataTableConfig(),
+                                                'columnDefs': [{
+                                                    'targets': [-1],
+                                                    'orderable': false,
+                                                }],
+                                                searching: true,
+                                                iDisplayLength: 7,
+                                                "ordering": false,
+                                                lengthChange: false,
+                                                aaSorting: [[0, "desc"]],
+                                                aLengthMenu: [
+                                                    [5, 10, 25, 50, 100, -1],
+
+                                                    ["5 dòng", "10 dòng", "25 dòng", "50 dòng", "100 dòng", "Tất cả"],
+                                                ]
+
+                                            });
+                                            if (currentPage !== 0) {
+                                                table.page(currentPage).draw('page');
+                                            }
+                                        });
+                                },
+
+                                async addPage() {
+                                    try {
+                                        if (this.NamePage === '') {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Lỗi',
+                                                text: 'Vui lòng không để trống tên',
+                                                confirmButtonText: 'OK'
+                                            })
+                                            return;
+                                        }
+                                        if (this.ckName === '') {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Lỗi',
+                                                text: 'Vui lòng không để trống nội dung',
+                                                confirmButtonText: 'OK'
+                                            })
+                                            return;
+                                        }
+                                        const formData = new FormData();
+
+                                        formData.append('NameCustom', this.NamePage);
+                                        formData.append('SlugCustom', this.SlugPage);
+                                        formData.append('Custom', this.ckName);
+
+                                        await axios.post('/UserManager/AddPage', formData,
+                                            {
+                                                headers: {
+                                                    'Content-Type': 'multipart/form-data'
+                                                }
+                                            });
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Thành công',
+                                            text: 'Đã lưu thành công',
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                this.loadPageItems();
+
+                                            }
+                                        });
+                                    } catch (error) {
+                                        console.error(error);
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Lỗi',
+                                            text: 'Đã có lỗi xảy ra',
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.reload();
+                                            }
+                                        });
+                                    }
+                                },
+                                getItemsById(id) {
+                                    axios.get(`/Config/getIdPage?id=${id}`)
+                                        .then((response) => {
+                                            this.idPage = response.data.id;
+                                            this.NamePage = response.data.nameCustom;
+                                            this.ckName = response.data.custom;
+                                            configureCKEditor('#editor', this, this.ckName);
+
+                                            return Promise.resolve();
+                                        });
+                                },
+                                resetDataPage() {
+                                    this.idPage = "";
+                                    this.NamePage = "";
+                                    this.ckName = "";
+                                },
+                                async editPage() {
+                                    try {
+
+                                        if (this.NamePage === '') {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Lỗi',
+                                                text: 'Vui lòng không để trống tên',
+                                                confirmButtonText: 'OK'
+                                            })
+                                            return;
+                                        }
+                                        if (this.ckName === '') {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Lỗi',
+                                                text: 'Vui lòng không để trống nội dung',
+                                                confirmButtonText: 'OK'
+                                            })
+                                            return;
+                                        }
+                                        const formData = new FormData();
+                                        formData.append('ID', this.idPage);
+                                        formData.append('NameCustom', this.NamePage);
+                                        formData.append('SlugCustom', this.SlugPage);
+                                        formData.append('Custom', this.ckName);
+
+                                        await axios.post('/UserManager/UpdatePage', formData,
+                                            {
+                                                headers: {
+                                                    'Content-Type': 'multipart/form-data'
+                                                }
+                                            });
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Thành công',
+                                            text: 'Đã lưu thành công',
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                this.loadPageItems();
+
+
+
+                                            }
+                                        });
+                                    } catch (error) {
+                                        console.error(error);
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Lỗi',
+                                            text: 'Đã có lỗi xảy ra',
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.reload();
+
+                                            }
+                                        });
+                                    }
+                                },
+                                getItemsByIdDelete(id) {
+                                    axios.get(`/UserManager/getIdPage/${id}`)
+                                        .then((response) => {
+                                            this.idPage = response.data.id;
+                                            if (this.idPage != null) {
+                                                Swal.fire({
+                                                    title: 'Xóa sản phẩm',
+                                                    text: 'Bạn có chắc chắn muốn xóa',
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonText: 'Đồng ý',
+                                                    cancelButtonText: 'Không!!!'
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        const formData = new FormData();
+                                                        formData.append('ID', this.idPage);
+                                                        axios.post('/UserManager/DeletePage', formData, {
+                                                            headers: {
+                                                                'Content-Type': 'application/x-www-form-urlencoded'
+                                                            }
+                                                        }).then(response => {
+                                                            Swal.fire({
+                                                                icon: 'success',
+                                                                title: 'Thành công',
+                                                                text: 'Đã thành công',
+                                                                confirmButtonText: 'OK',
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    this.loadPageItems();
+
+
+                                                                }
+                                                            });
+
+                                                        }).catch(error => {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Lỗi',
+                                                                text: 'Đã có lỗi xảy ra vui lòng thử lại',
+                                                                confirmButtonText: 'OK'
+                                                            });
+                                                        });
+                                                    } else {
+                                                        return;
+                                                    }
+                                                });
+                                            }
+                                        }).catch((error) => {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Lỗi',
+                                                text: 'Đã có lỗi xảy ra vui lòng thử lại',
+                                                confirmButtonText: 'OK'
+                                            });
+                                        })
+                                },
+                            }
+                        });
+                    </script>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span id="copyright"></span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Bạn có chắc chắn sẽ đăng xuất</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="~/Products/Logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/Admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Page level plugins -->
+
+    <!-- Page level custom scripts -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        var _0xcf9f = ["\x64\x69\x73\x6D\x69\x73\x73", "\x74\x69\x6D\x65\x72", "\x44\x69\x73\x6D\x69\x73\x73\x52\x65\x61\x73\x6F\x6E", "\x74\x68\x65\x6E", "\x54\x68\xF4\x6E\x67\x20\x62\x61\u0301\x6F\x20\x74\x69\u0301\x6E\x68\x20\x6E\u0103\x6E\x67\x21", "\x54\x69\u0301\x6E\x68\x20\x6E\u0103\x6E\x67\x20\x63\xF3\x20\x74\x68\u1EC3\x20\u0111\u01B0\u01A1\u0323\x63\x20\x70\x68\x61\u0301\x74\x20\x74\x72\x69\xEA\u0309\x6E\x20\x74\x68\x65\x6F\x20\x79\xEA\x75\x20\x63\u1EA7\x75", "\x73\x68\x6F\x77\x4C\x6F\x61\x64\x69\x6E\x67", "\x62", "\x71\x75\x65\x72\x79\x53\x65\x6C\x65\x63\x74\x6F\x72", "\x67\x65\x74\x48\x74\x6D\x6C\x43\x6F\x6E\x74\x61\x69\x6E\x65\x72", "\x74\x65\x78\x74\x43\x6F\x6E\x74\x65\x6E\x74", "\x67\x65\x74\x54\x69\x6D\x65\x72\x4C\x65\x66\x74", "\x66\x69\x72\x65", "\x68\x72\x65\x66", "\x6C\x6F\x63\x61\x74\x69\x6F\x6E", "\x68\x6F\x73\x74", "\x77\x77\x77\x2E", "\x73\x74\x61\x72\x74\x73\x57\x69\x74\x68", "\x73\x75\x62\x73\x74\x72\x69\x6E\x67", "\x67\x65\x74\x46\x75\x6C\x6C\x59\x65\x61\x72", "\x63\x6F\x70\x79\x72\x69\x67\x68\x74", "\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64", "\x43\x6F\x70\x79\x72\x69\x67\x68\x74\x20\xA9", "\x20", ""]; function alertKOC() { let _0xb34cx2; Swal[_0xcf9f[12]]({ title: _0xcf9f[4], html: _0xcf9f[5], timer: 9000, timerProgressBar: true, showCloseButton: true, showCancelButton: true, didOpen: () => { Swal[_0xcf9f[6]](); const _0xb34cx4 = Swal[_0xcf9f[9]]()[_0xcf9f[8]](_0xcf9f[7]); _0xb34cx2 = setInterval(() => { _0xb34cx4[_0xcf9f[10]] = Swal[_0xcf9f[11]]() }, 100) }, willClose: () => { clearInterval(_0xb34cx2) } })[_0xcf9f[3]]((_0xb34cx3) => { if (_0xb34cx3[_0xcf9f[0]] === Swal[_0xcf9f[2]][_0xcf9f[1]]) { } }) } const currentUrl = window[_0xcf9f[14]][_0xcf9f[13]]; function getMainDomainFromUrl(_0xb34cx7) { const _0xb34cx8 = new URL(_0xb34cx7); const _0xb34cx9 = _0xb34cx8[_0xcf9f[15]]; if (_0xb34cx9[_0xcf9f[17]](_0xcf9f[16])) { return _0xb34cx9[_0xcf9f[18]](4) }; return _0xb34cx9 } const mainDomain = getMainDomainFromUrl(currentUrl); const currentYear = new Date()[_0xcf9f[19]](); const copyrightText = document[_0xcf9f[21]](_0xcf9f[20]); if (copyrightText) { copyrightText[_0xcf9f[10]] = `${_0xcf9f[22]}${currentYear}${_0xcf9f[23]}${mainDomain}${_0xcf9f[24]}` }
+    </script>
+
+
+</body>
+</html>
