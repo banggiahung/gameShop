@@ -445,9 +445,9 @@ namespace WebApplication1.Controllers
                                         message = "Không đủ tiền để mua sản phẩm này."
                                     });
                                 }
-                               
 
-                                if(pr.LinkMoney != null || pr.LinkMoney != "")
+
+                                if (!string.IsNullOrEmpty(pr.LinkMoney))
                                 {
                                     user.Total -= 1000;
                                     await _context.SaveChangesAsync();
