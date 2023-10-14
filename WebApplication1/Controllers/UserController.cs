@@ -236,10 +236,10 @@ namespace WebApplication1.Controllers
                 if (bankApiResponse.Status && bankApiResponse.Transactions != null)
                 {
                     // Lấy giao dịch có Type là "IN" đầu tiên
-                    var latestInTransaction = bankApiResponse.Transactions.FirstOrDefault(t => t.Type == "IN");
+                    var latestInTransaction = bankApiResponse.Transactions.Where(t => t.Type == "IN").ToList();
 
                     // Nếu có giao dịch, trả về danh sách chứa giao dịch đó
-                    return latestInTransaction != null ? new List<Transaction> { latestInTransaction } : new List<Transaction>();
+                    return latestInTransaction ?? new List<Transaction>();
                 }
                 else
                 {
@@ -261,13 +261,15 @@ namespace WebApplication1.Controllers
             for (int attempt = 0; attempt < maxAttempts; attempt++)
             {
                 var bankTransactions = await GetBankTransactions();
-                var matchingTransaction = bankTransactions
-     .FirstOrDefault(t =>
-     {
-         var splitDescription = t.Description.Split('.');
 
-         return splitDescription.Any(part => part.Trim() == GiaoDich.Trim());
-     });
+                // Lọc danh sách giao dịch chỉ để giữ lại các giao dịch có Type là "IN"
+
+                // Tìm giao dịch đầu tiên mà mô tả của nó chứa GiaoDich
+                var matchingTransaction = bankTransactions.FirstOrDefault(t =>
+                {
+                    var splitDescription = t.Description.Split('.');
+                    return splitDescription.Any(part => part.Contains(GiaoDich.Trim()));
+                });
                 if (matchingTransaction != null)
                 {
                     decimal amount = Convert.ToDecimal(matchingTransaction.Amount);
@@ -330,13 +332,11 @@ namespace WebApplication1.Controllers
                         for (int attempt = 0; attempt < maxAttempts; attempt++)
                         {
                             var bankTransactions = await GetBankTransactions();
-                            var matchingTransaction = bankTransactions
-      .FirstOrDefault(t =>
-      {
-          var splitDescription = t.Description.Split('.');
-
-          return splitDescription.Any(part => part.Trim() == model.ContentTransit.Trim());
-      });
+                            var matchingTransaction = bankTransactions.FirstOrDefault(t =>
+                            {
+                                var splitDescription = t.Description.Split('.');
+                                return splitDescription.Any(part => part.Contains(model.ContentTransit.Trim()));
+                            });
 
                             if (matchingTransaction != null)
                             {
